@@ -10,8 +10,9 @@ import java.util.Collection;
  */
 public class ChessGame {
 
+    private TeamColor turncolor;
     public ChessGame() {
-
+        this.turncolor = WHITE;
     }
 
     /**
@@ -66,7 +67,7 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        return this.turncolor;
     }
 
     /**
