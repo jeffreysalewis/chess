@@ -30,10 +30,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        if(squares[position.getRow()][position.getColumn()] != null) {
-            return squares[position.getRow()][position.getColumn()];
-        }
-        return null;
+        return squares[position.getRow()][position.getColumn()];
     }
 
     /**
@@ -41,6 +38,6 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        squares = null;
+        squares = new ChessPiece[8][8];
     }
 }
