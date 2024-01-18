@@ -14,6 +14,8 @@ public class ChessMove {
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
         this.startpos = startPosition;
+        this.endpos = endPosition;
+        this.promopiece = promotionPiece;
     }
 
     /**
@@ -41,7 +43,7 @@ public class ChessMove {
     }
 
 //    implement this tostring later
-//    public String toString() {
-//        return
-//    }
+    public String toString() {
+        return this.endpos.toString();
+    }
 }
