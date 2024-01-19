@@ -1,7 +1,7 @@
 package chess;
 
-public class Pawn extends ChessPiece {
-    public Pawn(ChessGame.TeamColor piececolor) {
-        super(piececolor, ChessPiece.PieceType.PAWN);
+public class Pawn extends ChessMove {
+    public Pawn(ChessPosition startPosition, ChessPosition endPosition, ChessPiece.PieceType promotionPiece) {
+        super(startPosition, endPosition, promotionPiece);
     }
 }
