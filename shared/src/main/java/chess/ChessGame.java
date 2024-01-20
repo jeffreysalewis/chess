@@ -51,6 +51,9 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         HashSet<ChessMove> verdades = new HashSet<ChessMove>();
+        if(this.gameboard.getPiece(startPosition).getPieceType() == ChessPiece.PieceType.BISHOP) {
+            Bishop b = new Bishop(startPosition, startPosition, null);
+        }
         return verdades;
     }
 
