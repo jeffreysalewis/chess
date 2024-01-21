@@ -8,7 +8,7 @@ package chess;
  */
 public class ChessBoard {
 
-    private ChessPiece[][] squares = new ChessPiece[8][8];
+    private ChessPiece[][] squares = new ChessPiece[9][9];
     public ChessBoard() {
         
     }
@@ -38,6 +38,6 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        squares = new ChessPiece[8][8];
+        squares = new ChessPiece[9][9];
     }
 }
