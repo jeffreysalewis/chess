@@ -50,7 +50,7 @@ public class ChessMove {
     @Override
     public boolean equals(Object obj) {
         if(obj.getClass() == ChessMove.class) {
-            return this.endpos == ((ChessMove)obj).getEndPosition();
+            return this.endpos.equals(((ChessMove)obj).getEndPosition());
         }
         return false;
     }
