@@ -54,6 +54,22 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         HashSet<ChessMove> mv = new HashSet<ChessMove>();
+        switch(this.ptype) {
+            case BISHOP:
+                Bishop myriel = new Bishop(myPosition, myPosition, PieceType.BISHOP);
+                return myriel.move(board, myPosition);
+                //break;
+            case PAWN:
+                break;
+            case KNIGHT:
+                break;
+            case QUEEN:
+                break;
+            case KING:
+                break;
+            case ROOK:
+                break;
+        }
         mv.add(new ChessMove(new ChessPosition(0, 0), new ChessPosition(1, 3), ChessPiece.PieceType.BISHOP));
         return mv;
     }

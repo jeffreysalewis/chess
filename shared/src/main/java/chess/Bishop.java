@@ -10,7 +10,7 @@ public class Bishop extends ChessMove {
         this.type = ChessPiece.PieceType.BISHOP;
     }
 
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+    public Collection<ChessMove> move(ChessBoard board, ChessPosition myPosition) {
         HashSet<ChessMove> mv = new HashSet<ChessMove>();
         mv.add(new ChessMove(new ChessPosition(0, 0), new ChessPosition(2, 4), ChessPiece.PieceType.BISHOP));
         return mv;
