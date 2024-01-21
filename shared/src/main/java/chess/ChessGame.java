@@ -51,6 +51,9 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         //HashSet<ChessMove> verdades = new HashSet<ChessMove>();
+        if(this.gameboard.getPiece(startPosition) == null) {
+            return null;
+        }
         return this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
         //return verdades;
     }
