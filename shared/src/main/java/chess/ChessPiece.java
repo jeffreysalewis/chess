@@ -56,7 +56,7 @@ public class ChessPiece {
         HashSet<ChessMove> mv = new HashSet<ChessMove>();
         switch(this.ptype) {
             case BISHOP:
-                Bishop myriel = new Bishop(myPosition, myPosition, PieceType.BISHOP);
+                Bishop myriel = new Bishop(myPosition, myPosition, null);
                 return myriel.move(board, myPosition);
                 //break;
             case PAWN:

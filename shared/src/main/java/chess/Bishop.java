@@ -24,9 +24,9 @@ public class Bishop extends ChessMove {
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                    mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                    mv.add(new ChessMove(myPosition, temp.copy(), null));
                     bien = false;
             } else {
                 bien = false;
@@ -42,9 +42,9 @@ public class Bishop extends ChessMove {
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
@@ -60,9 +60,9 @@ public class Bishop extends ChessMove {
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
@@ -78,9 +78,9 @@ public class Bishop extends ChessMove {
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                mv.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
