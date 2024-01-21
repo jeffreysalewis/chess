@@ -38,6 +38,10 @@ public class ChessPosition {
         this.col = col;
     }
 
+    public ChessPosition copy() {
+        return new ChessPosition(this.row, this.col);
+    }
+
     public String toString() {
         return this.row + " " + this.col;
     }
