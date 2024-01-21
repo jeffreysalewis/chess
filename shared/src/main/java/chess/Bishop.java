@@ -12,10 +12,8 @@ public class Bishop extends ChessMove {
 
     public Collection<ChessMove> move(ChessBoard board, ChessPosition myPosition) {
         HashSet<ChessMove> mv = new HashSet<ChessMove>();
-        //mv.add(this);
         boolean bien = true;
         ChessPosition temp = myPosition.copy();
-        //ChessPosition temp2 = new ChessPosition();
         while(bien) {
             temp.setRow(temp.getRow()+1);
             temp.setColumn(temp.getColumn()+1);
@@ -86,7 +84,6 @@ public class Bishop extends ChessMove {
                 bien = false;
             }
         }
-        //mv.add(new ChessMove(new ChessPosition(0, 0), new ChessPosition(2, 4), ChessPiece.PieceType.BISHOP));
         return mv;
     }
 }
