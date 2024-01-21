@@ -30,6 +30,14 @@ public class ChessPosition {
         return this.col;
     }
 
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setColumn(int col) {
+        this.col = col;
+    }
+
     public String toString() {
         return this.row + " " + this.col;
     }
