@@ -42,6 +42,19 @@ public class ChessPosition {
         return new ChessPosition(this.row, this.col);
     }
 
+    @Override
+    public int hashCode() {
+        return this.row;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() == ChessPosition.class) {
+            return (this.row == ((ChessPosition)obj).getRow()) && (this.col == ((ChessPosition)obj).getColumn());
+        }
+        return false;
+    }
+
     public String toString() {
         return this.row + " " + this.col;
     }

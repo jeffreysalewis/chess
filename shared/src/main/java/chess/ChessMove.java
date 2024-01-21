@@ -42,7 +42,20 @@ public class ChessMove {
         return this.promopiece;
     }
 
-//    implement this tostring later
+    @Override
+    public int hashCode() {
+        return this.endpos.getRow();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() == ChessMove.class) {
+            return this.endpos == ((ChessMove)obj).getEndPosition();
+        }
+        return false;
+    }
+
+    //    implement this tostring later
     public String toString() {
         return this.endpos.toString();
     }
