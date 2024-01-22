@@ -67,7 +67,8 @@ public class ChessPiece {
                 Queen elsa = new Queen(myPosition, myPosition, null);
                 return elsa.move(board, myPosition);
             case KING:
-                break;
+                King tchalla = new King(myPosition, myPosition, null);
+                return tchalla.move(board, myPosition);
             case ROOK:
                 Rook hogwarts = new Rook(myPosition, myPosition, null);
                 return hogwarts.move(board, myPosition);
