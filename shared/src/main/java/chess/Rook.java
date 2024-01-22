@@ -15,7 +15,7 @@ public class Rook extends ChessMove {
         ChessPosition temp = myPosition.copy();
         while(bien) {
             temp.setRow(temp.getRow()+1);
-            if(temp.getRow() > 8 || temp.getColumn() > 8) {
+            if(temp.getRow() > 8) {
                 bien = false;
                 break;
             }
@@ -32,7 +32,7 @@ public class Rook extends ChessMove {
         temp = myPosition.copy();
         while(bien) {
             temp.setColumn(temp.getColumn()+1);
-            if(temp.getRow() < 1 || temp.getColumn() > 8) {
+            if(temp.getColumn() > 8) {
                 bien = false;
                 break;
             }
@@ -48,8 +48,8 @@ public class Rook extends ChessMove {
         bien = true;
         temp = myPosition.copy();
         while(bien) {
-            temp.setRow(temp.getRow()+1);
-            if(temp.getRow() > 8 || temp.getColumn() < 1) {
+            temp.setRow(temp.getRow()-1);
+            if(temp.getRow() < 1) {
                 bien = false;
                 break;
             }
@@ -66,7 +66,7 @@ public class Rook extends ChessMove {
         temp = myPosition.copy();
         while(bien) {
             temp.setColumn(temp.getColumn()-1);
-            if(temp.getRow() < 1 || temp.getColumn() < 1) {
+            if(temp.getColumn() < 1) {
                 bien = false;
                 break;
             }

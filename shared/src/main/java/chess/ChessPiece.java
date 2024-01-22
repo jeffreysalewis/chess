@@ -68,7 +68,8 @@ public class ChessPiece {
             case KING:
                 break;
             case ROOK:
-                break;
+                Rook hogwarts = new Rook(myPosition, myPosition, null);
+                return hogwarts.move(board, myPosition);
         }
         mv.add(new ChessMove(new ChessPosition(0, 0), new ChessPosition(1, 3), ChessPiece.PieceType.BISHOP));
         return mv;
