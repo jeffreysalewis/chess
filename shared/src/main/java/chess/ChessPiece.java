@@ -59,7 +59,8 @@ public class ChessPiece {
                 Bishop myriel = new Bishop(myPosition, myPosition, null);
                 return myriel.move(board, myPosition);
             case PAWN:
-                break;
+                Pawn kaladin = new Pawn(myPosition, myPosition, null);
+                return kaladin.move(board, myPosition);
             case KNIGHT:
                 Knight link = new Knight(myPosition, myPosition, null);
                 return link.move(board, myPosition);
