@@ -40,4 +40,23 @@ public class ChessBoard {
     public void resetBoard() {
         squares = new ChessPiece[9][9];
     }
+
+    @Override
+    public String toString() {
+        String txtboard = "";
+        for (int a = 1; a < 9; a++) {
+            for (int c = 1; c < 9; c++) {
+                if(squares[a][c] == null) {
+                    txtboard += "|";
+                } else if (squares[a][c].getTeamColor() == ChessGame.TeamColor.WHITE) {
+                    txtboard += squares[a][c].getPieceType().getName().toUpperCase();
+                } else {
+                    txtboard += squares[a][c].getPieceType().getName();
+                }
+                txtboard += " ";
+            }
+            txtboard += "\n";
+        }
+        return txtboard;
+    }
 }
