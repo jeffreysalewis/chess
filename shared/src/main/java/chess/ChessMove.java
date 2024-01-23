@@ -46,6 +46,9 @@ public class ChessMove {
 
     @Override
     public int hashCode() {
+        if(promopiece != null) {
+            return Objects.hash(startpos, endpos, promopiece.toString());
+        }
         return Objects.hash(startpos, endpos, promopiece);
     }
 
