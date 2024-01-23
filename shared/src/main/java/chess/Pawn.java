@@ -21,35 +21,72 @@ public class Pawn extends ChessMove {
         temp.setRow(temp.getRow() + updown);
         if(!(temp.getRow() > 8 || temp.getRow() < 1)) {
             if (board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                if(temp.getRow() == 1 || temp.getRow() == 8) {
+                    mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                    mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
+                    mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
+                    mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
+                } else {
+                    mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                }
             }
             ChessPosition capture = temp.copy();
             if (capture.getColumn() == 8) {
                 capture.setColumn(capture.getColumn() - 1);
                 if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
-                        mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                        if(temp.getRow() == 1 || temp.getRow() == 8) {
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
+                        } else {
+                            mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                        }
                     }
                 }
             } else if (capture.getColumn() == 1) {
                 capture.setColumn(capture.getColumn() + 1);
                 if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
-                        mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                        if(temp.getRow() == 1 || temp.getRow() == 8) {
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
+                            mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
+                        } else {
+                            mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                        }
                     }
                 }
             } else {
                 capture.setColumn(capture.getColumn() - 1);
                 if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
-                        mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));
+                        if(temp.getRow() == 1 || temp.getRow() == 8) {
+                            mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.BISHOP));
+                            mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.KNIGHT));
+                            mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.ROOK));
+                            mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.QUEEN));
+                        } else {
+                            mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));
+                        }
                     }
                 }
                 capture = temp.copy();
                 capture.setColumn(capture.getColumn() + 1);
                 if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
-                        mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));
+                        if (color != board.getPiece(capture).getTeamColor()) {
+                            if(temp.getRow() == 1 || temp.getRow() == 8) {
+                                mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.BISHOP));
+                                mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.KNIGHT));
+                                mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.ROOK));
+                                mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.QUEEN));
+                            } else {
+                                mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));
+                            }
+                        }
                     }
                 }
             }
@@ -61,7 +98,14 @@ public class Pawn extends ChessMove {
             block.setRow(block.getRow() + updown);
             if(!(temp.getRow() > 8 || temp.getRow() < 1)) {
                 if (board.getPiece(temp) == null && board.getPiece(block) == null) {
-                    mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                    if(temp.getRow() == 1 || temp.getRow() == 8) {
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
+                    } else {
+                        mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                    }
                 }
             }
         }
@@ -72,7 +116,14 @@ public class Pawn extends ChessMove {
             block.setRow(block.getRow() + updown);
             if(!(temp.getRow() > 8 || temp.getRow() < 1)) {
                 if (board.getPiece(temp) == null && board.getPiece(block) == null) {
-                    mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                    if(temp.getRow() == 1 || temp.getRow() == 8) {
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
+                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
+                    } else {
+                        mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
+                    }
                 }
             }
         }
