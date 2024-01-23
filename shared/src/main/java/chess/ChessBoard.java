@@ -39,12 +39,22 @@ public class ChessBoard {
      */
     public void resetBoard() {
         squares = new ChessPiece[9][9];
+        squares[8][1] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
+        squares[8][2] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
+        squares[8][3] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+        squares[8][4] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.QUEEN);
+        for(int a = 1; a < 9; a++) {
+            squares[7][a] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
+        }
+        for(int a = 1; a < 9; a++) {
+            squares[2][a] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+        }
     }
 
     @Override
     public String toString() {
         String txtboard = "";
-        for (int a = 1; a < 9; a++) {
+        for (int a = 8; a > 0; a--) {
             for (int c = 1; c < 9; c++) {
                 if(squares[a][c] == null) {
                     txtboard += "|";
@@ -59,4 +69,16 @@ public class ChessBoard {
         }
         return txtboard;
     }
+
+
+//    public boolean equals(ChessPiece[][] obj) {
+//        for(int a = 1; a < 9; a++) {
+//            for(int c = 1; c < 9; c++) {
+//                if(squares[a][c] != obj[a][c]) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return true;
+//    }
 }
