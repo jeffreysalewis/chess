@@ -87,4 +87,18 @@ public class ChessPiece {
         mv.add(new ChessMove(new ChessPosition(0, 0), new ChessPosition(1, 3), ChessPiece.PieceType.BISHOP));
         return mv;
     }
+
+    @Override
+    public String toString() {
+        String s = this.ptype.getName();
+        if(this.color == ChessGame.TeamColor.WHITE) {
+            s = s.toUpperCase();
+        }
+        return s;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString() == obj.toString();
+    }
 }
