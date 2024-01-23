@@ -10,7 +10,7 @@ public class ChessBoard {
 
     private ChessPiece[][] squares = new ChessPiece[9][9];
     public ChessBoard() {
-        //this.resetBoard();
+
     }
 
     /**
@@ -89,12 +89,5 @@ public class ChessBoard {
     @Override
     public boolean equals(Object obj) {
         return this.toString().equals(obj.toString());
-//            for(int a = 1; a < 9; a++) {
-//                for(int c = 1; c < 9; c++) {
-//                    if(squares[a][c] != ((ChessBoard)obj).getSquares()[a][c]) {
-//                        return false;
-//                    }
-//                }
-//            }
     }
 }
