@@ -52,11 +52,6 @@ public class ChessMove {
         return Objects.hash(startpos, endpos, promopiece);
     }
 
-    //    @Override
-//    public int hashCode() {
-//        return this.endpos.getRow()*1000 + this.startpos.getColumn()*100 ;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,16 +59,6 @@ public class ChessMove {
         return Objects.equals(startpos, chessMove.startpos) && Objects.equals(endpos, chessMove.endpos) && promopiece == chessMove.promopiece;
     }
 
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        if(obj.getClass() == ChessMove.class) {
-//            return this.endpos.equals(((ChessMove)obj).getEndPosition());
-//        }
-//        return false;
-//    }
-
-    //    implement this tostring later
     public String toString() {
         return this.endpos.toString();
     }
