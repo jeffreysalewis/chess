@@ -37,6 +37,10 @@ public class ChessBoard {
         return squares;
     }
 
+    public void setSquares(ChessPosition pos, ChessPiece pie) {
+        this.squares[pos.getRow()][pos.getColumn()] = pie;
+    }
+
     /**
      * Sets the board to the default starting board
      * (How the game of chess normally starts)
