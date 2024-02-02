@@ -53,6 +53,7 @@ public class ChessGame {
         if(this.gameboard.getPiece(startPosition) == null) {
             return null;
         }
+        //System.out.println(this.gameboard.getSquares());
         return this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
         //return verdades;
     }
@@ -67,9 +68,9 @@ public class ChessGame {
         if(this.validMoves(move.getStartPosition()).contains(move)) {
             this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
             this.gameboard.setSquares(move.getStartPosition(), null);
-            return;
+        } else {
+            throw new InvalidMoveException("Invalid move");
         }
-        throw new InvalidMoveException("Invalid move");
     }
 
     /**
@@ -79,12 +80,31 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
+        var reypos = new ChessPosition(0, 0);
         for (int a=1; a<9; a++) {
             for(int c=1; c<9; c++) {
                 if(this.gameboard.getSquares()[a][c] != null) {
-                if(this.gameboard.getSquares()[a][c].getTeamColor() != teamColor) {
-                    return true;
+                    if(this.gameboard.getSquares()[a][c].getTeamColor() == teamColor) {
+                        if(this.gameboard.getPiece(new ChessPosition(a, c)).getPieceType() == ChessPiece.PieceType.KING) {
+                            reypos.setRow(a);
+                            reypos.setColumn(c);
+                            break;
+                        }
+                    }
                 }
+            }
+        }
+        for (int a=1; a<9; a++) {
+            for(int c=1; c<9; c++) {
+                if(this.gameboard.getSquares()[a][c] != null) {
+                    if(this.gameboard.getSquares()[a][c].getTeamColor() != teamColor) {
+                        var enemymoves = this.validMoves(new ChessPosition(a,c));
+                        for (var cp:enemymoves) {
+                            if(cp.getEndPosition() == reypos) {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
         }
