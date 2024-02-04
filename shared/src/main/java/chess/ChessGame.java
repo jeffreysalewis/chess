@@ -100,7 +100,7 @@ public class ChessGame {
                     if(this.gameboard.getSquares()[a][c].getTeamColor() != teamColor) {
                         var enemymoves = this.validMoves(new ChessPosition(a,c));
                         for (var cp:enemymoves) {
-                            if(cp.getEndPosition() == reypos) {
+                            if(cp.getEndPosition().toString().equals(reypos.toString())) {
                                 return true;
                             }
                         }
