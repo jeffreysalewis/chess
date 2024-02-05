@@ -53,9 +53,26 @@ public class ChessGame {
         if(this.gameboard.getPiece(startPosition) == null) {
             return null;
         }
-        //System.out.println(this.gameboard.getSquares());
         return this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
-        //return verdades;
+        //System.out.println(this.gameboard.getSquares());
+//        var vmove = new HashSet<ChessMove>();
+//        var bw = this.gameboard.getPiece(startPosition).getTeamColor();
+//        var tmpbrd = this.copy();
+//        for (var possiblemv:this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition)) {
+//            var tmpbrd = this.tempGameMove(possiblemv);
+//            if(!(tmpbrd.isInCheck(tmpbrd.getBoard().getPiece(possiblemv.getEndPosition()).getTeamColor()))) {
+//                vmove.add(possiblemv);
+//            }
+//            var tmpbrd = this.copy();
+//            this.tempMove(possiblemv);
+//            if(!(this.isInCheck(bw))) {
+//                vmove.add(possiblemv);
+//            }
+//        }
+//        this.gameboard = tmpbrd.getBoard();
+//        this.turncolor = tmpbrd.getTeamTurn();
+//        return vmove;
+//        //return verdades;
     }
 
     /**
@@ -64,10 +81,33 @@ public class ChessGame {
      * @param move chess move to preform
      * @throws InvalidMoveException if move is invalid
      */
+
+    private ChessGame tempGameMove(ChessMove move) {
+        ChessGame tmp = this.copy();
+        tmp.getBoard().setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
+        tmp.getBoard().setSquares(move.getStartPosition(), null);
+        return tmp;
+    }
+
+    public void tempMove(ChessMove move) {
+        this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
+        this.gameboard.setSquares(move.getStartPosition(), null);
+    }
+
     public void makeMove(ChessMove move) throws InvalidMoveException {
         if(this.validMoves(move.getStartPosition()).contains(move)) {
+            var tempp = this.gameboard.getPiece(move.getStartPosition());
             this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
             this.gameboard.setSquares(move.getStartPosition(), null);
+            if(this.gameboard.getSquares()[move.getEndPosition().getRow()][move.getEndPosition().getColumn()].getPieceType() == ChessPiece.PieceType.PAWN) {
+                var p = new ChessPiece(tempp.getTeamColor(), move.getPromotionPiece());
+                this.gameboard.setSquares(move.getEndPosition(), p);
+            }
+            if(this.turncolor == TeamColor.WHITE) {
+                this.turncolor = TeamColor.BLACK;
+            } else {
+                this.turncolor = TeamColor.WHITE;
+            }
         } else {
             throw new InvalidMoveException("Invalid move");
         }
@@ -118,7 +158,10 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        return this.isInCheck(teamColor);
+        if(this.isInCheck(teamColor)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -139,6 +182,13 @@ public class ChessGame {
      */
     public void setBoard(ChessBoard board) {
         this.gameboard = board;
+    }
+
+    public ChessGame copy() {
+        ChessGame cpy = new ChessGame();
+        cpy.setBoard(this.gameboard);
+        cpy.setTeamTurn(this.turncolor);
+        return cpy;
     }
 
     /**
