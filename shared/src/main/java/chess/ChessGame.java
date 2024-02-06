@@ -89,7 +89,7 @@ public class ChessGame {
         return tmp;
     }
 
-    public void tempMove(ChessMove move) {
+    private void tempMove(ChessMove move) {
         this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
         this.gameboard.setSquares(move.getStartPosition(), null);
     }
@@ -101,7 +101,12 @@ public class ChessGame {
             this.gameboard.setSquares(move.getStartPosition(), null);
             if(this.gameboard.getSquares()[move.getEndPosition().getRow()][move.getEndPosition().getColumn()].getPieceType() == ChessPiece.PieceType.PAWN) {
                 var p = new ChessPiece(tempp.getTeamColor(), move.getPromotionPiece());
-                this.gameboard.setSquares(move.getEndPosition(), p);
+                var p2 = new ChessPiece(tempp.getTeamColor(), ChessPiece.PieceType.PAWN);
+                if(p.getPieceType() != null) {
+                    this.gameboard.setSquares(move.getEndPosition(), p);
+                } else {
+                    this.gameboard.setSquares(move.getEndPosition(), p2);
+                }
             }
             if(this.turncolor == TeamColor.WHITE) {
                 this.turncolor = TeamColor.BLACK;
@@ -151,6 +156,24 @@ public class ChessGame {
         return false;
     }
 
+    private boolean canReymv(TeamColor teamColor) {
+        var reypos = new ChessPosition(0, 0);
+        for (int a=1; a<9; a++) {
+            for(int c=1; c<9; c++) {
+                if(this.gameboard.getSquares()[a][c] != null) {
+                    if(this.gameboard.getSquares()[a][c].getTeamColor() == teamColor) {
+                        if(this.gameboard.getPiece(new ChessPosition(a, c)).getPieceType() == ChessPiece.PieceType.KING) {
+                            reypos.setRow(a);
+                            reypos.setColumn(c);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Determines if the given team is in checkmate
      *
@@ -159,6 +182,20 @@ public class ChessGame {
      */
     public boolean isInCheckmate(TeamColor teamColor) {
         if(this.isInCheck(teamColor)) {
+            var reypos = new ChessPosition(0, 0);
+            for (int a=1; a<9; a++) {
+                for(int c=1; c<9; c++) {
+                    if(this.gameboard.getSquares()[a][c] != null) {
+                        if(this.gameboard.getSquares()[a][c].getTeamColor() == teamColor) {
+                            if(this.gameboard.getPiece(new ChessPosition(a, c)).getPieceType() == ChessPiece.PieceType.KING) {
+                                reypos.setRow(a);
+                                reypos.setColumn(c);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
             return true;
         }
         return false;
@@ -172,7 +209,11 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        return !isInCheck(teamColor);
+        if (!isInCheck(teamColor)) {
+            //var v = this.validMoves();
+            return true;
+        }
+        return false;
     }
 
     /**
