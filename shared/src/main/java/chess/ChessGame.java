@@ -49,11 +49,33 @@ public class ChessGame {
      * @return Set of valid moves for requested piece, or null if no piece at
      * startPosition
      */
-    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+    public Collection<ChessMove> possibleMoves(ChessPosition startPosition) {
         if(this.gameboard.getPiece(startPosition) == null) {
             return null;
         }
         return this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
+    }
+    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+        if(this.gameboard.getPiece(startPosition) == null) {
+            return null;
+        }
+        var possiblemv = this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
+        //var possiblegame = this.copy();
+        var colour = this.gameboard.getPiece(startPosition).getTeamColor();
+        var vmoves = new HashSet<ChessMove>();
+        for (var pmv:possiblemv) {;
+            var possiblegame = this.copy();
+            possiblegame.setTeamTurn(colour);
+            try{
+                possiblegame.makeMove(pmv);
+                vmoves.add(pmv);
+            }
+            catch (InvalidMoveException i) {
+                var idk =0;
+            }
+        }
+        return vmoves;
+        //return this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
         //System.out.println(this.gameboard.getSquares());
 //        var vmove = new HashSet<ChessMove>();
 //        var bw = this.gameboard.getPiece(startPosition).getTeamColor();
@@ -97,7 +119,7 @@ public class ChessGame {
     public void makeMove(ChessMove move) throws InvalidMoveException {
         var bwc = this.gameboard.getPiece(move.getStartPosition()).getTeamColor();
         var oldgm = this.copy();
-        if(this.validMoves(move.getStartPosition()).contains(move)) {
+        if(this.possibleMoves(move.getStartPosition()).contains(move)) {
             if(this.turncolor != bwc) {
                 throw new InvalidMoveException("Invalid move out of turn");
             }
@@ -155,7 +177,7 @@ public class ChessGame {
             for(int c=1; c<9; c++) {
                 if(this.gameboard.getSquares()[a][c] != null) {
                     if(this.gameboard.getSquares()[a][c].getTeamColor() != teamColor) {
-                        var enemymoves = this.validMoves(new ChessPosition(a,c));
+                        var enemymoves = this.possibleMoves(new ChessPosition(a,c));
                         for (var cp:enemymoves) {
                             if(cp.getEndPosition().toString().equals(reypos.toString())) {
                                 return true;
@@ -170,6 +192,7 @@ public class ChessGame {
 
     private boolean canEscape(TeamColor teamColor) {
         var tempgame = this.copy();
+        tempgame.setTeamTurn(teamColor);
         //var reypos = new ChessPosition(0, 0);
         for (int a=1; a<9; a++) {
             for(int c=1; c<9; c++) {
@@ -183,11 +206,12 @@ public class ChessGame {
                                     tempgame.makeMove(onecmv);
                                     return true;
                                 } catch (InvalidMoveException i) {
-                                    if(i.getMessage().equals("Invalid move out of turn")) {
-                                        return true;
-                                    } else {
-                                        return false;
-                                    }
+                                    return false;
+//                                    if(i.getMessage().equals("Invalid move out of turn")) {
+//                                        return true;
+//                                    } else {
+//                                        return false;
+//                                    }
                                 }
                             }
                         }
