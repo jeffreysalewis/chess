@@ -85,7 +85,7 @@ public class ChessBoard {
                     txtboard += squares[a][c].getPieceType().getName();
                 }
             }
-            txtboard += "\n";
+            txtboard += "|\n";
         }
         return txtboard;
     }

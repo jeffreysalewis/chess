@@ -239,7 +239,15 @@ public class ChessGame {
 
     public ChessGame copy() {
         ChessGame cpy = new ChessGame();
-        cpy.setBoard(this.gameboard);
+        //cpy.setBoard(this.gameboard);
+        ChessBoard cpbrd = new ChessBoard();
+        for (int a =1; a<9; a++){
+            for(int c=1; c<9; c++) {
+                var temppos = new ChessPosition(a,c);
+                cpbrd.setSquares(temppos, this.gameboard.getSquares()[a][c]);
+            }
+        }
+        cpy.setBoard(cpbrd);
         cpy.setTeamTurn(this.turncolor);
         return cpy;
     }
