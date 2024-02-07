@@ -95,18 +95,30 @@ public class ChessGame {
     }
 
     public void makeMove(ChessMove move) throws InvalidMoveException {
+        var bwc = this.gameboard.getPiece(move.getStartPosition()).getTeamColor();
+        var oldgm = this.copy();
         if(this.validMoves(move.getStartPosition()).contains(move)) {
+            if(this.turncolor != bwc) {
+                throw new InvalidMoveException("Invalid move");
+            }
             var tempp = this.gameboard.getPiece(move.getStartPosition());
             this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
             this.gameboard.setSquares(move.getStartPosition(), null);
             if(this.gameboard.getSquares()[move.getEndPosition().getRow()][move.getEndPosition().getColumn()].getPieceType() == ChessPiece.PieceType.PAWN) {
-                var p = new ChessPiece(tempp.getTeamColor(), move.getPromotionPiece());
-                var p2 = new ChessPiece(tempp.getTeamColor(), ChessPiece.PieceType.PAWN);
-                if(p.getPieceType() != null) {
-                    this.gameboard.setSquares(move.getEndPosition(), p);
-                } else {
-                    this.gameboard.setSquares(move.getEndPosition(), p2);
+                if((bwc == TeamColor.WHITE && move.getEndPosition().getRow() == 8) || (bwc == TeamColor.BLACK && move.getEndPosition().getRow() == 1)) {
+                    var p = new ChessPiece(tempp.getTeamColor(), move.getPromotionPiece());
+                    var p2 = new ChessPiece(tempp.getTeamColor(), ChessPiece.PieceType.PAWN);
+                    if (p.getPieceType() != null) {
+                        this.gameboard.setSquares(move.getEndPosition(), p);
+                    } else {
+                        this.gameboard.setSquares(move.getEndPosition(), p2);
+                    }
                 }
+            }
+            if(this.isInCheck(bwc)) {
+                this.gameboard = oldgm.getBoard();
+                this.turncolor = oldgm.getTeamTurn();
+                throw new InvalidMoveException("Invalid move");
             }
             if(this.turncolor == TeamColor.WHITE) {
                 this.turncolor = TeamColor.BLACK;
