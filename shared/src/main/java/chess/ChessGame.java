@@ -99,7 +99,7 @@ public class ChessGame {
         var oldgm = this.copy();
         if(this.validMoves(move.getStartPosition()).contains(move)) {
             if(this.turncolor != bwc) {
-                throw new InvalidMoveException("Invalid move");
+                throw new InvalidMoveException("Invalid move out of turn");
             }
             var tempp = this.gameboard.getPiece(move.getStartPosition());
             this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
@@ -118,7 +118,7 @@ public class ChessGame {
             if(this.isInCheck(bwc)) {
                 this.gameboard = oldgm.getBoard();
                 this.turncolor = oldgm.getTeamTurn();
-                throw new InvalidMoveException("Invalid move");
+                throw new InvalidMoveException("Invalid move put in check");
             }
             if(this.turncolor == TeamColor.WHITE) {
                 this.turncolor = TeamColor.BLACK;
@@ -168,16 +168,28 @@ public class ChessGame {
         return false;
     }
 
-    private boolean canReymv(TeamColor teamColor) {
-        var reypos = new ChessPosition(0, 0);
+    private boolean canEscape(TeamColor teamColor) {
+        var tempgame = this.copy();
+        //var reypos = new ChessPosition(0, 0);
         for (int a=1; a<9; a++) {
             for(int c=1; c<9; c++) {
-                if(this.gameboard.getSquares()[a][c] != null) {
-                    if(this.gameboard.getSquares()[a][c].getTeamColor() == teamColor) {
-                        if(this.gameboard.getPiece(new ChessPosition(a, c)).getPieceType() == ChessPiece.PieceType.KING) {
-                            reypos.setRow(a);
-                            reypos.setColumn(c);
-                            break;
+                if(tempgame.getBoard().getSquares()[a][c] != null) {
+                    if(tempgame.getBoard().getSquares()[a][c].getTeamColor() == teamColor) {
+                        var tppos = new ChessPosition(a,c);
+                        var cmv = tempgame.validMoves(tppos);
+                        if(cmv != null) {
+                            for (var onecmv : cmv) {
+                                try {
+                                    tempgame.makeMove(onecmv);
+                                    return true;
+                                } catch (InvalidMoveException i) {
+                                    if(i.getMessage().equals("Invalid move out of turn")) {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -194,21 +206,9 @@ public class ChessGame {
      */
     public boolean isInCheckmate(TeamColor teamColor) {
         if(this.isInCheck(teamColor)) {
-            var reypos = new ChessPosition(0, 0);
-            for (int a=1; a<9; a++) {
-                for(int c=1; c<9; c++) {
-                    if(this.gameboard.getSquares()[a][c] != null) {
-                        if(this.gameboard.getSquares()[a][c].getTeamColor() == teamColor) {
-                            if(this.gameboard.getPiece(new ChessPosition(a, c)).getPieceType() == ChessPiece.PieceType.KING) {
-                                reypos.setRow(a);
-                                reypos.setColumn(c);
-                                break;
-                            }
-                        }
-                    }
-                }
+            if(!this.canEscape(teamColor)) {
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -222,8 +222,9 @@ public class ChessGame {
      */
     public boolean isInStalemate(TeamColor teamColor) {
         if (!isInCheck(teamColor)) {
-            //var v = this.validMoves();
-            return true;
+            if(!canEscape(teamColor)) {
+                return true;
+            }
         }
         return false;
     }
