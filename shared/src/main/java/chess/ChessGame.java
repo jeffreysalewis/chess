@@ -60,7 +60,6 @@ public class ChessGame {
             return null;
         }
         var possiblemv = this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
-        //var possiblegame = this.copy();
         var colour = this.gameboard.getPiece(startPosition).getTeamColor();
         var vmoves = new HashSet<ChessMove>();
         for (var pmv:possiblemv) {;
@@ -75,26 +74,6 @@ public class ChessGame {
             }
         }
         return vmoves;
-        //return this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition);
-        //System.out.println(this.gameboard.getSquares());
-//        var vmove = new HashSet<ChessMove>();
-//        var bw = this.gameboard.getPiece(startPosition).getTeamColor();
-//        var tmpbrd = this.copy();
-//        for (var possiblemv:this.gameboard.getPiece(startPosition).pieceMoves(this.gameboard, startPosition)) {
-//            var tmpbrd = this.tempGameMove(possiblemv);
-//            if(!(tmpbrd.isInCheck(tmpbrd.getBoard().getPiece(possiblemv.getEndPosition()).getTeamColor()))) {
-//                vmove.add(possiblemv);
-//            }
-//            var tmpbrd = this.copy();
-//            this.tempMove(possiblemv);
-//            if(!(this.isInCheck(bw))) {
-//                vmove.add(possiblemv);
-//            }
-//        }
-//        this.gameboard = tmpbrd.getBoard();
-//        this.turncolor = tmpbrd.getTeamTurn();
-//        return vmove;
-//        //return verdades;
     }
 
     /**
@@ -193,7 +172,6 @@ public class ChessGame {
     private boolean canEscape(TeamColor teamColor) {
         var tempgame = this.copy();
         tempgame.setTeamTurn(teamColor);
-        //var reypos = new ChessPosition(0, 0);
         for (int a=1; a<9; a++) {
             for(int c=1; c<9; c++) {
                 if(tempgame.getBoard().getSquares()[a][c] != null) {
@@ -207,11 +185,6 @@ public class ChessGame {
                                     return true;
                                 } catch (InvalidMoveException i) {
                                     return false;
-//                                    if(i.getMessage().equals("Invalid move out of turn")) {
-//                                        return true;
-//                                    } else {
-//                                        return false;
-//                                    }
                                 }
                             }
                         }
