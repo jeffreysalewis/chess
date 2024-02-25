@@ -12,7 +12,15 @@ public class Server {
         return Spark.port();
     }
 
+    public int port() {
+        return Spark.port();
+    }
+
     public void stop() {
         Spark.stop();
     }
+
+//    private void exceptionHandler(ResponseException ex, Request req, Response res) {
+//        res.status(ex.StatusCode());
+//    }
 }
