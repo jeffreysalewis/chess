@@ -1,5 +1,7 @@
 package server;
 import spark.*;
+import exception.*;
+
 public class Server {
     public int run(int desiredPort) {
         Spark.port(desiredPort);
@@ -20,7 +22,7 @@ public class Server {
         Spark.stop();
     }
 
-//    private void exceptionHandler(ResponseException ex, Request req, Response res) {
-//        res.status(ex.StatusCode());
-//    }
+    private void exceptionHandler(ResponseException ex, Request req, Response res) {
+        res.status(ex.StatusCode());
+    }
 }
