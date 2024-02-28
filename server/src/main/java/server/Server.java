@@ -11,8 +11,15 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
-        Spark.post("/chess", this::register);
+        Spark.post("/user", this::register);
+        Spark.post("/session", this::login);
+        Spark.delete("/session", this::logout);
+        Spark.get("/game", this::listgames);
+        Spark.post("/game", this::creategame);
+        Spark.put("/game", this::joingame);
+        Spark.delete("/db", this::clear);
 
+        Spark.exception(ResponseException.class, this::exceptionHandler);
         Spark.awaitInitialization();
         return Spark.port();
     }
@@ -34,5 +41,47 @@ public class Server {
         res.type("application/json");
         var authtoken = user.getauthtoken();
         return new Gson().toJson(authtoken);
+    }
+
+    private Object login(Request req, Response res) throws ResponseException {
+//        var user = new Gson().fromJson(req.body(), LoginService.class);
+//        res.type("application/json");
+//        var authtoken = user.getauthtoken();
+        return new Gson().toJson(0);
+    }
+
+    private Object logout(Request req, Response res) throws ResponseException {
+//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        res.type("application/json");
+//        var authtoken = user.getauthtoken();
+        return "";
+    }
+
+    private Object listgames(Request req, Response res) throws ResponseException {
+//        var games = new Gson().fromJson(req.body(), ListGameService.class);
+//        res.type("application/json");
+//        var gameslist = games.getgames();
+        return "";
+    }
+
+    private Object creategame(Request req, Response res) throws ResponseException {
+//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        res.type("application/json");
+//        var authtoken = user.getauthtoken();
+        return "";
+    }
+
+    private Object joingame(Request req, Response res) throws ResponseException {
+//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        res.type("application/json");
+//        var authtoken = user.getauthtoken();
+        return "";
+    }
+
+    private Object clear(Request req, Response res) throws ResponseException {
+//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        res.type("application/json");
+//        var authtoken = user.getauthtoken();
+        return "";
     }
 }
