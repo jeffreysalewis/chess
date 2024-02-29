@@ -39,8 +39,12 @@ public class Server {
     private Object register(Request req, Response res) throws ResponseException {
         var user = new Gson().fromJson(req.body(), RegistrationService.class);
         res.type("application/json");
-        var authtoken = user.getauthtoken();
-        return new Gson().toJson(authtoken);
+        System.out.println(req.body());
+        System.out.println(user);
+        //System.out.println(user.getauthtoken());
+        //var authtoken = user.getauthtoken();
+        res.status(200);
+        return new Gson().toJson(user.getauthtoken());
     }
 
     private Object login(Request req, Response res) throws ResponseException {
