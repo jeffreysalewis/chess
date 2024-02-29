@@ -51,14 +51,15 @@ public class Server {
         var session = new Gson().fromJson(req.body(), LoginService.class);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(0);
+        return new Gson().toJson("login");
     }
 
     private Object logout(Request req, Response res) throws ResponseException {
-//        var user = new Gson().fromJson(req.body(), LogoutService.class);
-//        res.type("application/json");
-//        var authtoken = user.getauthtoken();
-        return "";
+        var session = new Gson().fromJson(req.body(), LogoutService.class);
+        res.type("application/json");
+
+        res.status(200);
+        return "{}";
     }
 
     private Object listgames(Request req, Response res) throws ResponseException {
