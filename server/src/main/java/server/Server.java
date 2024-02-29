@@ -48,9 +48,9 @@ public class Server {
     }
 
     private Object login(Request req, Response res) throws ResponseException {
-//        var user = new Gson().fromJson(req.body(), LoginService.class);
-//        res.type("application/json");
-//        var authtoken = user.getauthtoken();
+        var session = new Gson().fromJson(req.body(), LoginService.class);
+        res.type("application/json");
+        res.status(200);
         return new Gson().toJson(0);
     }
 
@@ -69,21 +69,21 @@ public class Server {
     }
 
     private Object creategame(Request req, Response res) throws ResponseException {
-//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        var user = new Gson().fromJson(req.body(), CreateGameService.class);
 //        res.type("application/json");
 //        var authtoken = user.getauthtoken();
         return "";
     }
 
     private Object joingame(Request req, Response res) throws ResponseException {
-//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        var user = new Gson().fromJson(req.body(), JoinGameService.class);
 //        res.type("application/json");
 //        var authtoken = user.getauthtoken();
         return "";
     }
 
     private Object clear(Request req, Response res) throws ResponseException {
-//        var user = new Gson().fromJson(req.body(), LogoutService.class);
+//        var user = new Gson().fromJson(req.body(), Clear.class);
 //        res.type("application/json");
 //        var authtoken = user.getauthtoken();
         return "";
