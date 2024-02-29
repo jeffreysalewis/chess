@@ -14,9 +14,9 @@ public class Server {
         Spark.post("/user", this::register);
         Spark.post("/session", this::login);
         Spark.delete("/session", this::logout);
-        Spark.get("/game", this::listgames);
-        Spark.post("/game", this::creategame);
-        Spark.put("/game", this::joingame);
+        Spark.get("/game/:authtoken", this::listgames);
+        Spark.post("/game/:authtoken", this::creategame);
+        Spark.put("/game/:authtoken", this::joingame);
         Spark.delete("/db", this::clear);
 
         Spark.exception(ResponseException.class, this::exceptionHandler);
@@ -55,11 +55,12 @@ public class Server {
     }
 
     private Object logout(Request req, Response res) throws ResponseException {
-        var session = new Gson().fromJson(req.body(), LogoutService.class);
+        var auth = req.headers("authorization");
+        var session = new LogoutService(auth);
+        session.logout();
         res.type("application/json");
-
         res.status(200);
-        return "{}";
+        return new Gson().toJson(new Object());
     }
 
     private Object listgames(Request req, Response res) throws ResponseException {
