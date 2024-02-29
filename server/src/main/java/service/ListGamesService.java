@@ -7,7 +7,7 @@ import java.util.*;
 public class ListGamesService {
     private String authtoken;
 
-    ListGamesService(String auth) {
+    public ListGamesService(String auth) {
         this.authtoken = auth;
     }
 
