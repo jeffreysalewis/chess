@@ -5,13 +5,11 @@ import chess.*;
 import java.util.*;
 
 public class ListGamesService {
-    private String authtoken;
 
-    public ListGamesService(String auth) {
-        this.authtoken = auth;
+    public ListGamesService() {
     }
 
-    public Collection<ChessGame> getgames() {
+    public Collection<ChessGame> getgames(String auth) {
         return new HashSet<ChessGame>();
     }
 }

@@ -1,17 +1,11 @@
 package service;
 
 public class LogoutService {
-    private String authtoken;
 
-    public LogoutService(String auth) {
-        this.authtoken = auth;
+    public LogoutService() {
     }
 
-    public void logout() {
+    public void logout(String auth) {
 
-    }
-
-    public String getauthtoken() {
-        return this.authtoken;
     }
 }
