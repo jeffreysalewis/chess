@@ -63,10 +63,10 @@ public class Server {
     }
 
     private Object listgames(Request req, Response res) throws ResponseException {
-//        var games = new Gson().fromJson(req.body(), ListGameService.class);
-//        res.type("application/json");
-//        var gameslist = games.getgames();
-        return "";
+        var games = new Gson().fromJson(req.body(), ListGamesService.class);
+        res.type("application/json");
+        var gameslist = games.getgames();
+        return new Gson().toJson(gameslist);
     }
 
     private Object creategame(Request req, Response res) throws ResponseException {
