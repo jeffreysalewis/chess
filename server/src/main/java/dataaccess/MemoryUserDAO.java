@@ -15,6 +15,6 @@ public class MemoryUserDAO implements UserDAO{
     }
 
     public String createAuth(String username) {
-        return "";
+        return "an authtoken";
     }
 }

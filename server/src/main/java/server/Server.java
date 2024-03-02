@@ -4,6 +4,8 @@ import spark.*;
 import exception.*;
 import service.*;
 
+import java.util.*;
+
 public class Server {
     public int run(int desiredPort) {
         Spark.port(desiredPort);
@@ -40,14 +42,14 @@ public class Server {
         var user = new Gson().fromJson(req.body(), RegistrationService.class);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(user.getauthtoken());
+        return new Gson().toJson(Map.of("authtoken", user.getauthtoken()));
     }
 
     private Object login(Request req, Response res) throws ResponseException {
         var session = new Gson().fromJson(req.body(), LoginService.class);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson("login");
+        return new Gson().toJson(null);
     }
 
     private Object logout(Request req, Response res) throws ResponseException {
@@ -56,7 +58,7 @@ public class Server {
         session.logout(auth);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(new Object());
+        return new Gson().toJson(null);
     }
 
     private Object listgames(Request req, Response res) throws ResponseException {
@@ -65,7 +67,7 @@ public class Server {
         var gameslist = games.getgames(auth);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(gameslist);
+        return new Gson().toJson(Map.of("games", gameslist));
     }
 
     private Object creategame(Request req, Response res) throws ResponseException {
@@ -74,7 +76,7 @@ public class Server {
         var id = game.create(auth);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(id);
+        return new Gson().toJson(Map.of("id",id));
     }
 
     private Object joingame(Request req, Response res) throws ResponseException {
@@ -83,7 +85,7 @@ public class Server {
         game.join(auth);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(new Object());
+        return new Gson().toJson(null);
     }
 
     private Object clear(Request req, Response res) throws ResponseException {
@@ -91,6 +93,6 @@ public class Server {
         db.clear();
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(new Object());
+        return new Gson().toJson(null);
     }
 }

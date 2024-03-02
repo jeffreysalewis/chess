@@ -32,8 +32,8 @@ public class RegistrationService {
 
     }
 
-    public String getauthtoken() {
-        return "jeffy";
+    public String getauthtoken() throws ResponseException {
+        return this.registerUser();
     }
 
     public String getusername() {
