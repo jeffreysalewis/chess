@@ -19,7 +19,8 @@ public class RegistrationService {
         if(user.getUser(this.username) == null) {
             user.createUser(this.username, this.password, this.email);
             var auth = new MemoryAuthDAO();
-            return auth.createAuth(this.username);
+            var temp = auth.createAuth(this.username);
+            return temp;
         } else {
             throw new ResponseException(403, "Error: already taken");
         }

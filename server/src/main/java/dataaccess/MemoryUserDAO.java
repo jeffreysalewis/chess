@@ -14,7 +14,8 @@ public class MemoryUserDAO implements UserDAO{
         if (MemoryUserDAO.userdata == null) {
             return null;
         }
-        return MemoryUserDAO.userdata.get(username);
+        var temp = MemoryUserDAO.userdata.get(username);
+        return temp;
     }
 
     public void createUser(String username, String password, String email) {

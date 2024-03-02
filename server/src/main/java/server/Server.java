@@ -44,7 +44,8 @@ public class Server {
         var user = new Gson().fromJson(req.body(), RegistrationService.class);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(Map.of("authtoken", user.registerUser()));
+        var temp = user.registerUser();
+        return new Gson().toJson(Map.of("authtoken", temp));
     }
 
     private Object login(Request req, Response res) throws ResponseException {
