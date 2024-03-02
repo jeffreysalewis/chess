@@ -16,9 +16,10 @@ public class RegistrationService {
 
     public String registerUser() throws ResponseException {
         var user = new MemoryUserDAO();
-        if(user.getUser() == null) {
-            user.createUser(this.username, this.password);
-            return user.createAuth(this.username);
+        if(user.getUser(this.username) == null) {
+            user.createUser(this.username, this.password, this.email);
+            var auth = new MemoryAuthDAO();
+            return auth.createAuth(this.username);
         } else {
             throw new ResponseException(403, "Error: already taken");
         }
