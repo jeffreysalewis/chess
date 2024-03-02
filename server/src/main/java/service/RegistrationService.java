@@ -34,7 +34,7 @@ public class RegistrationService {
     }
 
     public String getauthtoken() throws ResponseException {
-        return this.registerUser();
+        return null; //this.registerUser();
     }
 
     public String getusername() {

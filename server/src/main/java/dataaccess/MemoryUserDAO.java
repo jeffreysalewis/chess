@@ -5,19 +5,20 @@ import java.util.*;
 public class MemoryUserDAO implements UserDAO{
     private String username;
     private String authtoken;
-    private HashMap<String, String[]> userdata;
+    private static HashMap<String, String[]> userdata = new HashMap<>();
     public MemoryUserDAO() {
-        userdata = new HashMap<>();
     }
 
     @Override
     public String[] getUser(String username) {
-        return null;
-        //return userdata.get(username);
+        if (MemoryUserDAO.userdata == null) {
+            return null;
+        }
+        return MemoryUserDAO.userdata.get(username);
     }
 
     public void createUser(String username, String password, String email) {
         var ac = new String[]{username, password, email};
-        userdata.put(username, ac);
+        MemoryUserDAO.userdata.put(username, ac);
     }
 }

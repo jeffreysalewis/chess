@@ -1,5 +1,6 @@
 package server;
 import com.google.gson.Gson;
+import dataaccess.*;
 import spark.*;
 import exception.*;
 import service.*;
@@ -7,6 +8,7 @@ import service.*;
 import java.util.*;
 
 public class Server {
+    //private MemoryUserDAO userdat = new MemoryUserDAO();
     public int run(int desiredPort) {
         Spark.port(desiredPort);
 
@@ -42,7 +44,7 @@ public class Server {
         var user = new Gson().fromJson(req.body(), RegistrationService.class);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(Map.of("authtoken", user.getauthtoken()));
+        return new Gson().toJson(Map.of("authtoken", user.registerUser()));
     }
 
     private Object login(Request req, Response res) throws ResponseException {
