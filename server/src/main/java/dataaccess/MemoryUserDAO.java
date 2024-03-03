@@ -5,7 +5,7 @@ import java.util.*;
 public class MemoryUserDAO implements UserDAO{
     private String username;
     private String authtoken;
-    private static HashMap<String, String[]> userdata = new HashMap<>();
+    public static HashMap<String, String[]> userdata = new HashMap<>();
     public MemoryUserDAO() {
     }
 
@@ -19,7 +19,7 @@ public class MemoryUserDAO implements UserDAO{
     }
 
     public void createUser(String username, String password, String email) {
-        var ac = new String[]{username, password, email};
+        String[] ac = {username, password, email};
         MemoryUserDAO.userdata.put(username, ac);
     }
 }

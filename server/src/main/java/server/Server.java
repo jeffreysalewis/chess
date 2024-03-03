@@ -43,16 +43,21 @@ public class Server {
     private Object register(Request req, Response res) throws ResponseException {
         var user = new Gson().fromJson(req.body(), RegistrationService.class);
         res.type("application/json");
-        res.status(200);
         var temp = user.registerUser();
-        return new Gson().toJson(Map.of("authtoken", temp));
+        res.status(200);
+        return new Gson().toJson(Map.of("authToken", temp));
     }
 
     private Object login(Request req, Response res) throws ResponseException {
         var session = new Gson().fromJson(req.body(), LoginService.class);
         res.type("application/json");
-        res.status(200);
-        return new Gson().toJson(null);
+        var log = session.login();
+        if(log != null && log.length >1) {
+            res.status(200);
+            return new Gson().toJson(Map.ofEntries(Map.entry("username", log[0]), Map.entry("authToken", log[1])));
+        } else {
+            throw new ResponseException(401, "Error: unauthorized");
+        }
     }
 
     private Object logout(Request req, Response res) throws ResponseException {
