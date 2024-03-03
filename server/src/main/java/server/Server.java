@@ -78,10 +78,15 @@ public class Server {
     private Object logout(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
         var session = new LogoutService();
-        session.logout(auth);
         res.type("application/json");
-        res.status(200);
-        return new Gson().toJson(null);
+        try {
+            session.logout(auth);
+            res.status(200);
+            return new Gson().toJson(null);
+        } catch (ResponseException r) {
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        }
     }
 
     private Object listgames(Request req, Response res) throws ResponseException {
