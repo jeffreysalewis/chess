@@ -41,26 +41,52 @@ public class Server {
     }
 
     private Object register(Request req, Response res) throws ResponseException {
-        var user = new Gson().fromJson(req.body(), RegistrationService.class);
         res.type("application/json");
-        res.status(200);
-        return new Gson().toJson(Map.of("authtoken", user.registerUser()));
+        try {
+            var user = new Gson().fromJson(req.body(), RegistrationService.class);
+            var temp = user.registerUser();
+            res.status(200);
+            return new Gson().toJson(Map.of("authToken", temp));
+        } catch (ResponseException r){
+            res.status(403);
+            return new Gson().toJson(Map.of("message", "Error: already taken"));
+        } catch(Exception e) {
+            res.status(400);
+            return new Gson().toJson(Map.of("message", "Error: bad request"));
+        }
     }
 
     private Object login(Request req, Response res) throws ResponseException {
         var session = new Gson().fromJson(req.body(), LoginService.class);
         res.type("application/json");
-        res.status(200);
-        return new Gson().toJson(null);
+        //res.status(401);
+        try {
+            var log = session.login();
+            if(log != null && log.length >1) {
+                res.status(200);
+                return new Gson().toJson(Map.ofEntries(Map.entry("username", log[0]), Map.entry("authToken", log[1])));
+            } else {
+                //res.status(401);
+                throw new ResponseException(401, "Error: unauthorized");
+            }
+        } catch (ResponseException e) {
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        }
     }
 
     private Object logout(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
         var session = new LogoutService();
-        session.logout(auth);
         res.type("application/json");
-        res.status(200);
-        return new Gson().toJson(null);
+        try {
+            session.logout(auth);
+            res.status(200);
+            return new Gson().toJson(null);
+        } catch (ResponseException r) {
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        }
     }
 
     private Object listgames(Request req, Response res) throws ResponseException {
