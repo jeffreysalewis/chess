@@ -28,4 +28,13 @@ public class MemoryAuthDAO implements AuthDAO {
         var temp = MemoryAuthDAO.authdata.get(username);
         return temp;
     }
+
+    public static boolean authorize(String inpauth) {
+        for (var userkey:MemoryAuthDAO.authdata.keySet()) {
+            if(MemoryAuthDAO.authdata.get(userkey)[1].equals(inpauth)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
