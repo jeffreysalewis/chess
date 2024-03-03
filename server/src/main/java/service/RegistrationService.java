@@ -14,7 +14,10 @@ public class RegistrationService {
         //this.authtoken = this.email + " correo";
     }
 
-    public String registerUser() throws ResponseException {
+    public String registerUser() throws Exception {
+        if(this.username == null || this.password == null || this.email == null) {
+            throw new Exception("400 Error: bad request");
+        }
         var user = new MemoryUserDAO();
         if(user.getUser(this.username) == null) {
             user.createUser(this.username, this.password, this.email);
