@@ -17,9 +17,14 @@ public class MemoryAuthDAO implements AuthDAO {
     }
 
     public String[] getUser(String username) {
+        //MemoryAuthDAO.uuid += 1;
         if (MemoryAuthDAO.authdata == null) {
             return null;
         }
+        this.authtoken = Integer.toString(MemoryAuthDAO.uuid);
+        String[] ac = {username, this.authtoken};
+        MemoryAuthDAO.authdata.remove(username);
+        MemoryAuthDAO.authdata.put(username, ac);
         var temp = MemoryAuthDAO.authdata.get(username);
         return temp;
     }
