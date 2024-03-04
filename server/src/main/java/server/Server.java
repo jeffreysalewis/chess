@@ -94,11 +94,21 @@ public class Server {
 
     private Object listgames(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
-        var games = new ListGamesService();
-        var gameslist = games.getgames(auth);
+
         res.type("application/json");
-        res.status(200);
-        return new Gson().toJson(Map.of("games", gameslist));
+        try {
+            var games = new ListGamesService();
+            var gameslist = games.getgames(auth);
+            res.status(200);
+            return new Gson().toJson(Map.of("games", gameslist));
+        } catch(ResponseException r) {
+//            if (r.StatusCode() == 600) {
+//                res.status(600);
+//                return new Gson().toJson(Map.of("message", "Error: gameslist is null"));
+//            }
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        }
     }
 
     private Object creategame(Request req, Response res) throws ResponseException {
@@ -121,11 +131,20 @@ public class Server {
 
     private Object joingame(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
-        var game = new Gson().fromJson(req.body(), JoinGameService.class);
-        game.join(auth);
-        res.type("application/json");
         res.status(200);
-        return new Gson().toJson(null);
+        res.type("application/json");
+        try {
+            var game = new Gson().fromJson(req.body(), JoinGameService.class);
+            game.join(auth);
+            res.status(200);
+            return new Gson().toJson(null);
+        } catch (ResponseException r) {
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        } catch (Exception e) {
+            res.status(400);
+            return new Gson().toJson(Map.of("message", "Error: bad request"));
+        }
     }
 
     private Object clear(Request req, Response res) throws ResponseException {

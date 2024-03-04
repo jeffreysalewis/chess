@@ -1,5 +1,6 @@
 package dataaccess;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import chess.*;
@@ -24,7 +25,12 @@ public class MemoryGameDAO implements GameDAO {
         return gameid;
     }
 
-    public Map<Integer, String[]> list() {
-        return MemoryGameDAO.gamedata;
+    public void join() {
+        return;
+    }
+
+    public Collection<String[]> list() {
+        var gamelist = MemoryGameDAO.gamedata.values();
+        return MemoryGameDAO.gamedata.values();
     }
 }
