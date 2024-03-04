@@ -31,8 +31,12 @@ public class MemoryAuthDAO implements AuthDAO {
 
     public static boolean authorize(String inpauth) {
         for (var oneauthdata:MemoryAuthDAO.authdata.values()) {
-            if(oneauthdata[1].equals(inpauth)) {
-                return true;
+            if(oneauthdata != null) {
+                if(oneauthdata[1] != null) {
+                    if (oneauthdata[1].equals(inpauth)) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
