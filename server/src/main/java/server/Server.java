@@ -46,7 +46,7 @@ public class Server {
             var user = new Gson().fromJson(req.body(), RegistrationService.class);
             var temp = user.registerUser();
             res.status(200);
-            return new Gson().toJson(Map.of("authToken", temp));
+            return new Gson().toJson(Map.ofEntries(Map.entry("username", user.getusername()), Map.entry("authToken", temp)));
         } catch (ResponseException r){
             res.status(403);
             return new Gson().toJson(Map.of("message", "Error: already taken"));
