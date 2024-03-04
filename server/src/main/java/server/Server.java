@@ -42,6 +42,7 @@ public class Server {
 
     private Object register(Request req, Response res) throws ResponseException {
         res.type("application/json");
+        res.status(200);
         try {
             var user = new Gson().fromJson(req.body(), RegistrationService.class);
             var temp = user.registerUser();
@@ -59,6 +60,7 @@ public class Server {
     private Object login(Request req, Response res) throws ResponseException {
         var session = new Gson().fromJson(req.body(), LoginService.class);
         res.type("application/json");
+        res.status(200);
         //res.status(401);
         try {
             var log = session.login();
@@ -79,6 +81,7 @@ public class Server {
         var auth = req.headers("authorization");
         var session = new LogoutService();
         res.type("application/json");
+        res.status(200);
         try {
             session.logout(auth);
             res.status(200);
@@ -100,11 +103,20 @@ public class Server {
 
     private Object creategame(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
-        var game = new Gson().fromJson(req.body(), CreateGameService.class);
-        var id = game.create(auth);
         res.type("application/json");
         res.status(200);
-        return new Gson().toJson(Map.of("id",id));
+        try {
+            var game = new Gson().fromJson(req.body(), CreateGameService.class);
+            var id = game.create(auth);
+            res.status(200);
+            return new Gson().toJson(Map.of("id", id));
+        } catch (ResponseException r) {
+            res.status(401);
+            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+        } catch (Exception e) {
+            res.status(400);
+            return new Gson().toJson(Map.of("message", "Error: bad request"));
+        }
     }
 
     private Object joingame(Request req, Response res) throws ResponseException {
