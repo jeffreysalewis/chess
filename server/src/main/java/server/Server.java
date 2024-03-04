@@ -142,8 +142,10 @@ public class Server {
             res.status(200);
             return new Gson().toJson(null);
         } catch (ResponseException r) {
-            res.status(401);
-            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+            res.status(r.StatusCode());
+            return new Gson().toJson(Map.of("message", r.getMessage()));
+            //res.status(401);
+            //return new Gson().toJson(Map.of("message", "Error: unauthorized"));
         } catch (Exception e) {
             res.status(400);
             return new Gson().toJson(Map.of("message", "Error: bad request"));

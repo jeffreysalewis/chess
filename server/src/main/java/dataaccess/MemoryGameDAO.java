@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import chess.*;
 import com.google.gson.Gson;
+import exception.ResponseException;
 
 public class MemoryGameDAO implements GameDAO {
     private static int uuid = 0;
@@ -21,11 +22,33 @@ public class MemoryGameDAO implements GameDAO {
         game.setBoard(game.getBoard());
         var gamejson = new Gson().toJson(game);
         System.out.println(gamejson);
-        MemoryGameDAO.gamedata.put(gameid, new String[]{Integer.toString(gameid), "", "", name, gamejson});
+        MemoryGameDAO.gamedata.put(gameid, new String[]{Integer.toString(gameid), null, null, name, gamejson});
         return gameid;
     }
 
-    public void join(String color, String id, String username) {
+    public void join(String color, int id, String username) throws ResponseException{
+        if(MemoryGameDAO.gamedata.containsKey(id)) {
+            var wantgame = MemoryGameDAO.gamedata.get(id);
+
+            if(color == "WHITE") {
+                if(wantgame[1] != null) {
+                    throw new ResponseException(403, "Error: already taken");
+                }
+                wantgame[1] = username;
+                MemoryGameDAO.gamedata.remove(id);
+                MemoryGameDAO.gamedata.put(id, wantgame);
+            } else if(color == "BLACK") {
+                if(wantgame[2] != null) {
+                    throw new ResponseException(403, "Error: already taken");
+                }
+                wantgame[2] = username;
+                MemoryGameDAO.gamedata.remove(id);
+                MemoryGameDAO.gamedata.put(id, wantgame);
+            }
+
+        } else {
+            throw new ResponseException(400, "Error: bad request");
+        }
         return;
     }
 
