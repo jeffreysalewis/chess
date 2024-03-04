@@ -12,7 +12,7 @@ public class ListGamesService {
     public ListGamesService() {
     }
 
-    public Collection<String[]> getgames(String auth) throws ResponseException {
+    public Map<String, String>[] getgames(String auth) throws ResponseException {
         if(MemoryAuthDAO.authorize(auth)) {
             var game = new MemoryGameDAO();
             var gamelist = game.list();

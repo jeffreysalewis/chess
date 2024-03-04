@@ -101,6 +101,7 @@ public class Server {
         try {
             var games = new ListGamesService();
             var gameslist = games.getgames(auth);
+            var gameslistjson = new Gson().toJson(gameslist);
             res.status(200);
             return new Gson().toJson(Map.of("games", gameslist));
         } catch(ResponseException r) {

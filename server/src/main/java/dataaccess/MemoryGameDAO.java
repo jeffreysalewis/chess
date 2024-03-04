@@ -29,9 +29,37 @@ public class MemoryGameDAO implements GameDAO {
         return;
     }
 
-    public Collection<String[]> list() {
+    public Map<String, String>[] list() {
         var gamelist = MemoryGameDAO.gamedata.values();
-        return MemoryGameDAO.gamedata.values();
+        var bettergamelist = new HashMap[MemoryGameDAO.gamedata.size()];
+        int a = 0;
+        for (var onegame:gamelist) {
+            if(onegame == null || onegame.length < 5) {
+                onegame = new String[5];
+            }
+            if(onegame[0] == null) {
+                onegame[0] = "100000000";
+            }
+            if(onegame[1] == null) {
+                onegame[1] = "";
+            }
+            if(onegame[2] == null) {
+                onegame[2] = "";
+            }
+            if(onegame[3] == null) {
+                onegame[3] = "";
+            }
+            bettergamelist[a] = new HashMap<String, String>();
+            bettergamelist[a].put("gameID", onegame[0]);
+            bettergamelist[a].put("whiteUsername", onegame[1]);
+            bettergamelist[a].put("blackUsername", onegame[2]);
+            bettergamelist[a].put("gameName", onegame[3]);
+            //bettergamelist[a] = Map.ofEntries(Map.entry("gameID", onegame[0]), Map.entry("whiteUsername", onegame[1]), Map.entry("blackUsername", onegame[2]), Map.entry("gameName", onegame[3]));
+            //bettergamelist[a] = new Gson().toJson(Map.ofEntries(Map.entry("gameID", onegame[0]), Map.entry("whiteUsername", onegame[1]), Map.entry("blackUsername", onegame[2]), Map.entry("gameName", onegame[3])));
+            a++;
+        }
+        return bettergamelist;
+        //return MemoryGameDAO.gamedata.values();
     }
 
     public static void clear() {
