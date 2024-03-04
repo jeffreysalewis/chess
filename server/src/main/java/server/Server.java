@@ -121,7 +121,7 @@ public class Server {
             var game = new Gson().fromJson(req.body(), CreateGameService.class);
             var id = game.create(auth);
             res.status(200);
-            return new Gson().toJson(Map.of("id", id));
+            return new Gson().toJson(Map.of("gameID", id));
         } catch (ResponseException r) {
             res.status(401);
             return new Gson().toJson(Map.of("message", "Error: unauthorized"));
