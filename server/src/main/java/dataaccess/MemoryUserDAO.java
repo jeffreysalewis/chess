@@ -22,4 +22,8 @@ public class MemoryUserDAO implements UserDAO{
         String[] ac = {username, password, email};
         MemoryUserDAO.userdata.put(username, ac);
     }
+
+    public static void clear() {
+        MemoryUserDAO.userdata = new HashMap<>();
+    }
 }

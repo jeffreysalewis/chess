@@ -46,6 +46,8 @@ public class Server {
         try {
             var user = new Gson().fromJson(req.body(), RegistrationService.class);
             var temp = user.registerUser();
+            //var log = new LoginService(user.getusername(), user.getpassword());
+            //temp = log.login()[1];
             res.status(200);
             return new Gson().toJson(Map.ofEntries(Map.entry("username", user.getusername()), Map.entry("authToken", temp)));
         } catch (ResponseException r){

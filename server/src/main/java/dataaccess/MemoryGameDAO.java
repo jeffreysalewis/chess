@@ -25,12 +25,17 @@ public class MemoryGameDAO implements GameDAO {
         return gameid;
     }
 
-    public void join() {
+    public void join(String color, String id, String username) {
         return;
     }
 
     public Collection<String[]> list() {
         var gamelist = MemoryGameDAO.gamedata.values();
         return MemoryGameDAO.gamedata.values();
+    }
+
+    public static void clear() {
+        MemoryGameDAO.uuid = 0;
+        MemoryGameDAO.gamedata = new HashMap<>();
     }
 }

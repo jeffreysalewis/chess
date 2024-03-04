@@ -17,7 +17,7 @@ public class MemoryAuthDAO implements AuthDAO {
     }
 
     public String[] getUser(String username) {
-        //MemoryAuthDAO.uuid += 1;
+        MemoryAuthDAO.uuid += 1;
         if (MemoryAuthDAO.authdata == null) {
             return null;
         }
@@ -30,11 +30,32 @@ public class MemoryAuthDAO implements AuthDAO {
     }
 
     public static boolean authorize(String inpauth) {
-        for (var userkey:MemoryAuthDAO.authdata.keySet()) {
-            if(MemoryAuthDAO.authdata.get(userkey)[1].equals(inpauth)) {
+        for (var oneauthdata:MemoryAuthDAO.authdata.values()) {
+            if(oneauthdata[1].equals(inpauth)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static String getUserfromAuth(String auth) {
+        for (var oneauthdata:MemoryAuthDAO.authdata.values()) {
+            if(oneauthdata[1].equals(auth)) {
+                return oneauthdata[0];
+            }
+        }
+        return null;
+    }
+
+    public static void deleteAuth(String auth) {
+        var userna = MemoryAuthDAO.getUserfromAuth(auth);
+        String[] ac = {userna, null};
+        MemoryAuthDAO.authdata.remove(userna);
+        MemoryAuthDAO.authdata.put(userna, ac);
+    }
+
+    public static void clear() {
+        MemoryAuthDAO.uuid = 0;
+        MemoryAuthDAO.authdata = new HashMap<>();
     }
 }
