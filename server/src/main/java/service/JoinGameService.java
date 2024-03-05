@@ -13,9 +13,9 @@ public class JoinGameService {
     }
 
     public void join(String auth) throws ResponseException{
-        if(this.color != "BLACK" && this.color != "WHITE" && this.color != null) {
-            throw new ResponseException(400, "Error, bad request");
-        }
+//        if(this.color != "BLACK" && this.color != "WHITE" && this.color != null) {
+//            throw new ResponseException(400, "Error, bad request");
+//        }
         if(MemoryAuthDAO.authorize(auth)) {
             var usernam = MemoryAuthDAO.getUserfromAuth(auth);
             var game = new MemoryGameDAO();

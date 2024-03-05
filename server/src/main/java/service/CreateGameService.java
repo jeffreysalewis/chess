@@ -9,7 +9,7 @@ public class CreateGameService {
         this.name = name;
     }
 
-    public int create(String auth) throws Exception {
+    public int create(String auth) throws ResponseException {
         if(MemoryAuthDAO.authorize(auth)) {
             var game = new MemoryGameDAO();
             var gameid = game.nueva(this.name);

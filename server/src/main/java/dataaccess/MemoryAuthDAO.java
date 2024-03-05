@@ -1,27 +1,32 @@
 package dataaccess;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class MemoryAuthDAO implements AuthDAO {
-    private static int uuid = 0;
+    //private static int uuid = 0;
     private String authtoken;
     private static HashMap<String, String[]> authdata = new HashMap<>();
     public MemoryAuthDAO() {
-        MemoryAuthDAO.uuid += 1;
+        //MemoryAuthDAO.uuid += 1;
     }
     public String createAuth(String username) {
-        this.authtoken = Integer.toString(MemoryAuthDAO.uuid);
+        //this.authtoken = Integer.toString(MemoryAuthDAO.uuid);
+        //this.authtoken = Double.toString(Math.random());
+        this.authtoken = UUID.randomUUID().toString();
         String[] ac = {username, this.authtoken};
         MemoryAuthDAO.authdata.put(username, ac);
         return this.authtoken;
     }
 
     public String[] getUser(String username) {
-        MemoryAuthDAO.uuid += 1;
-        if (MemoryAuthDAO.authdata == null) {
-            return null;
-        }
-        this.authtoken = Integer.toString(MemoryAuthDAO.uuid);
+        //MemoryAuthDAO.uuid += 1;
+        //if (MemoryAuthDAO.authdata == null) {
+        //    return null;
+        //}
+        //this.authtoken = Integer.toString(MemoryAuthDAO.uuid);
+        //this.authtoken = Double.toString(Math.random());
+        this.authtoken = UUID.randomUUID().toString();
         String[] ac = {username, this.authtoken};
         MemoryAuthDAO.authdata.remove(username);
         MemoryAuthDAO.authdata.put(username, ac);
@@ -59,7 +64,7 @@ public class MemoryAuthDAO implements AuthDAO {
     }
 
     public static void clear() {
-        MemoryAuthDAO.uuid = 0;
-        MemoryAuthDAO.authdata = new HashMap<>();
+        //MemoryAuthDAO.uuid = 0;
+        MemoryAuthDAO.authdata.clear();// = new HashMap<>();
     }
 }

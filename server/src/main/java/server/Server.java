@@ -46,8 +46,8 @@ public class Server {
         try {
             var user = new Gson().fromJson(req.body(), RegistrationService.class);
             var temp = user.registerUser();
-            //var log = new LoginService(user.getusername(), user.getpassword());
-            //temp = log.login()[1];
+            var log = new LoginService(user.getusername(), user.getpassword());
+            temp = log.login()[1];
             res.status(200);
             return new Gson().toJson(Map.ofEntries(Map.entry("username", user.getusername()), Map.entry("authToken", temp)));
         } catch (ResponseException r){
@@ -124,8 +124,8 @@ public class Server {
             res.status(200);
             return new Gson().toJson(Map.of("gameID", id));
         } catch (ResponseException r) {
-            res.status(401);
-            return new Gson().toJson(Map.of("message", "Error: unauthorized"));
+            res.status(r.StatusCode());
+            return new Gson().toJson(Map.of("message", r.getMessage()));
         } catch (Exception e) {
             res.status(400);
             return new Gson().toJson(Map.of("message", "Error: bad request"));

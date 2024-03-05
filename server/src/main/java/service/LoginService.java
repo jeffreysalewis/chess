@@ -30,4 +30,8 @@ public class LoginService {
         //String[] res = {this.username, am};
         return am;
     }
+
+    public String getUsername() {
+        return this.username;
+    }
 }
