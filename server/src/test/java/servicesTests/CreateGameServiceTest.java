@@ -7,10 +7,20 @@ public class CreateGameServiceTest {
     @Test
     @DisplayName("CreateGameService test ;p")
     public void createGameServiceTest() throws Exception {
-        var a = new RegistrationService("usernombre", "pass123", "email@example.com");
+        var a = new RegistrationService("usernombrec", "pass123", "email@example.com");
         var auth = a.registerUser();
         var c = new CreateGameService("gamename");
         var d = c.create(auth);
-        System.out.println(d);
+        Assertions.assertTrue(d > -1);
+    }
+
+    @Test
+    @DisplayName("bad CreateGameService test ;p")
+    public void badcreateGameServiceTest() throws Exception {
+        var a = new RegistrationService("usernombrea", "pass123", "email@example.com");
+        var auth = a.registerUser();
+        var c = new CreateGameService("gamename");
+        var d = c.create(auth);
+        Assertions.assertFalse(d < 0);
     }
 }

@@ -14,4 +14,11 @@ public class RegistrationServiceTest {
         Assertions.assertTrue("apassword".equals(user.getpassword()));
         Assertions.assertTrue("anemail".equals(user.getemail()));
     }
+
+    @Test
+    @DisplayName("bad RegistrationService test ;p")
+    public void badregistrationServiceTest() throws Exception {
+        var user = new RegistrationService("acusername", "ausername", "ausername");
+        Assertions.assertNotNull(user.registerUser());
+    }
 }

@@ -7,9 +7,10 @@ public class Clear {
 
     }
 
-    public void clear() {
+    public int clear() {
         MemoryUserDAO.clear();
         MemoryAuthDAO.clear();
         MemoryGameDAO.clear();
+        return 0;
     }
 }
