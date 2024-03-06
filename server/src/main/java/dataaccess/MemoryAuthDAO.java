@@ -15,7 +15,7 @@ public class MemoryAuthDAO implements AuthDAO {
         //this.authtoken = Double.toString(Math.random());
         this.authtoken = UUID.randomUUID().toString();
         String[] ac = {username, this.authtoken};
-        MemoryAuthDAO.authdata.put(username, ac);
+        MemoryAuthDAO.authdata.put(this.authtoken, ac);
         return this.authtoken;
     }
 
@@ -28,13 +28,16 @@ public class MemoryAuthDAO implements AuthDAO {
         //this.authtoken = Double.toString(Math.random());
         this.authtoken = UUID.randomUUID().toString();
         String[] ac = {username, this.authtoken};
-        MemoryAuthDAO.authdata.remove(username);
-        MemoryAuthDAO.authdata.put(username, ac);
-        var temp = MemoryAuthDAO.authdata.get(username);
+        //MemoryAuthDAO.authdata.remove(username);
+        MemoryAuthDAO.authdata.put(this.authtoken, ac);
+        var temp = MemoryAuthDAO.authdata.get(this.authtoken);
         return temp;
     }
 
     public static boolean authorize(String inpauth) {
+        if(MemoryAuthDAO.authdata.get(inpauth) != null) {
+            return true;
+        }
         for (var oneauthdata:MemoryAuthDAO.authdata.values()) {
             if(oneauthdata != null) {
                 if(oneauthdata[1] != null) {
@@ -48,19 +51,18 @@ public class MemoryAuthDAO implements AuthDAO {
     }
 
     public static String getUserfromAuth(String auth) {
-        for (var oneauthdata:MemoryAuthDAO.authdata.values()) {
-            if(oneauthdata[1].equals(auth)) {
-                return oneauthdata[0];
-            }
-        }
-        return null;
+        return MemoryAuthDAO.authdata.get(auth)[0];
+//        for (var oneauthdata:MemoryAuthDAO.authdata.values()) {
+//            if(oneauthdata[1].equals(auth)) {
+//                return oneauthdata[0];
+//            }
+//        }
+//        return null;
     }
 
     public static void deleteAuth(String auth) {
-        var userna = MemoryAuthDAO.getUserfromAuth(auth);
-        String[] ac = {userna, null};
-        MemoryAuthDAO.authdata.remove(userna);
-        MemoryAuthDAO.authdata.put(userna, ac);
+        //var userna = MemoryAuthDAO.getUserfromAuth(auth);
+        MemoryAuthDAO.authdata.remove(auth);
     }
 
     public static void clear() {
