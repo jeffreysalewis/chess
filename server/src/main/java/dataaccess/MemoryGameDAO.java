@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import exception.ResponseException;
 
 public class MemoryGameDAO implements GameDAO {
-    //private static int uuid = 0;
+    private static int uuid = 1;
     private String authtoken;
     private static HashMap<Integer, String[]> gamedata = new HashMap<>();
     public MemoryGameDAO() {
@@ -16,13 +16,14 @@ public class MemoryGameDAO implements GameDAO {
     }
 
     public int nueva(String name) {
-        var gameid = (int)(Math.random()*10000);//MemoryGameDAO.uuid;
+        var gameid = MemoryGameDAO.uuid;//(int)(Math.random()*10000);//MemoryGameDAO.uuid;
         var game = new ChessGame();
         game.getBoard().resetBoard();
         game.setBoard(game.getBoard());
         var gamejson = new Gson().toJson(game);
         //System.out.println(gamejson);
         MemoryGameDAO.gamedata.put(gameid, new String[]{Integer.toString(gameid), null, null, name, gamejson});
+        MemoryGameDAO.uuid++;
         return gameid;
     }
 
@@ -35,14 +36,14 @@ public class MemoryGameDAO implements GameDAO {
                     throw new ResponseException(403, "Error: already taken");
                 }
                 wantgame[1] = username;
-                MemoryGameDAO.gamedata.remove(id);
+                //MemoryGameDAO.gamedata.remove(id);
                 MemoryGameDAO.gamedata.put(id, wantgame);
             } else if("BLACK".equals(color)) {
                 if(wantgame[2] != null) {
                     throw new ResponseException(403, "Error: already taken");
                 }
                 wantgame[2] = username;
-                MemoryGameDAO.gamedata.remove(id);
+                //MemoryGameDAO.gamedata.remove(id);
                 MemoryGameDAO.gamedata.put(id, wantgame);
             }
 

@@ -118,10 +118,10 @@ public class Server {
 
     private Object creategame(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
+        var game = new Gson().fromJson(req.body(), CreateGameService.class);
         res.type("application/json");
         res.status(200);
         try {
-            var game = new Gson().fromJson(req.body(), CreateGameService.class);
             var id = game.create(auth);
             res.status(200);
             return new Gson().toJson(Map.of("gameID", id));
@@ -136,10 +136,11 @@ public class Server {
 
     private Object joingame(Request req, Response res) throws ResponseException {
         var auth = req.headers("authorization");
+        var game = new Gson().fromJson(req.body(), JoinGameService.class);
+        System.out.println(req.body());
         res.status(200);
         res.type("application/json");
         try {
-            var game = new Gson().fromJson(req.body(), JoinGameService.class);
             game.join(auth);
             res.status(200);
             return new Gson().toJson(null);
