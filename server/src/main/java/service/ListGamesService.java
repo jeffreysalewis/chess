@@ -16,9 +16,6 @@ public class ListGamesService {
         if(MemoryAuthDAO.authorize(auth)) {
             var game = new MemoryGameDAO();
             var gamelist = game.list();
-//            if (gamelist == null) {
-//                throw new ResponseException(600, "");
-//            }
             return gamelist;
         } else {
             throw new ResponseException(401, "Error: unauthorized");

@@ -24,10 +24,6 @@ public class LoginService {
         }
         var auth = new MemoryAuthDAO();
         var am = auth.getUser(this.username);
-//        if(am == null) {
-//            throw new ResponseException(401, "Error: unauthorized");
-//        }
-        //String[] res = {this.username, am};
         return am;
     }
 

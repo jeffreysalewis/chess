@@ -55,9 +55,6 @@ public class Server {
         } catch (ResponseException r){
             res.status(r.StatusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
-//        } catch(Exception e) {
-//            res.status(400);
-//            return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
     }
 
