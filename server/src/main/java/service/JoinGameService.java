@@ -1,7 +1,7 @@
 package service;
 
-import dataaccess.MemoryAuthDAO;
-import dataaccess.MemoryGameDAO;
+import dataAccess.MemoryAuthDAO;
+import dataAccess.MemoryGameDAO;
 import exception.ResponseException;
 
 public class JoinGameService {

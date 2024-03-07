@@ -1,8 +1,7 @@
 package service;
 
-import chess.*;
-import dataaccess.MemoryAuthDAO;
-import dataaccess.MemoryGameDAO;
+import dataAccess.MemoryAuthDAO;
+import dataAccess.MemoryGameDAO;
 import exception.ResponseException;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package dataaccess;
+package dataAccess;
 
 import exception.ResponseException;
 
@@ -23,4 +23,14 @@ public class SqlGameDAO implements GameDAO{
     public Map<String, String>[] list() {
         return new Map[0];
     }
+
+    private final String[] createStatements = {
+            """
+            CREATE TABLE IF NOT EXISTS  auth (
+              `authtoken` varchar(256) NOT NULL,
+              `username` varchar(256) NOT NULL,
+              PRIMARY KEY (`username`),
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """
+    };
 }

@@ -1,5 +1,7 @@
 package dataaccessTests;
 
+import dataAccess.SqlUserDAO;
+import exception.ResponseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,12 @@ public class UserDAOTest {
     @Test
     @DisplayName("getUser() test >:D")
     public void getUserTest() {
+        var newuserdata = new SqlUserDAO();
+        try {
+            newuserdata.createUser("woahausername", "shhhpassword", "realemail@email.com");
+        } catch (ResponseException r) {
+
+        }
     }
 
     @Test

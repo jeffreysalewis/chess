@@ -1,6 +1,6 @@
 package service;
 
-import dataaccess.*;
+import dataAccess.*;
 
 public class Clear {
     public Clear() {

@@ -1,5 +1,5 @@
 package service;
-import dataaccess.*;
+import dataAccess.*;
 import exception.ResponseException;
 
 public class LogoutService {

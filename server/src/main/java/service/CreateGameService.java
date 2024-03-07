@@ -1,6 +1,6 @@
 package service;
 
-import dataaccess.*;
+import dataAccess.*;
 import exception.*;
 
 public class CreateGameService {
