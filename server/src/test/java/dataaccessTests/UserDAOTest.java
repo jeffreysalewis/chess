@@ -15,8 +15,9 @@ public class UserDAOTest {
         try {
             newuserdata.createUser("woahausername", "shhhpassword", "realemail@email.com");
         } catch (ResponseException r) {
-
+            Assertions.assertTrue(false);
         }
+        Assertions.assertTrue(true);
     }
 
     @Test
@@ -27,6 +28,16 @@ public class UserDAOTest {
     @Test
     @DisplayName("createUser() test >:D")
     public void createUserTest() {
+        var newuserdata = new SqlUserDAO();
+        try {
+            newuserdata.createUser("woahausername", "shhhpassword", "realemail@email.com");
+            newuserdata.getUser("woadausername");
+        } catch (ResponseException r) {
+            System.out.println(r.StatusCode());
+            System.out.println(r.getMessage());
+            Assertions.assertTrue(false);
+        }
+        Assertions.assertTrue(true);
     }
 
     @Test

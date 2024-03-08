@@ -10,16 +10,24 @@ public class SqlUserDAO implements UserDAO{
     }
 
     @Override
-    public Object getUser(String username) {
+    public String[] getUser(String username) throws ResponseException {
         return null;
     }
-
     @Override
-    public void createUser(String username, String password, String email) throws ResponseException{
-        try {
-            configureDatabase();
+    public void createUser (String username, String password, String email) throws ResponseException {
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("INSERT INTO user (username, password, email) VALUES(?, ?, ?)")) {
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                preparedStatement.setString(3, email);
+
+                preparedStatement.executeUpdate();
+
+            } catch (Exception e) {
+                throw new ResponseException(500, String.format("Unable to insert user in database: %s", e.getMessage()));
+            }
         } catch (Exception e) {
-            throw new ResponseException(500, String.format("Unable to configure database: %s", e.getMessage()));
+            throw new ResponseException(500, String.format("Unable to insert user in database: %s", e.getMessage()));
         }
     }
 
@@ -29,8 +37,8 @@ public class SqlUserDAO implements UserDAO{
               `username` varchar(256) NOT NULL,
               `password` varchar(256) NOT NULL,
               `email` varchar(256) NOT NULL,
-              PRIMARY KEY (`username`),
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+              PRIMARY KEY (`username`)
+            )
             """
     };
 
