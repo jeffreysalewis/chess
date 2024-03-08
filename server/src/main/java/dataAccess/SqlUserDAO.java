@@ -11,7 +11,26 @@ public class SqlUserDAO implements UserDAO{
 
     @Override
     public String[] getUser(String username) throws ResponseException {
-        return null;
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("SELECT username, password, email FROM user WHERE username=?")) {
+                preparedStatement.setString(1, username);
+                try (var rs = preparedStatement.executeQuery()) {
+                    rs.next();
+                    var us = rs.getString("username");
+                    var pd = rs.getString("password");
+                    var em = rs.getString("email");
+
+                    System.out.printf("us: %s, pd: %s, em: %s%n", us, pd, em);
+                    return new String[]{us, pd, em};
+                }  catch (Exception e) {
+                    throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                }
+            } catch (Exception e) {
+                throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+            }
+        } catch (Exception e) {
+            throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+        }
     }
     @Override
     public void createUser (String username, String password, String email) throws ResponseException {
@@ -28,6 +47,18 @@ public class SqlUserDAO implements UserDAO{
             }
         } catch (Exception e) {
             throw new ResponseException(500, String.format("Unable to insert user in database: %s", e.getMessage()));
+        }
+    }
+
+    public void clear() throws ResponseException{
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("TRUNCATE user")) {
+                preparedStatement.executeUpdate();
+            } catch(Exception e) {
+                throw new ResponseException(500, String.format("Unable to clear user in database: %s", e.getMessage()));
+            }
+        } catch(Exception r) {
+            throw new ResponseException(500, String.format("Unable to clear user in database: %s", r.getMessage()));
         }
     }
 
