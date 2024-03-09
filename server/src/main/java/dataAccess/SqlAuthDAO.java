@@ -30,13 +30,13 @@ public class SqlAuthDAO implements AuthDAO{
         } catch (Exception e) {
             throw new ResponseException(500, String.format("Unable to create authtoken: %s", e.getMessage()));
         }
-        return null;
+        return authtoken;
     }
 
     @Override
     public String[] getUser(String username) throws ResponseException{
         try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("SELECT authtoken, username FROM user WHERE username=?")) {
+            try (var preparedStatement = conn.prepareStatement("SELECT authtoken, username FROM auth WHERE username=?")) {
                 preparedStatement.setString(1, username);
                 try (var rs = preparedStatement.executeQuery()) {
                     rs.next();
@@ -56,7 +56,68 @@ public class SqlAuthDAO implements AuthDAO{
         }
     }
 
-    public void clear() throws ResponseException{
+    public static boolean authorize(String inpauth) throws ResponseException{
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("SELECT authtoken, username FROM auth WHERE authtoken=?")) {
+                preparedStatement.setString(1, inpauth);
+                try (var rs = preparedStatement.executeQuery()) {
+                    rs.next();
+                    var au = rs.getString("authtoken");
+                    var us = rs.getString("username");
+
+                    System.out.printf("au: %s, us: %s", au, us);
+                    if(!us.isBlank()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }  catch (Exception e) {
+                    throw new ResponseException(500, String.format("Unable to authorize: %s", e.getMessage()));
+                }
+            } catch (Exception e) {
+                throw new ResponseException(500, String.format("Unable to authorize: %s", e.getMessage()));
+            }
+        } catch (Exception e) {
+            throw new ResponseException(500, String.format("Unable to authorize: %s", e.getMessage()));
+        }
+    }
+
+    public static String getUserfromAuth(String auth) throws ResponseException{
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("SELECT authtoken, username FROM auth WHERE authtoken=?")) {
+                preparedStatement.setString(1, auth);
+                try (var rs = preparedStatement.executeQuery()) {
+                    rs.next();
+                    var au = rs.getString("authtoken");
+                    var us = rs.getString("username");
+
+                    System.out.printf("au: %s, us: %s", au, us);
+                    return us;
+                }  catch (Exception e) {
+                    throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                }
+            } catch (Exception e) {
+                throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+            }
+        } catch (Exception e) {
+            throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+        }
+    }
+
+    public static void deleteAuth(String auth) throws ResponseException{
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("DELETE FROM auth WHERE authtoken=?")) {
+                preparedStatement.setString(1, auth);
+                preparedStatement.executeUpdate();
+            } catch(Exception e) {
+                throw new ResponseException(500, String.format("Unable to delete auth in database: %s", e.getMessage()));
+            }
+        } catch(Exception r) {
+            throw new ResponseException(500, String.format("Unable to delte auth in database: %s", r.getMessage()));
+        }
+    }
+
+    public static void clear() throws ResponseException{
         try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement("TRUNCATE auth")) {
                 preparedStatement.executeUpdate();
@@ -73,7 +134,7 @@ public class SqlAuthDAO implements AuthDAO{
             CREATE TABLE IF NOT EXISTS  auth (
               `authtoken` varchar(256) NOT NULL,
               `username` varchar(256) NOT NULL,
-              PRIMARY KEY (`username`),
+              PRIMARY KEY (`authtoken`)
             )
             """
     };
