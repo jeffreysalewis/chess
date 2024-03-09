@@ -83,7 +83,7 @@ public class UserDAOTest {
             var newuserdata = new SqlUserDAO();
             String[] randuser = {"woahausername3", "shhhpassword3", "realemail3@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
-            newuserdata.clear();
+            SqlUserDAO.clear();
             try{
                 newuserdata.getUser(randuser[0]);
                 Assertions.fail();
@@ -104,7 +104,7 @@ public class UserDAOTest {
     public void badclearTest() {
         try {
             var newuserdata = new SqlUserDAO();
-            newuserdata.clear();
+            SqlUserDAO.clear();
             String[] randuser = {"woahausername6", "shhhpassword6", "realemail6@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
             try{

@@ -50,7 +50,7 @@ public class SqlUserDAO implements UserDAO{
         }
     }
 
-    public void clear() throws ResponseException{
+    public static void clear() throws ResponseException{
         try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement("TRUNCATE user")) {
                 preparedStatement.executeUpdate();
