@@ -11,14 +11,16 @@ public class UserDAOTest {
     @Test
     @DisplayName("createUser() test >:D")
     public void createUserTest() {
-        var newuserdata = new SqlUserDAO();
         try {
+            var newuserdata = new SqlUserDAO();
             String[] randuser = {"woahausername", "shhhpassword", "realemail@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
         } catch (ResponseException r) {
             System.out.println(r.StatusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
+        } catch (Exception e) {
+            Assertions.fail();
         }
         Assertions.assertTrue(true);
     }
@@ -26,8 +28,8 @@ public class UserDAOTest {
     @Test
     @DisplayName("bad createUser() test >:D")
     public void badcreateUserTest() {
-        var newuserdata = new SqlUserDAO();
         try {
+            var newuserdata = new SqlUserDAO();
             String[] randuser = {null, null, null};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
             Assertions.fail();
@@ -39,8 +41,8 @@ public class UserDAOTest {
     @Test
     @DisplayName("getUser() test >:D")
     public void getUserTest() {
-        var newuserdata = new SqlUserDAO();
         try {
+            var newuserdata = new SqlUserDAO();
             String[] randuser = {"woahausername2", "shhhpassword2", "realemail2@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
             var out = newuserdata.getUser(randuser[0]);
@@ -51,14 +53,16 @@ public class UserDAOTest {
             System.out.println(r.StatusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
+        } catch (Exception e) {
+            Assertions.fail();
         }
     }
 
     @Test
     @DisplayName("bad getUser() test >:D")
     public void badgetUserTest() {
-        var newuserdata = new SqlUserDAO();
         try {
+            var newuserdata = new SqlUserDAO();
             String[] randuser = {"woahausername5", "shhhpassword5", "realemail5@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
             var out = newuserdata.getUser("randuser[0]");
@@ -67,14 +71,16 @@ public class UserDAOTest {
             }
         } catch (ResponseException r) {
             Assertions.assertTrue(true);
+        } catch (Exception e) {
+            Assertions.fail();
         }
     }
 
     @Test
     @DisplayName("clear() test >:D")
     public void clearTest() {
-        var newuserdata = new SqlUserDAO();
         try {
+            var newuserdata = new SqlUserDAO();
             String[] randuser = {"woahausername3", "shhhpassword3", "realemail3@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
             newuserdata.clear();
@@ -88,14 +94,16 @@ public class UserDAOTest {
             System.out.println(r.StatusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
+        } catch (Exception e) {
+            Assertions.fail();
         }
     }
 
     @Test
     @DisplayName("bad clear() test >:D")
     public void badclearTest() {
-        var newuserdata = new SqlUserDAO();
         try {
+            var newuserdata = new SqlUserDAO();
             newuserdata.clear();
             String[] randuser = {"woahausername6", "shhhpassword6", "realemail6@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
@@ -108,6 +116,8 @@ public class UserDAOTest {
         } catch (ResponseException r) {
             System.out.println(r.StatusCode());
             System.out.println(r.getMessage());
+            Assertions.fail();
+        }catch (Exception e) {
             Assertions.fail();
         }
     }

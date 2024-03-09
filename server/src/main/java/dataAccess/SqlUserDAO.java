@@ -5,8 +5,8 @@ import exception.ResponseException;
 import java.sql.SQLException;
 
 public class SqlUserDAO implements UserDAO{
-    public SqlUserDAO () {
-
+    public SqlUserDAO () throws Exception{
+        configureDatabase();
     }
 
     @Override
