@@ -1,6 +1,8 @@
 package dataAccess;
 
+import exception.ResponseException;
+
 public interface AuthDAO {
-    public String createAuth(String username);
-    public String[] getUser(String username);
+    public String createAuth(String username) throws ResponseException;
+    public String[] getUser(String username) throws ResponseException;
 }
