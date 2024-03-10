@@ -9,8 +9,12 @@ import java.util.Map;
 import chess.*;
 
 public class SqlGameDAO implements GameDAO{
-    public SqlGameDAO() throws Exception{
-        configureDatabase();
+    public SqlGameDAO() throws ResponseException{
+        try{
+            configureDatabase();
+        } catch (Exception ex) {
+            throw new ResponseException(500, String.format("Unable to configure database: %s", ex.getMessage()));
+        }
     }
 
     @Override

@@ -6,8 +6,12 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class SqlAuthDAO implements AuthDAO{
-    public SqlAuthDAO() throws Exception{
-        configureDatabase();
+    public SqlAuthDAO() throws ResponseException{
+        try{
+            configureDatabase();
+        } catch (Exception ex) {
+            throw new ResponseException(500, String.format("Unable to configure database: %s", ex.getMessage()));
+        }
     }
 
     @Override

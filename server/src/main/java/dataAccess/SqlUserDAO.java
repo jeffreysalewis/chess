@@ -5,8 +5,12 @@ import exception.ResponseException;
 import java.sql.SQLException;
 
 public class SqlUserDAO implements UserDAO{
-    public SqlUserDAO () throws Exception{
-        configureDatabase();
+    public SqlUserDAO () throws ResponseException{
+        try{
+            configureDatabase();
+        } catch (Exception ex) {
+            throw new ResponseException(500, String.format("Unable to configure database: %s", ex.getMessage()));
+        }
     }
 
     @Override
