@@ -24,6 +24,6 @@ public class MemoryUserDAO implements UserDAO{
     }
 
     public static void clear() {
-        MemoryUserDAO.userdata.clear();// = new HashMap<>();
+        MemoryUserDAO.userdata.clear();
     }
 }

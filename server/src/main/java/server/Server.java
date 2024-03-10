@@ -7,7 +7,6 @@ import service.*;
 import java.util.*;
 
 public class Server {
-    //private MemoryUserDAO userdat = new MemoryUserDAO();
     public int run(int desiredPort) {
         Spark.port(desiredPort);
 
