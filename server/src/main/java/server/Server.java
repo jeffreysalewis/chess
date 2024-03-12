@@ -21,13 +21,6 @@ public class Server {
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
-//        try {
-//            var usql = new SqlUserDAO();
-//            var asql = new SqlAuthDAO();
-//            var gsql = new SqlGameDAO();
-//        } catch (Exception e) {
-//
-//        }
 
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", this::register);
@@ -77,14 +70,12 @@ public class Server {
         var session = new Gson().fromJson(req.body(), LoginService.class);
         res.type("application/json");
         res.status(200);
-        //res.status(401);
         try {
             var log = session.login();
             if(log != null && log.length >1) {
                 res.status(200);
                 return new Gson().toJson(Map.ofEntries(Map.entry("username", log[0]), Map.entry("authToken", log[1])));
             } else {
-                //res.status(401);
                 throw new ResponseException(401, "Error: unauthorized");
             }
         } catch (ResponseException e) {
@@ -119,10 +110,6 @@ public class Server {
             res.status(200);
             return new Gson().toJson(Map.of("games", gameslist));
         } catch(ResponseException r) {
-//            if (r.StatusCode() == 600) {
-//                res.status(600);
-//                return new Gson().toJson(Map.of("message", "Error: gameslist is null"));
-//            }
             res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
         }
@@ -140,9 +127,6 @@ public class Server {
         } catch (ResponseException r) {
             res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
-//        } catch (Exception e) {
-//            res.status(400);
-//            return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
     }
 
@@ -159,11 +143,6 @@ public class Server {
         } catch (ResponseException r) {
             res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
-            //res.status(401);
-            //return new Gson().toJson(Map.of("message", "Error: unauthorized"));
-//        } catch (Exception e) {
-//            res.status(400);
-//            return new Gson().toJson(Map.of("message", "Error: bad request"));
         }
     }
 

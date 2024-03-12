@@ -83,18 +83,6 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
 
-    private ChessGame tempGameMove(ChessMove move) {
-        ChessGame tmp = this.copy();
-        tmp.getBoard().setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
-        tmp.getBoard().setSquares(move.getStartPosition(), null);
-        return tmp;
-    }
-
-    private void tempMove(ChessMove move) {
-        this.gameboard.setSquares(move.getEndPosition(), this.gameboard.getPiece(move.getStartPosition()));
-        this.gameboard.setSquares(move.getStartPosition(), null);
-    }
-
     public void makeMove(ChessMove move) throws InvalidMoveException {
         var bwc = this.gameboard.getPiece(move.getStartPosition()).getTeamColor();
         var oldgm = this.copy();
