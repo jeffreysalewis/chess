@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import exception.ResponseException;
 
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 import chess.*;
@@ -90,10 +89,10 @@ public class SqlGameDAO implements GameDAO{
                     throw new ResponseException(400, String.format("Unable to join: %s", e.getMessage()));
                 }
             } catch (ResponseException r) {
-                throw new ResponseException(r.StatusCode(), String.format("Unable to join: %s", r.getMessage()));
+                throw new ResponseException(r.statusCode(), String.format("Unable to join: %s", r.getMessage()));
             }
         } catch(ResponseException re){
-            throw new ResponseException(re.StatusCode(), String.format("Unable to join: %s", re.getMessage()));
+            throw new ResponseException(re.statusCode(), String.format("Unable to join: %s", re.getMessage()));
         } catch (Exception e) {
             throw new ResponseException(400, String.format("Unable to create authtoken: %s", e.getMessage()));
         }

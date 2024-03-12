@@ -16,7 +16,7 @@ public class AuthDAOTest {
             var outauth = newauthdata.createAuth(randuser);
             Assertions.assertNotNull(outauth);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class AuthDAOTest {
             var outauth = newauthdata.createAuth(randuser);
             Assertions.assertNotNull(outauth);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class AuthDAOTest {
             var outp = newauthdata.getUser(randuser);
             Assertions.assertEquals(outp[0], randuser);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class AuthDAOTest {
             var outp = newauthdata.getUser(randuser);
             Assertions.assertNotEquals(outp[1], randuser);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -86,7 +86,7 @@ public class AuthDAOTest {
             var outauth = newauthdata.createAuth(randuser);
             Assertions.assertTrue(SqlAuthDAO.authorize(outauth));
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class AuthDAOTest {
                 Assertions.assertFalse(false);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class AuthDAOTest {
             var outp = SqlAuthDAO.getUserfromAuth(outauth);
             Assertions.assertEquals(outp, randuser);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -142,7 +142,7 @@ public class AuthDAOTest {
             var outp = SqlAuthDAO.getUserfromAuth(outauth);
             Assertions.assertNotEquals(outp, outauth);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -165,7 +165,7 @@ public class AuthDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -188,7 +188,7 @@ public class AuthDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -211,7 +211,7 @@ public class AuthDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
         }catch (Exception e) {
@@ -234,7 +234,7 @@ public class AuthDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
         }catch (Exception e) {

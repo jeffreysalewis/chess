@@ -16,7 +16,7 @@ public class GameDAOTest {
             var outid = newgamedata.nueva(randganame);
             Assertions.assertNotNull(outid);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class GameDAOTest {
             var outid = newgamedata.nueva(randganame);
             Assertions.assertEquals(outid, outid);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class GameDAOTest {
             var outid = newgamedata.nueva(randganame);
             newgamedata.join("BLACK", outid, "blackusnm");
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class GameDAOTest {
             var outid = newgamedata.nueva(randganame);
             newgamedata.join("WHITE", outid, "whiteusnm");
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -90,7 +90,7 @@ public class GameDAOTest {
             var glist = newgamedata.list();
             Assertions.assertTrue(glist.toString().length() > 16);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -110,7 +110,7 @@ public class GameDAOTest {
             var glist = newgamedata.list();
             Assertions.assertTrue(glist.toString().length() > 15);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -133,7 +133,7 @@ public class GameDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
         }catch (Exception e) {
@@ -156,7 +156,7 @@ public class GameDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
         }catch (Exception e) {

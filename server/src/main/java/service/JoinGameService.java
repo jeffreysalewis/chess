@@ -22,7 +22,7 @@ public class JoinGameService {
                 throw new ResponseException(401, "Error: unauthorized");
             }
         } catch (ResponseException r) {
-            throw new ResponseException(r.StatusCode(), "Error: unauthorized");
+            throw new ResponseException(r.statusCode(), "Error: unauthorized");
         }
     }
 }

@@ -15,7 +15,7 @@ public class UserDAOTest {
             String[] randuser = {"woahausername", "shhhpassword", "realemail@email.com"};
             newuserdata.createUser(randuser[0], randuser[1], randuser[2]);
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -49,7 +49,7 @@ public class UserDAOTest {
                 Assertions.assertEquals(randuser[a], out[a]);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.assertTrue(false);
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class UserDAOTest {
                 Assertions.assertTrue(true);
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class UserDAOTest {
                 Assertions.fail();
             }
         } catch (ResponseException r) {
-            System.out.println(r.StatusCode());
+            System.out.println(r.statusCode());
             System.out.println(r.getMessage());
             Assertions.fail();
         }catch (Exception e) {

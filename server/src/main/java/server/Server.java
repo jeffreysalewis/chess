@@ -52,7 +52,7 @@ public class Server {
     }
 
     private void exceptionHandler(ResponseException ex, Request req, Response res) {
-        res.status(ex.StatusCode());
+        res.status(ex.statusCode());
     }
 
     private Object register(Request req, Response res) throws ResponseException {
@@ -68,7 +68,7 @@ public class Server {
             res.status(200);
             return new Gson().toJson(Map.ofEntries(Map.entry("username", user.getusername()), Map.entry("authToken", temp)));
         } catch (ResponseException r){
-            res.status(r.StatusCode());
+            res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
         }
     }
@@ -88,7 +88,7 @@ public class Server {
                 throw new ResponseException(401, "Error: unauthorized");
             }
         } catch (ResponseException e) {
-            res.status(e.StatusCode());
+            res.status(e.statusCode());
             return new Gson().toJson(Map.of("message", e.getMessage()));
         }
     }
@@ -103,7 +103,7 @@ public class Server {
             res.status(200);
             return new Gson().toJson(null);
         } catch (ResponseException r) {
-            res.status(r.StatusCode());
+            res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
         }
     }
@@ -123,7 +123,7 @@ public class Server {
 //                res.status(600);
 //                return new Gson().toJson(Map.of("message", "Error: gameslist is null"));
 //            }
-            res.status(r.StatusCode());
+            res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
         }
     }
@@ -138,7 +138,7 @@ public class Server {
             res.status(200);
             return new Gson().toJson(Map.of("gameID", id));
         } catch (ResponseException r) {
-            res.status(r.StatusCode());
+            res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
 //        } catch (Exception e) {
 //            res.status(400);
@@ -157,7 +157,7 @@ public class Server {
             res.status(200);
             return new Gson().toJson(null);
         } catch (ResponseException r) {
-            res.status(r.StatusCode());
+            res.status(r.statusCode());
             return new Gson().toJson(Map.of("message", r.getMessage()));
             //res.status(401);
             //return new Gson().toJson(Map.of("message", "Error: unauthorized"));
