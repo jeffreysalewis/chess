@@ -1,11 +1,10 @@
-package dataaccessTests;
+package dataAccessTests;
 
 import dataAccess.SqlUserDAO;
 import exception.ResponseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import service.Clear;
 
 public class UserDAOTest {
     @Test

@@ -1,6 +1,5 @@
-package dataaccessTests;
+package dataAccessTests;
 
-import dataAccess.SqlAuthDAO;
 import dataAccess.SqlGameDAO;
 import exception.ResponseException;
 import org.junit.jupiter.api.Assertions;
