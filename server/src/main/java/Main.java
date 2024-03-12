@@ -1,4 +1,8 @@
 import chess.*;
+//import dataAccess.*;
+import dataAccess.SqlAuthDAO;
+import dataAccess.SqlGameDAO;
+import dataAccess.SqlUserDAO;
 import server.Server;
 
 public class Main {
@@ -8,11 +12,24 @@ public class Main {
             if (args.length >= 1) {
                 port = Integer.parseInt(args[0]);
             }
+            try {
+                var usql = new SqlUserDAO();
+                var asql = new SqlAuthDAO();
+                var gsql = new SqlGameDAO();
+            } catch (Exception e) {
 
+            }
             var server = new Server();
             server.run(port);
             port = server.port();
             System.out.printf("Server started on port %d%n", port);
+//            try {
+//                var usql = new SqlUserDAO();
+//                var asql = new SqlAuthDAO();
+//                var gsql = new SqlGameDAO();
+//            } catch (Exception e) {
+//
+//            }
             return;
         } catch (Throwable ex) {
             System.out.printf("Unable to start server: %s%n", ex.getMessage());

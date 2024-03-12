@@ -199,9 +199,9 @@ public class SqlGameDAO implements GameDAO{
             """
             CREATE TABLE IF NOT EXISTS  game (
               `gameID` int NOT NULL,
-              `whiteUsername` varchar(256) DEFAULT NULL,
-              `blackUsername` varchar(256) DEFAULT NULL,
-              `gameName` varchar(256) DEFAULT NULL,
+              `whiteUsername` varchar(256) NOT NULL,
+              `blackUsername` varchar(256) NOT NULL,
+              `gameName` varchar(256) NOT NULL,
               `gamejson` text NOT NULL,
               PRIMARY KEY (`gameID`)
             )

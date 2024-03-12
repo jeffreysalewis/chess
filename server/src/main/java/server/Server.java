@@ -1,5 +1,8 @@
 package server;
 import com.google.gson.Gson;
+import dataAccess.SqlAuthDAO;
+import dataAccess.SqlGameDAO;
+import dataAccess.SqlUserDAO;
 import spark.*;
 import exception.*;
 import service.*;
@@ -8,9 +11,23 @@ import java.util.*;
 
 public class Server {
     public int run(int desiredPort) {
+        try {
+            var usql = new SqlUserDAO();
+            var asql = new SqlAuthDAO();
+            var gsql = new SqlGameDAO();
+        } catch (Exception e) {
+
+        }
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
+//        try {
+//            var usql = new SqlUserDAO();
+//            var asql = new SqlAuthDAO();
+//            var gsql = new SqlGameDAO();
+//        } catch (Exception e) {
+//
+//        }
 
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", this::register);
