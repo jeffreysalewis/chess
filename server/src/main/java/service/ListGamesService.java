@@ -1,7 +1,7 @@
 package service;
 
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
+import dataAccess.SqlAuthDAO;
+import dataAccess.SqlGameDAO;
 import exception.ResponseException;
 
 import java.util.*;
@@ -12,11 +12,15 @@ public class ListGamesService {
     }
 
     public Map<String, String>[] getgames(String auth) throws ResponseException {
-        if(MemoryAuthDAO.authorize(auth)) {
-            var game = new MemoryGameDAO();
-            var gamelist = game.list();
-            return gamelist;
-        } else {
+        try {
+            if (SqlAuthDAO.authorize(auth)) {
+                var game = new SqlGameDAO();
+                var gamelist = game.list();
+                return gamelist;
+            } else {
+                throw new ResponseException(401, "Error: unauthorized");
+            }
+        } catch (ResponseException r) {
             throw new ResponseException(401, "Error: unauthorized");
         }
     }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import exception.ResponseException;
 
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 import chess.*;
@@ -25,9 +26,16 @@ public class SqlGameDAO implements GameDAO{
                 try (var preparedStatement = conn.prepareStatement("INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, gamejson) VALUES(?, ?, ?, ?, ?)")) {
                     int gamid = (int) (Math.random()*1000000);
                     preparedStatement.setInt(1, gamid);
-                    preparedStatement.setString(2, "");
-                    preparedStatement.setString(3, "");
-                    preparedStatement.setString(4, name);
+                    preparedStatement.setString(2, "valwasnull");
+                    preparedStatement.setString(3, "valwasnull");
+                    //preparedStatement.setNull(2, Types.VARCHAR);
+                    //preparedStatement.setNull(3, Types.VARCHAR);
+                    if(name != null) {
+                        preparedStatement.setString(4, name);
+                    } else {
+                        preparedStatement.setString(4, "valwasnull");
+                        //preparedStatement.setNull(4, Types.VARCHAR);
+                    }
                     var gamejson = new Gson().toJson(new ChessGame());
                     preparedStatement.setString(5, gamejson);
 
@@ -49,11 +57,19 @@ public class SqlGameDAO implements GameDAO{
         try {
             this.configureDatabase();
             try (var conn = DatabaseManager.getConnection()) {
-                String updatestr;
-                if(color == "WHITE") {
-                    updatestr = "UPDATE game SET whiteUsername=? WHERE gameID=?";
-                } else if(color == "BLACK") {
-                    updatestr = "UPDATE game SET blackUsername=? WHERE gameID=?";
+                String updatestr = "";
+                if("WHITE".equals(color)) {
+                    if(doescolorhaveplayer(color, id)) {
+                        updatestr = "UPDATE game SET whiteUsername=? WHERE gameID=?";
+                    } else {
+                        throw new ResponseException(403, "Error: forbidden");
+                    }
+                } else if("BLACK".equals(color)) {
+                    if(doescolorhaveplayer(color, id)) {
+                        updatestr = "UPDATE game SET blackUsername=? WHERE gameID=?";
+                    } else {
+                        throw new ResponseException(403, "Error: forbidden");
+                    }
                 } else {
                     try (var preparedStatement = conn.prepareStatement(" SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game WHERE gameID=?")) {
                         preparedStatement.setInt(1, id);
@@ -61,7 +77,7 @@ public class SqlGameDAO implements GameDAO{
                         rs.next();
                         var gid = rs.getInt("gameID");
                     } catch (Exception e) {
-                        throw new ResponseException(500, String.format("Unable to join: %s", e.getMessage()));
+                        throw new ResponseException(400, String.format("Unable to join: %s", e.getMessage()));
                     }
                     return;
                 }
@@ -71,13 +87,15 @@ public class SqlGameDAO implements GameDAO{
 
                     preparedStatement.executeUpdate();
                 } catch (Exception e) {
-                    throw new ResponseException(500, String.format("Unable to join: %s", e.getMessage()));
+                    throw new ResponseException(400, String.format("Unable to join: %s", e.getMessage()));
                 }
-            } catch (Exception e) {
-                throw new ResponseException(500, String.format("Unable to join: %s", e.getMessage()));
+            } catch (ResponseException r) {
+                throw new ResponseException(r.StatusCode(), String.format("Unable to join: %s", r.getMessage()));
             }
+        } catch(ResponseException re){
+            throw new ResponseException(re.StatusCode(), String.format("Unable to join: %s", re.getMessage()));
         } catch (Exception e) {
-            throw new ResponseException(500, String.format("Unable to create authtoken: %s", e.getMessage()));
+            throw new ResponseException(400, String.format("Unable to create authtoken: %s", e.getMessage()));
         }
     }
 
@@ -110,6 +128,15 @@ public class SqlGameDAO implements GameDAO{
                         var bu = rs.getString("blackUsername");
                         var na = rs.getString("gameName");
                         var gj = rs.getString("gamejson");
+                        if(wu.equals("valwasnull")) {
+                            wu = null;
+                        }
+                        if(bu.equals("valwasnull")) {
+                            bu = null;
+                        }
+                        if(na.equals("valwasnull")) {
+                            na = null;
+                        }
                         bettergamelist[len] = new HashMap<String, String>();
                         bettergamelist[len].put("gameID", id);
                         bettergamelist[len].put("whiteUsername", wu);
@@ -141,13 +168,40 @@ public class SqlGameDAO implements GameDAO{
         }
     }
 
+    private boolean doescolorhaveplayer(String color, int id) throws ResponseException{
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("SELECT whiteUsername, blackUsername FROM game WHERE gameID=?")) {
+                preparedStatement.setInt(1, id);
+                try (var rs = preparedStatement.executeQuery()) {
+                    rs.next();
+                    var wu = rs.getString("whiteUsername");
+                    var bu = rs.getString("blackUsername");
+
+                    if(wu.equals("valwasnull") && "WHITE".equals(color)) {
+                        return true;
+                    } else if(bu.equals("valwasnull") && "BLACK".equals(color)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }  catch (Exception e) {
+                    throw new ResponseException(403, String.format("Unable to authorize: %s", e.getMessage()));
+                }
+            } catch (Exception e) {
+                throw new ResponseException(403, String.format("Unable to authorize: %s", e.getMessage()));
+            }
+        } catch (Exception e) {
+            throw new ResponseException(400, String.format("Error: forbidden %s", e.getMessage()));
+        }
+    }
+
     private final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS  game (
               `gameID` int NOT NULL,
-              `whiteUsername` varchar(256) NOT NULL,
-              `blackUsername` varchar(256) NOT NULL,
-              `gameName` varchar(256) NOT NULL,
+              `whiteUsername` varchar(256) DEFAULT NULL,
+              `blackUsername` varchar(256) DEFAULT NULL,
+              `gameName` varchar(256) DEFAULT NULL,
               `gamejson` text NOT NULL,
               PRIMARY KEY (`gameID`)
             )

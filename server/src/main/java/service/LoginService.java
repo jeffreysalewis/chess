@@ -13,17 +13,19 @@ public class LoginService {
     }
 
     public String[] login () throws ResponseException {
-        if(MemoryUserDAO.userdata == null) {
+        if(SqlUserDAO.userdata == null) {
             throw new ResponseException(401, "Error: unauthorized");
         }
-        if(MemoryUserDAO.userdata.get(username) == null) {
+        if(SqlUserDAO.userdata.get(username) == null) {
             throw new ResponseException(401, "Error: unauthorized");
         }
-        if(!MemoryUserDAO.userdata.get(username)[1].equals(this.password)) {
+        if(!SqlUserDAO.userdata.get(username)[1].equals(this.password)) {
             throw new ResponseException(401, "Error: unauthorized");
         }
-        var auth = new MemoryAuthDAO();
-        var am = auth.getUser(this.username);
+        var auth = new SqlAuthDAO();
+        var a = auth.createAuth(username);
+        var am = new String[]{username, a};
+        //var am = auth.getUser(this.username);
         return am;
     }
 

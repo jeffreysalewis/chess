@@ -7,14 +7,22 @@ public class ClearTest {
     @Test
     @DisplayName("clear() test >:D")
     public void clearTest() {
-        var claro = new Clear();
-        Assertions.assertEquals(0, claro.clear());
+        try {
+            var claro = new Clear();
+            Assertions.assertEquals(0, claro.clear());
+        } catch(Exception e) {
+            Assertions.fail();
+        }
     }
 
     @Test
     @DisplayName("bad clear() test >:D")
     public void badclearTest() {
-        var claro = new Clear();
-        Assertions.assertNotEquals(-1, claro.clear());
+        try{
+            var claro = new Clear();
+            Assertions.assertNotEquals(-1, claro.clear());
+        } catch(Exception e) {
+            Assertions.fail();
+        }
     }
 }

@@ -16,10 +16,10 @@ public class RegistrationService {
         if(this.username == null || this.password == null || this.email == null) {
             throw new ResponseException(400, "Error: bad request");
         }
-        var user = new MemoryUserDAO();
+        var user = new SqlUserDAO();
         if(user.getUser(this.username) == null) {
             user.createUser(this.username, this.password, this.email);
-            var auth = new MemoryAuthDAO();
+            var auth = new SqlAuthDAO();
             var temp = auth.createAuth(this.username);
             return temp;
         } else {

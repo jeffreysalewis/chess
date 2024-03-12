@@ -69,7 +69,7 @@ public class SqlAuthDAO implements AuthDAO{
                     var au = rs.getString("authtoken");
                     var us = rs.getString("username");
 
-                    System.out.printf("au: %s, us: %s", au, us);
+                    //System.out.printf("au: %s, us: %s", au, us);
                     if(!us.isBlank()) {
                         return true;
                     } else {
@@ -82,7 +82,7 @@ public class SqlAuthDAO implements AuthDAO{
                 throw new ResponseException(500, String.format("Unable to authorize: %s", e.getMessage()));
             }
         } catch (Exception e) {
-            throw new ResponseException(500, String.format("Unable to authorize: %s", e.getMessage()));
+            throw new ResponseException(401, String.format("Unable to authorize: %s", e.getMessage()));
         }
     }
 

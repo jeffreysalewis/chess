@@ -8,9 +8,13 @@ public class LogoutService {
     }
 
     public void logout(String auth) throws ResponseException {
-        if(MemoryAuthDAO.authorize(auth)) {
-            MemoryAuthDAO.deleteAuth(auth);
-        } else {
+        try {
+            if (SqlAuthDAO.authorize(auth)) {
+                SqlAuthDAO.deleteAuth(auth);
+            } else {
+                throw new ResponseException(401, "Error: unauthorized");
+            }
+        } catch (ResponseException r) {
             throw new ResponseException(401, "Error: unauthorized");
         }
     }

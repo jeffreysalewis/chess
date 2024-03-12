@@ -3,14 +3,17 @@ package dataAccess;
 import exception.ResponseException;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class SqlUserDAO implements UserDAO{
+    public static HashMap<String, String[]> userdata = new HashMap<>();
     public SqlUserDAO () throws ResponseException{
         try{
             configureDatabase();
         } catch (Exception ex) {
             throw new ResponseException(500, String.format("Unable to configure database: %s", ex.getMessage()));
         }
+        updateuserdata();
     }
 
     @Override
@@ -25,9 +28,11 @@ public class SqlUserDAO implements UserDAO{
                     var em = rs.getString("email");
 
                     System.out.printf("us: %s, pd: %s, em: %s%n", us, pd, em);
+                    updateuserdata();
                     return new String[]{us, pd, em};
                 }  catch (Exception e) {
-                    throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                    return null;
+                    //throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
                 }
             } catch (Exception e) {
                 throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
@@ -52,17 +57,41 @@ public class SqlUserDAO implements UserDAO{
         } catch (Exception e) {
             throw new ResponseException(500, String.format("Unable to insert user in database: %s", e.getMessage()));
         }
+        updateuserdata();
     }
 
     public static void clear() throws ResponseException{
         try (var conn = DatabaseManager.getConnection()) {
             try (var preparedStatement = conn.prepareStatement("TRUNCATE user")) {
                 preparedStatement.executeUpdate();
+                SqlUserDAO.userdata.clear();
             } catch(Exception e) {
                 throw new ResponseException(500, String.format("Unable to clear user in database: %s", e.getMessage()));
             }
         } catch(Exception r) {
             throw new ResponseException(500, String.format("Unable to clear user in database: %s", r.getMessage()));
+        }
+    }
+
+    private void updateuserdata() {
+        try (var conn = DatabaseManager.getConnection()) {
+            try (var preparedStatement = conn.prepareStatement("SELECT username, password, email FROM user")) {
+                try (var rs = preparedStatement.executeQuery()) {
+                    while(rs.next()) {
+                        var us = rs.getString("username");
+                        var ps = rs.getString("password");
+                        var em = rs.getString("email");
+                        String[] ac = {us, ps, em};
+                        SqlUserDAO.userdata.put(us, ac);
+                    }
+                }  catch (Exception e) {
+                    throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                }
+            } catch (Exception e) {
+                throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
