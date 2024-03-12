@@ -1,6 +1,5 @@
-package servicesTests;
+package serviceTests;
 
-import exception.ResponseException;
 import org.junit.jupiter.api.*;
 import service.RegistrationService;
 

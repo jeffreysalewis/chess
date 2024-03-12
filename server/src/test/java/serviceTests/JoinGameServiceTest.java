@@ -1,5 +1,4 @@
-package servicesTests;
-import exception.ResponseException;
+package serviceTests;
 import org.junit.jupiter.api.*;
 import service.*;
 

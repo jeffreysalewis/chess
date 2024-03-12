@@ -1,6 +1,5 @@
-package servicesTests;
+package serviceTests;
 import org.junit.jupiter.api.*;
-import service.Clear;
 import service.*;
 
 import java.util.Map;
