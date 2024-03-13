@@ -52,8 +52,7 @@ public class Pawn extends ChessMove {
                         } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                     }
                 }
-            } else {
-                capture.setColumn(capture.getColumn() - uno);
+            } else {capture.setColumn(capture.getColumn() - uno);
                 if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
                         if(temp.getRow() == uno || temp.getRow() == ocho) {
@@ -63,9 +62,7 @@ public class Pawn extends ChessMove {
                             mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.QUEEN));
                         } else {mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));}
                     }
-                }
-                capture = temp.copy();capture.setColumn(capture.getColumn() + 1);
-                if (board.getPiece(capture) != null) {
+                }capture = temp.copy();capture.setColumn(capture.getColumn() + 1);if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
                         if (color != board.getPiece(capture).getTeamColor()) {
                             if(temp.getRow() == 1 || temp.getRow() == 8) {
@@ -107,6 +104,5 @@ public class Pawn extends ChessMove {
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
                     } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                 }
-            }
-        }return mv;}
+            }}return mv;}
 }

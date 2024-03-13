@@ -43,10 +43,7 @@ public class Rook extends ChessMove {
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 muev.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
-            } else {
-                bien = false;
-            }
-        }
+            } else {bien = false;}}
         bien = true;
         temp = myPosition.copy();
         while(bien) {
@@ -59,21 +56,18 @@ public class Rook extends ChessMove {
                 muev.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 muev.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
+                bien = false;} else {
                 bien = false;
             }
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
             temp.setColumn(temp.getColumn()-o);
             if(temp.getColumn() < o) {
                 bien = false;
                 break;
             }
-            if(board.getPiece(temp) == null) {
-                muev.add(new ChessMove(myPosition, temp.copy(), null));
+            if(board.getPiece(temp) == null) {muev.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 muev.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
