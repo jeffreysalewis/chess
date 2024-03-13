@@ -21,24 +21,24 @@ public class SqlGameDAO implements GameDAO{
     public int nueva(String name) throws ResponseException{
         try {
             this.configureDatabase();
-            try (var conn = DatabaseManager.getConnection()) {
-                try (var preparedStatement = conn.prepareStatement("INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, gamejson) VALUES(?, ?, ?, ?, ?)")) {
+            try (var aeccion = DatabaseManager.getConnection()) {
+                try (var sp = aeccion.prepareStatement("INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, gamejson) VALUES(?, ?, ?, ?, ?)")) {
                     int gamid = (int) (Math.random()*1000000);
-                    preparedStatement.setInt(1, gamid);
-                    preparedStatement.setString(2, "valwasnull");
-                    preparedStatement.setString(3, "valwasnull");
-                    //preparedStatement.setNull(2, Types.VARCHAR);
-                    //preparedStatement.setNull(3, Types.VARCHAR);
+                    sp.setInt(1, gamid);
+                    sp.setString(2, "valwasnull");
+                    sp.setString(3, "valwasnull");
+                    //sp.setNull(2, Types.VARCHAR);
+                    //sp.setNull(3, Types.VARCHAR);
                     if(name != null) {
-                        preparedStatement.setString(4, name);
+                        sp.setString(4, name);
                     } else {
-                        preparedStatement.setString(4, "valwasnull");
-                        //preparedStatement.setNull(4, Types.VARCHAR);
+                        sp.setString(4, "valwasnull");
+                        //sp.setNull(4, Types.VARCHAR);
                     }
                     var gamejson = new Gson().toJson(new ChessGame());
-                    preparedStatement.setString(5, gamejson);
+                    sp.setString(5, gamejson);
 
-                    preparedStatement.executeUpdate();
+                    sp.executeUpdate();
                     return gamid;
                 } catch (Exception e) {
                     throw new ResponseException(500, String.format("Unable to create authtoken: %s", e.getMessage()));
@@ -55,7 +55,7 @@ public class SqlGameDAO implements GameDAO{
     public void join(String color, int id, String username) throws ResponseException {
         try {
             this.configureDatabase();
-            try (var conn = DatabaseManager.getConnection()) {
+            try (var aeccion = DatabaseManager.getConnection()) {
                 String updatestr = "";
                 if("WHITE".equals(color)) {
                     if(doescolorhaveplayer(color, id)) {
@@ -70,9 +70,9 @@ public class SqlGameDAO implements GameDAO{
                         throw new ResponseException(403, "Error: forbidden");
                     }
                 } else {
-                    try (var preparedStatement = conn.prepareStatement(" SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game WHERE gameID=?")) {
-                        preparedStatement.setInt(1, id);
-                        var rs = preparedStatement.executeQuery();
+                    try (var sp = aeccion.prepareStatement(" SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game WHERE gameID=?")) {
+                        sp.setInt(1, id);
+                        var rs = sp.executeQuery();
                         rs.next();
                         var gid = rs.getInt("gameID");
                     } catch (Exception e) {
@@ -80,11 +80,11 @@ public class SqlGameDAO implements GameDAO{
                     }
                     return;
                 }
-                try (var preparedStatement = conn.prepareStatement(updatestr)) {
-                    preparedStatement.setString(1, username);
-                    preparedStatement.setInt(2, id);
+                try (var sp = aeccion.prepareStatement(updatestr)) {
+                    sp.setString(1, username);
+                    sp.setInt(2, id);
 
-                    preparedStatement.executeUpdate();
+                    sp.executeUpdate();
                 } catch (Exception e) {
                     throw new ResponseException(400, String.format("Unable to join: %s", e.getMessage()));
                 }
@@ -101,9 +101,9 @@ public class SqlGameDAO implements GameDAO{
     @Override
     public Map<String, String>[] list() throws ResponseException{
         int len = 0;
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game")) {
-                try (var rs = preparedStatement.executeQuery()) {
+        try (var aeccion = DatabaseManager.getConnection()) {
+            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game")) {
+                try (var rs = sp.executeQuery()) {
                     while(rs.next()) {
                         len++;
                     }
@@ -118,9 +118,9 @@ public class SqlGameDAO implements GameDAO{
         }
         var bettergamelist = new HashMap[len];
         len = 0;
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game")) {
-                try (var rs = preparedStatement.executeQuery()) {
+        try (var aeccion = DatabaseManager.getConnection()) {
+            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game")) {
+                try (var rs = sp.executeQuery()) {
                     while(rs.next()) {
                         var id = rs.getInt("gameID");
                         var wu = rs.getString("whiteUsername");
@@ -156,9 +156,9 @@ public class SqlGameDAO implements GameDAO{
     }
 
     public static void clear() throws ResponseException{
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("TRUNCATE game")) {
-                preparedStatement.executeUpdate();
+        try (var aeccion = DatabaseManager.getConnection()) {
+            try (var sp = aeccion.prepareStatement("TRUNCATE game")) {
+                sp.executeUpdate();
             } catch(Exception e) {
                 throw new ResponseException(500, String.format("Unable to clear auth in database: %s", e.getMessage()));
             }
@@ -168,10 +168,10 @@ public class SqlGameDAO implements GameDAO{
     }
 
     private boolean doescolorhaveplayer(String color, int id) throws ResponseException{
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("SELECT whiteUsername, blackUsername FROM game WHERE gameID=?")) {
-                preparedStatement.setInt(1, id);
-                try (var rs = preparedStatement.executeQuery()) {
+        try (var aeccion = DatabaseManager.getConnection()) {
+            try (var sp = aeccion.prepareStatement("SELECT whiteUsername, blackUsername FROM game WHERE gameID=?")) {
+                sp.setInt(1, id);
+                try (var rs = sp.executeQuery()) {
                     rs.next();
                     var wu = rs.getString("whiteUsername");
                     var bu = rs.getString("blackUsername");
@@ -209,14 +209,15 @@ public class SqlGameDAO implements GameDAO{
 
     private void configureDatabase() throws Exception {
         DatabaseManager.createDatabase();
-        try (var conn = DatabaseManager.getConnection()) {
+        try (var aeccion = DatabaseManager.getConnection()) {
             for (var statement : createStatements) {
-                try (var preparedStatement = conn.prepareStatement(statement)) {
-                    preparedStatement.executeUpdate();
+                try (var sp = aeccion.prepareStatement(statement)) {
+                    var hdd = "hdd";
+                    sp.executeUpdate();
                 }
             }
         } catch (SQLException ex) {
-            throw new ResponseException(500, String.format("Unable to configure database: %s", ex.getMessage()));
+            throw new ResponseException(502, String.format("Error: no puedo a configure database: %s", ex.getMessage()));
         }
     }
 }

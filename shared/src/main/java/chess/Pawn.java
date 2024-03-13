@@ -11,11 +11,7 @@ public class Pawn extends ChessMove {
     public Collection<ChessMove> move(ChessBoard board, ChessPosition myPosition) {
         ChessGame.TeamColor color = board.getPiece(myPosition).getTeamColor();
         int updown = 0;
-        if(color == ChessGame.TeamColor.WHITE) {
-            updown = 1;
-        } else {
-            updown = -1;
-        }
+        if(color == ChessGame.TeamColor.WHITE) {updown = 1;} else {updown = -1;}
         HashSet<ChessMove> mv = new HashSet<ChessMove>();
         ChessPosition temp = myPosition.copy();
         temp.setRow(temp.getRow() + updown);
@@ -26,9 +22,7 @@ public class Pawn extends ChessMove {
                     mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
                     mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
                     mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
-                } else {
-                    mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
-                }
+                } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
             }
             ChessPosition capture = temp.copy();
             if (capture.getColumn() == 8) {
@@ -40,9 +34,7 @@ public class Pawn extends ChessMove {
                             mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
                             mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
                             mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
-                        } else {
-                            mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
-                        }
+                        } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                     }
                 }
             } else if (capture.getColumn() == 1) {
@@ -54,9 +46,7 @@ public class Pawn extends ChessMove {
                             mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
                             mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
                             mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
-                        } else {
-                            mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
-                        }
+                        } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                     }
                 }
             } else {
@@ -68,13 +58,10 @@ public class Pawn extends ChessMove {
                             mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.KNIGHT));
                             mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.ROOK));
                             mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.QUEEN));
-                        } else {
-                            mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));
-                        }
+                        } else {mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));}
                     }
                 }
-                capture = temp.copy();
-                capture.setColumn(capture.getColumn() + 1);
+                capture = temp.copy();capture.setColumn(capture.getColumn() + 1);
                 if (board.getPiece(capture) != null) {
                     if (color != board.getPiece(capture).getTeamColor()) {
                         if (color != board.getPiece(capture).getTeamColor()) {
@@ -83,16 +70,13 @@ public class Pawn extends ChessMove {
                                 mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.KNIGHT));
                                 mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.ROOK));
                                 mv.add(new ChessMove(myPosition, capture.copy(), ChessPiece.PieceType.QUEEN));
-                            } else {
-                                mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));
-                            }
+                            } else {mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));}
                         }
                     }
                 }
             }
         }
-        temp = myPosition.copy();
-        ChessPosition block = myPosition.copy();
+        temp = myPosition.copy();ChessPosition block = myPosition.copy();
         if(updown > 0 && temp.getRow() == 2) {
             temp.setRow(temp.getRow() + updown * 2);
             block.setRow(block.getRow() + updown);
@@ -103,14 +87,11 @@ public class Pawn extends ChessMove {
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
-                    } else {
-                        mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
-                    }
+                    } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                 }
             }
         }
-        temp = myPosition.copy();
-        block = myPosition.copy();
+        temp = myPosition.copy();block = myPosition.copy();
         if(updown < 0 && temp.getRow() == 7) {
             temp.setRow(temp.getRow() + updown * 2);
             block.setRow(block.getRow() + updown);
@@ -121,13 +102,8 @@ public class Pawn extends ChessMove {
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
-                    } else {
-                        mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));
-                    }
+                    } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                 }
             }
-        }
-        return mv;
-    }
-
+        }return mv;}
 }

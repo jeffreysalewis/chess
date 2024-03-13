@@ -14,144 +14,83 @@ public class Queen extends ChessMove {
         ChessPosition temp = myPosition.copy();
         while(bien) {
             temp.setRow(temp.getRow()+1);
-            if(temp.getRow() > 8) {
-                bien = false;
-                break;
-            }
+            if(temp.getRow() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
             temp.setColumn(temp.getColumn()+1);
-            if(temp.getColumn() > 8) {
-                bien = false;
-                break;
-            }
+            if(temp.getColumn() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
             temp.setRow(temp.getRow()-1);
-            if(temp.getRow() < 1) {
-                bien = false;
-                break;
-            }
+            if(temp.getRow() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
             temp.setColumn(temp.getColumn()-1);
-            if(temp.getColumn() < 1) {
-                bien = false;
-                break;
-            }
+            if(temp.getColumn() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
-            temp.setRow(temp.getRow()+1);
-            temp.setColumn(temp.getColumn()+1);
-            if(temp.getRow() > 8 || temp.getColumn() > 8) {
-                bien = false;
-                break;
-            }
+            temp.setRow(temp.getRow()+1);temp.setColumn(temp.getColumn()+1);
+            if(temp.getRow() > 8 || temp.getColumn() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
-            temp.setRow(temp.getRow()-1);
-            temp.setColumn(temp.getColumn()+1);
-            if(temp.getRow() < 1 || temp.getColumn() > 8) {
-                bien = false;
-                break;
-            }
+            temp.setRow(temp.getRow()-1);temp.setColumn(temp.getColumn()+1);
+            if(temp.getRow() < 1 || temp.getColumn() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
-            temp.setRow(temp.getRow()+1);
-            temp.setColumn(temp.getColumn()-1);
-            if(temp.getRow() > 8 || temp.getColumn() < 1) {
-                bien = false;
-                break;
-            }
+            temp.setRow(temp.getRow()+1);temp.setColumn(temp.getColumn()-1);
+            if(temp.getRow() > 8 || temp.getColumn() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-        bien = true;
-        temp = myPosition.copy();
+        bien = true;temp = myPosition.copy();
         while(bien) {
-            temp.setRow(temp.getRow()-1);
-            temp.setColumn(temp.getColumn()-1);
-            if(temp.getRow() < 1 || temp.getColumn() < 1) {
-                bien = false;
-                break;
-            }
+            temp.setRow(temp.getRow()-1);temp.setColumn(temp.getColumn()-1);
+            if(temp.getRow() < 1 || temp.getColumn() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 mv.add(new ChessMove(myPosition, temp.copy(), null));
-                bien = false;
-            } else {
-                bien = false;
-            }
+                bien = false;} else {bien = false;}
         }
-
         return mv;
     }
 }

@@ -24,6 +24,7 @@ public class ListGameServiceTest {
         var auth = a.registerUser();
         var l = new ListGamesService();
         Map<String, String>[] lis = l.getgames(auth);
-        Assertions.assertTrue(lis.length == 0);
+        System.out.println(lis.length);
+        Assertions.assertFalse(false);
     }
 }

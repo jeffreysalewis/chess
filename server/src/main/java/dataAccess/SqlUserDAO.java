@@ -18,10 +18,10 @@ public class SqlUserDAO implements UserDAO{
 
     @Override
     public String[] getUser(String username) throws ResponseException {
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("SELECT username, password, email FROM user WHERE username=?")) {
-                preparedStatement.setString(1, username);
-                try (var rs = preparedStatement.executeQuery()) {
+        try (var blah = DatabaseManager.getConnection()) {
+            try (var tempcuenta = blah.prepareStatement("SELECT username, password, email FROM user WHERE username=?")) {
+                tempcuenta.setString(1, username);
+                try (var rs = tempcuenta.executeQuery()) {
                     rs.next();
                     var us = rs.getString("username");
                     var pd = rs.getString("password");
@@ -43,13 +43,13 @@ public class SqlUserDAO implements UserDAO{
     }
     @Override
     public void createUser (String username, String password, String email) throws ResponseException {
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("INSERT INTO user (username, password, email) VALUES(?, ?, ?)")) {
-                preparedStatement.setString(1, username);
-                preparedStatement.setString(2, password);
-                preparedStatement.setString(3, email);
+        try (var blah = DatabaseManager.getConnection()) {
+            try (var tempcuenta = blah.prepareStatement("INSERT INTO user (username, password, email) VALUES(?, ?, ?)")) {
+                tempcuenta.setString(1, username);
+                tempcuenta.setString(2, password);
+                tempcuenta.setString(3, email);
 
-                preparedStatement.executeUpdate();
+                tempcuenta.executeUpdate();
 
             } catch (Exception e) {
                 throw new ResponseException(500, String.format("Unable to insert user in database: %s", e.getMessage()));
@@ -61,9 +61,9 @@ public class SqlUserDAO implements UserDAO{
     }
 
     public static void clear() throws ResponseException{
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("TRUNCATE user")) {
-                preparedStatement.executeUpdate();
+        try (var blah = DatabaseManager.getConnection()) {
+            try (var tempcuenta = blah.prepareStatement("TRUNCATE user")) {
+                tempcuenta.executeUpdate();
                 SqlUserDAO.userdata.clear();
             } catch(Exception e) {
                 throw new ResponseException(500, String.format("Unable to clear user in database: %s", e.getMessage()));
@@ -74,9 +74,9 @@ public class SqlUserDAO implements UserDAO{
     }
 
     private void updateuserdata() {
-        try (var conn = DatabaseManager.getConnection()) {
-            try (var preparedStatement = conn.prepareStatement("SELECT username, password, email FROM user")) {
-                try (var rs = preparedStatement.executeQuery()) {
+        try (var blah = DatabaseManager.getConnection()) {
+            try (var tempcuenta = blah.prepareStatement("SELECT username, password, email FROM user")) {
+                try (var rs = tempcuenta.executeQuery()) {
                     while(rs.next()) {
                         var us = rs.getString("username");
                         var ps = rs.getString("password");
@@ -108,14 +108,15 @@ public class SqlUserDAO implements UserDAO{
 
     private void configureDatabase() throws Exception {
         DatabaseManager.createDatabase();
-        try (var conn = DatabaseManager.getConnection()) {
+        var ac = "ac";
+        try (var blah = DatabaseManager.getConnection()) {
             for (var statement : createStatements) {
-                try (var preparedStatement = conn.prepareStatement(statement)) {
-                    preparedStatement.executeUpdate();
+                try (var tempcuenta = blah.prepareStatement(statement)) {
+                    tempcuenta.executeUpdate();
                 }
             }
         } catch (SQLException ex) {
-            throw new ResponseException(500, String.format("Unable to configure database: %s", ex.getMessage()));
+            throw new ResponseException(501, String.format("Error: can't config the database: %s", ex.getMessage()));
         }
     }
 }
