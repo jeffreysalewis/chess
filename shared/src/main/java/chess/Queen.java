@@ -9,16 +9,16 @@ public class Queen extends ChessMove {
     }
 
     public Collection<ChessMove> move(ChessBoard board, ChessPosition myPosition) {
-        HashSet<ChessMove> mv = new HashSet<ChessMove>();
+        HashSet<ChessMove> mov = new HashSet<ChessMove>();
         boolean bien = true;
         ChessPosition temp = myPosition.copy();
         while(bien) {
             temp.setRow(temp.getRow()+1);
             if(temp.getRow() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -26,9 +26,9 @@ public class Queen extends ChessMove {
             temp.setColumn(temp.getColumn()+1);
             if(temp.getColumn() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -36,9 +36,9 @@ public class Queen extends ChessMove {
             temp.setRow(temp.getRow()-1);
             if(temp.getRow() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -46,9 +46,9 @@ public class Queen extends ChessMove {
             temp.setColumn(temp.getColumn()-1);
             if(temp.getColumn() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -56,9 +56,9 @@ public class Queen extends ChessMove {
             temp.setRow(temp.getRow()+1);temp.setColumn(temp.getColumn()+1);
             if(temp.getRow() > 8 || temp.getColumn() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -66,9 +66,9 @@ public class Queen extends ChessMove {
             temp.setRow(temp.getRow()-1);temp.setColumn(temp.getColumn()+1);
             if(temp.getRow() < 1 || temp.getColumn() > 8) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -76,9 +76,9 @@ public class Queen extends ChessMove {
             temp.setRow(temp.getRow()+1);temp.setColumn(temp.getColumn()-1);
             if(temp.getRow() > 8 || temp.getColumn() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
         bien = true;temp = myPosition.copy();
@@ -86,11 +86,11 @@ public class Queen extends ChessMove {
             temp.setRow(temp.getRow()-1);temp.setColumn(temp.getColumn()-1);
             if(temp.getRow() < 1 || temp.getColumn() < 1) {bien = false;break;}
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                mov.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;} else {bien = false;}
         }
-        return mv;
+        return mov;
     }
 }

@@ -10,19 +10,21 @@ public class Rook extends ChessMove {
     }
 
     public Collection<ChessMove> move(ChessBoard board, ChessPosition myPosition) {
-        HashSet<ChessMove> mv = new HashSet<ChessMove>();
+        HashSet<ChessMove> muev = new HashSet<ChessMove>();
         boolean bien = true;
         ChessPosition temp = myPosition.copy();
+        var o = 1;
+        var e = 8;
         while(bien) {
             temp.setRow(temp.getRow()+1);
-            if(temp.getRow() > 8) {
+            if(temp.getRow() > e) {
                 bien = false;
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
@@ -32,14 +34,14 @@ public class Rook extends ChessMove {
         temp = myPosition.copy();
         while(bien) {
             temp.setColumn(temp.getColumn()+1);
-            if(temp.getColumn() > 8) {
+            if(temp.getColumn() > e) {
                 bien = false;
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
@@ -54,9 +56,9 @@ public class Rook extends ChessMove {
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
@@ -65,20 +67,20 @@ public class Rook extends ChessMove {
         bien = true;
         temp = myPosition.copy();
         while(bien) {
-            temp.setColumn(temp.getColumn()-1);
-            if(temp.getColumn() < 1) {
+            temp.setColumn(temp.getColumn()-o);
+            if(temp.getColumn() < o) {
                 bien = false;
                 break;
             }
             if(board.getPiece(temp) == null) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                mv.add(new ChessMove(myPosition, temp.copy(), null));
+                muev.add(new ChessMove(myPosition, temp.copy(), null));
                 bien = false;
             } else {
                 bien = false;
             }
         }
-        return mv;
+        return muev;
     }
 }
