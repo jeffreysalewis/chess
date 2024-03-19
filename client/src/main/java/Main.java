@@ -1,4 +1,6 @@
 import chess.*;
+import ui.ServerFacade;
+
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -8,6 +10,7 @@ public class Main {
         var abierta = true;
         var stage = "pre";
         System.out.println("Type help for list of commands\n ");
+        ServerFacade servador = new ServerFacade();
         while (abierta) {
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
@@ -38,6 +41,11 @@ public class Main {
                         us = cmds[1];
                         pw = cmds[2];
                         em = cmds[3];
+                        try {
+                            servador.register(us, pw, em);
+                        } catch (Exception e) {
+                            System.out.println("Error: could not register: " + e.getMessage());
+                        }
                         break;
                 }
             }
@@ -63,7 +71,9 @@ public class Main {
                     case "join":
                         stage = "play";
                         id = cmds[1];
-                        bw = cmds[2];
+                        if(cmds.length>2) {
+                            bw = cmds[2];
+                        }
                         break;
                     case "observe":
                         stage = "play";
