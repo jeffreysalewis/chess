@@ -85,6 +85,14 @@ public class ChessClient {
                             System.out.println("Error: could not create game: " + e.getMessage());
                         }
                         break;
+                    case "list":
+                        try {
+                            var lista = servador.listgames(authtoken);
+                            System.out.println(lista.toString());
+                        } catch (Exception e) {
+                            System.out.println("Error: could not list games: " + e.getMessage());
+                        }
+                        break;
                     case "join":
                         try {
                             id = Integer.getInteger(cmds[1]);
