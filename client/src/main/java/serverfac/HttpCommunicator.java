@@ -7,7 +7,7 @@ import java.net.URI;
 import java.util.Map;
 
 public class HttpCommunicator {
-    public void run(String path, String reqmeth, String json) throws Exception{
+    public void run(String path, String reqmeth, String header, String json) throws Exception{
         // Specify the desired endpoint
         URI uri = new URI("http://localhost:8080/"+path);
         HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -15,6 +15,10 @@ public class HttpCommunicator {
 
         // Make the request
         http.connect();
+
+        if(header != null) {
+            http.addRequestProperty("authorization", header);
+        }
 
         // Specify that we are going to write out data
         if(json != null) {
