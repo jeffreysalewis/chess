@@ -8,8 +8,9 @@ public class ChessClient {
     public static void main(String[] args) {
         var abierta = true;
         var stage = "pre";
-        System.out.println("Type help for list of commands\n ");
+        System.out.println("Type \"help\" for list of commands\n ");
         ServerFacade servador = new ServerFacade();
+        var authtoken = "";
         while (abierta) {
             Scanner scanner = new Scanner(System.in);
             String line = scanner.nextLine();
@@ -31,24 +32,34 @@ public class ChessClient {
                         abierta = false;
                         break;
                     case "login":
-                        stage = "post";
-                        us = cmds[1];
-                        pw = cmds[2];
+                        try {
+                            us = cmds[1];
+                            pw = cmds[2];
+                            authtoken = servador.login(us, pw);
+                            System.out.println("Successfully logged in!");
+                            System.out.println("Type \"help\" for list of new commands");
+                            stage = "post";
+                        } catch (Exception e) {
+                            System.out.println("Error: could not login: " + e.getMessage());
+                        }
                         break;
                     case "register":
-                        stage = "post";
-                        us = cmds[1];
-                        pw = cmds[2];
-                        em = cmds[3];
                         try {
-                            servador.register(us, pw, em);
+                            us = cmds[1];
+                            pw = cmds[2];
+                            em = cmds[3];
+                            authtoken = servador.register(us, pw, em);
+                            //authtoken = servador.login(us, pw);
+                            System.out.println("Registration complete!");
+                            System.out.println("Type \"help\" for list of new commands");
+                            stage = "post";
                         } catch (Exception e) {
                             System.out.println("Error: could not register: " + e.getMessage());
                         }
                         break;
                 }
             }
-            var id = "";
+            int id;
             var bw = "";
             if(stage.equals("post")) {
                 switch (cmds[0].toLowerCase()) {
@@ -65,20 +76,42 @@ public class ChessClient {
                         abierta = false;
                         break;
                     case "create":
-                        id = cmds[1];
+                        try {
+                            var name = cmds[1];
+                            id = servador.creategame(authtoken, name);
+                            System.out.println("Game successfully created!");
+                            System.out.println("gameID: " + Integer.toString(id));
+                        } catch (Exception e) {
+                            System.out.println("Error: could not create game: " + e.getMessage());
+                        }
                         break;
                     case "join":
-                        stage = "play";
-                        id = cmds[1];
-                        if(cmds.length>2) {
-                            bw = cmds[2];
+                        try {
+                            id = Integer.getInteger(cmds[1]);
+                            if (cmds.length > 2) {
+                                bw = cmds[2];
+                            }
+                            servador.joingame(authtoken, bw, id);
+                            stage = "play";
+                        } catch (Exception e) {
+                            System.out.println("Error: could not join game: " + e.getMessage());
                         }
                         break;
                     case "observe":
-                        stage = "play";
-                        id = cmds[1];
+                        try {
+                            id = Integer.getInteger(cmds[1]);
+                            servador.joingame(authtoken, "", id);
+                            stage = "play";
+                        } catch (Exception e) {
+                            System.out.println("Error: could not observe game: " + e.getMessage());
+                        }
                         break;
                     case "logout":
+                        try {
+                            servador.logout(authtoken);
+                        } catch (Exception e) {
+                            System.out.println("Error: could not logout: " + e.getMessage());
+                        }
                         stage = "pre";
                         break;
                 }
