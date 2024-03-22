@@ -43,10 +43,10 @@ public class GameplayUI {
         out.print(BLACK_BISHOP);
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_BLACK);
-        out.print(BLACK_KING);
+        out.print(BLACK_QUEEN);
         out.print(SET_BG_COLOR_BLUE);
         out.print(SET_TEXT_COLOR_BLACK);
-        out.print(BLACK_QUEEN);
+        out.print(BLACK_KING);
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_BLACK);
         out.print(BLACK_BISHOP);
@@ -56,7 +56,9 @@ public class GameplayUI {
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_BLACK);
         out.print(BLACK_ROOK);
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 8 ");
         for (int a=0; a<8; a++) {
             if (a % 2 == 1) {
                 out.print(SET_BG_COLOR_BLUE);
@@ -68,7 +70,9 @@ public class GameplayUI {
                 out.print(BLACK_PAWN);
             }
         }
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 7 ");
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((i + j) % 2 == 1) {
@@ -79,7 +83,10 @@ public class GameplayUI {
                     out.print(BLACK_PAWN);
                 }
             }
-            out.println(SET_BG_COLOR_GREEN);
+            out.print(SET_BG_COLOR_GREEN);
+            out.print(SET_TEXT_COLOR_BLACK);
+            out.print(" ");
+            out.println(6-i);
         }
         for (int a=0; a<8; a++) {
             if (a % 2 == 0) {
@@ -92,7 +99,9 @@ public class GameplayUI {
                 out.print(WHITE_PAWN);
             }
         }
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 2 ");
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_ROOK);
@@ -103,11 +112,11 @@ public class GameplayUI {
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_BISHOP);
         out.print(SET_BG_COLOR_BLUE);
-        out.print(SET_TEXT_COLOR_WHITE);
-        out.print(WHITE_KING);
-        out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_QUEEN);
+        out.print(SET_BG_COLOR_RED);
+        out.print(SET_TEXT_COLOR_WHITE);
+        out.print(WHITE_KING);
         out.print(SET_BG_COLOR_BLUE);
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_BISHOP);
@@ -117,7 +126,11 @@ public class GameplayUI {
         out.print(SET_BG_COLOR_BLUE);
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_ROOK);
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 1 ");
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println("  a     b    c     d    e    f     g     h  ");
         out.println();
     }
 
@@ -146,7 +159,9 @@ public class GameplayUI {
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_ROOK);
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 1 ");
         for (int a=0; a<8; a++) {
             if (a % 2 == 1) {
                 out.print(SET_BG_COLOR_BLUE);
@@ -158,7 +173,9 @@ public class GameplayUI {
                 out.print(WHITE_PAWN);
             }
         }
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 2 ");
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8; j++) {
                 if ((i + j) % 2 == 1) {
@@ -169,7 +186,10 @@ public class GameplayUI {
                     out.print(BLACK_PAWN);
                 }
             }
-            out.println(SET_BG_COLOR_GREEN);
+            out.print(SET_BG_COLOR_GREEN);
+            out.print(SET_TEXT_COLOR_BLACK);
+            out.print(" ");
+            out.println(i+3);
         }
         for (int a=0; a<8; a++) {
             if (a % 2 == 0) {
@@ -182,7 +202,9 @@ public class GameplayUI {
                 out.print(BLACK_PAWN);
             }
         }
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 7 ");
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_BLACK);
         out.print(BLACK_ROOK);
@@ -207,50 +229,13 @@ public class GameplayUI {
         out.print(SET_BG_COLOR_BLUE);
         out.print(SET_TEXT_COLOR_BLACK);
         out.print(BLACK_ROOK);
-        out.println(SET_BG_COLOR_GREEN);
+        out.print(SET_BG_COLOR_GREEN);
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println(" 8 ");
+        out.print(SET_TEXT_COLOR_BLACK);
+        out.println("  h     g    f     e    d    c     b     a  ");
         out.println();
     }
-
-    private static void printHeaderText(PrintStream out, String player) {
-        out.print(SET_BG_COLOR_BLACK);
-        out.print(SET_TEXT_COLOR_GREEN);
-
-        out.print(player);
-
-        setBlack(out);
-    }
-
-    private static void drawRowOfSquares(PrintStream out) {
-
-        for (int squareRow = 0; squareRow < SQUARE_SIZE_IN_CHARS; ++squareRow) {
-            for (int boardCol = 0; boardCol < BOARD_SIZE_IN_SQUARES; ++boardCol) {
-                setWhite(out);
-
-                if (squareRow == SQUARE_SIZE_IN_CHARS / 2) {
-                    int prefixLength = SQUARE_SIZE_IN_CHARS / 2;
-                    int suffixLength = SQUARE_SIZE_IN_CHARS - prefixLength - 1;
-
-                    out.print(EMPTY.repeat(prefixLength));
-                    //printPlayer(out, rand.nextBoolean() ? X : O);
-                    out.print(EMPTY.repeat(suffixLength));
-                }
-                else {
-                    out.print(EMPTY.repeat(SQUARE_SIZE_IN_CHARS));
-                }
-
-                if (boardCol < BOARD_SIZE_IN_SQUARES - 1) {
-                    // Draw right line
-                    setRed(out);
-                    out.print(EMPTY.repeat(LINE_WIDTH_IN_CHARS));
-                }
-
-                setBlack(out);
-            }
-
-            out.println();
-        }
-    }
-
 
     private static void setWhite(PrintStream out) {
         out.print(SET_BG_COLOR_WHITE);
