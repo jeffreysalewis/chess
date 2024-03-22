@@ -113,7 +113,7 @@ public class ChessClient {
                         break;
                     case "observe":
                         try {
-                            id = Integer.getInteger(cmds[1]);
+                            id = Integer.parseInt(cmds[1]);
                             servador.joingame(authtoken, "", id);
                             stage = "play";
                             GameplayUI.bw = false;
