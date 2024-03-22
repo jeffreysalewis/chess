@@ -101,6 +101,8 @@ public class ChessClient {
                             }
                             servador.joingame(authtoken, bw, id);
                             stage = "play";
+                            GameplayUI.bw = bw.equals("BLACK");
+                            GameplayUI.main(args);
                         } catch (Exception e) {
                             System.out.println("Error: could not join game: " + e.getMessage());
                         }
@@ -110,6 +112,8 @@ public class ChessClient {
                             id = Integer.getInteger(cmds[1]);
                             servador.joingame(authtoken, "", id);
                             stage = "play";
+                            GameplayUI.bw = false;
+                            GameplayUI.main(args);
                         } catch (Exception e) {
                             System.out.println("Error: could not observe game: " + e.getMessage());
                         }
