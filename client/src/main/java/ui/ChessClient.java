@@ -103,9 +103,9 @@ public class ChessClient {
                             if (cmds.length > 2) {
                                 bw = cmds[2];
                             }
+                            GameplayUI.bw = bw.equals("BLACK");
                             servador.joingame(authtoken, bw, id);
                             stage = "play";
-                            GameplayUI.bw = bw.equals("BLACK");
                             GameplayUI.main(args);
                         } catch (Exception e) {
                             System.out.println("Error: could not join game: " + e.getMessage());

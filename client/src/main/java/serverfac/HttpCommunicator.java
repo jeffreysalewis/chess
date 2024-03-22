@@ -55,9 +55,10 @@ public class HttpCommunicator {
         } else {
             // SERVER RETURNED AN HTTP ERROR
             InputStream responseBody = http.getErrorStream();
+            http.disconnect();
+            throw new Exception(responseBody.readAllBytes().toString());
             // Read and process error response body from InputStream ...
         }
-        http.disconnect();
-        return null;
+        //return null;
     }
 }
