@@ -3,6 +3,7 @@ package ui;
 import serverfac.ServerFacade;
 
 import java.util.Scanner;
+import java.util.*;
 
 public class ChessClient {
     public static void main(String[] args) {
@@ -88,14 +89,17 @@ public class ChessClient {
                     case "list":
                         try {
                             var lista = servador.listgames(authtoken);
-                            System.out.println(lista.toString());
+                            for(var al : lista) {
+                                System.out.println(al.toString());
+                            }
+                            //System.out.println(lista.toString());
                         } catch (Exception e) {
                             System.out.println("Error: could not list games: " + e.getMessage());
                         }
                         break;
                     case "join":
                         try {
-                            id = Integer.getInteger(cmds[1]);
+                            id = Integer.parseInt(cmds[1]);
                             if (cmds.length > 2) {
                                 bw = cmds[2];
                             }
@@ -121,6 +125,7 @@ public class ChessClient {
                     case "logout":
                         try {
                             servador.logout(authtoken);
+                            System.out.println("Successfully logged out!");
                         } catch (Exception e) {
                             System.out.println("Error: could not logout: " + e.getMessage());
                         }

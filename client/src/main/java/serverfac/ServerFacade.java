@@ -52,7 +52,7 @@ public class ServerFacade {
         HttpCommunicator httpcon = new HttpCommunicator();
         var body = Map.of("playerColor", playerColor, "gameID", gameID);
         var jsonBody = new Gson().toJson(body);
-        httpcon.run("game", "POST", authToken, jsonBody);
+        httpcon.run("game", "PUT", authToken, jsonBody);
     }
 
     public void clear() throws Exception{
