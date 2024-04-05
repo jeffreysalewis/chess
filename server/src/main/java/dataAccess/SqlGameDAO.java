@@ -22,7 +22,7 @@ public class SqlGameDAO implements GameDAO{
         try {
             this.configureDatabase();
             try (var aeccion = DatabaseManager.getConnection()) {
-                try (var sp = aeccion.prepareStatement("INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, gamejson) VALUES(?, ?, ?, ?, ?)")) {
+                try (var sp = aeccion.prepareStatement("INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, gamejson, observers) VALUES(?, ?, ?, ?, ?, ?)")) {
                     int gamid = (int) (Math.random()*1000000);
                     sp.setInt(1, gamid);
                     sp.setString(2, "valwasnull");
@@ -37,7 +37,7 @@ public class SqlGameDAO implements GameDAO{
                     }
                     var gamejson = new Gson().toJson(new ChessGame());
                     sp.setString(5, gamejson);
-
+                    sp.setString(6, "observers: ");
                     sp.executeUpdate();
                     return gamid;
                 } catch (Exception e) {
@@ -70,15 +70,17 @@ public class SqlGameDAO implements GameDAO{
                         throw new ResponseException(403, "Error: forbidden");
                     }
                 } else {
-                    try (var sp = aeccion.prepareStatement(" SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game WHERE gameID=?")) {
+                    updatestr = "UPDATE game SET observers=? WHERE gameID=?";
+                    try (var sp = aeccion.prepareStatement(" SELECT gameID, whiteUsername, blackUsername, gameName, gamejson, observers FROM game WHERE gameID=?")) {
                         sp.setInt(1, id);
                         var rs = sp.executeQuery();
                         rs.next();
-                        var gid = rs.getInt("gameID");
+                        var observerlist = rs.getString("observers");
+                        username = observerlist + "," + username;
                     } catch (Exception e) {
                         throw new ResponseException(400, String.format("Unable to join: %s", e.getMessage()));
                     }
-                    return;
+                    //return;
                 }
                 try (var sp = aeccion.prepareStatement(updatestr)) {
                     sp.setString(1, username);
@@ -102,7 +104,7 @@ public class SqlGameDAO implements GameDAO{
     public Map<String, String>[] list() throws ResponseException{
         int len = 0;
         try (var aeccion = DatabaseManager.getConnection()) {
-            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game")) {
+            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson, observers FROM game")) {
                 try (var rs = sp.executeQuery()) {
                     while(rs.next()) {
                         len++;
@@ -119,7 +121,7 @@ public class SqlGameDAO implements GameDAO{
         var bettergamelist = new HashMap[len];
         len = 0;
         try (var aeccion = DatabaseManager.getConnection()) {
-            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson FROM game")) {
+            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson, observers FROM game")) {
                 try (var rs = sp.executeQuery()) {
                     while(rs.next()) {
                         var id = rs.getInt("gameID");
@@ -127,6 +129,7 @@ public class SqlGameDAO implements GameDAO{
                         var bu = rs.getString("blackUsername");
                         var na = rs.getString("gameName");
                         var gj = rs.getString("gamejson");
+                        var ob = rs.getString("observers");
                         if(wu.equals("valwasnull")) {
                             wu = null;
                         }
@@ -202,6 +205,7 @@ public class SqlGameDAO implements GameDAO{
               `blackUsername` varchar(256) NOT NULL,
               `gameName` varchar(256) NOT NULL,
               `gamejson` text NOT NULL,
+              `observers` text NOT NULL,
               PRIMARY KEY (`gameID`)
             )
             """
