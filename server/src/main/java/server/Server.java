@@ -6,10 +6,12 @@ import dataAccess.SqlUserDAO;
 import spark.*;
 import exception.*;
 import service.*;
+import server.websocket.*;
 
 import java.util.*;
 
 public class Server {
+    private final WebSocketHandler webSocketHandler = new WebSocketHandler();;
     public int run(int desiredPort) {
         try {
             var usql = new SqlUserDAO();
@@ -22,6 +24,8 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
+        Spark.webSocket("/connect", webSocketHandler);
+
         // Register your endpoints and handle exceptions here.
         Spark.post("/user", this::register);
         Spark.post("/session", this::login);
@@ -30,6 +34,7 @@ public class Server {
         Spark.post("/game", this::creategame);
         Spark.put("/game", this::joingame);
         Spark.delete("/db", this::clear);
+        Spark.get("/echo/:msg", (req, res) -> "HTTP response: " + req.params(":msg"));
 
         Spark.exception(ResponseException.class, this::exceptionHandler);
         Spark.awaitInitialization();
