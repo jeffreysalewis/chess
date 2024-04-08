@@ -6,7 +6,8 @@ import exception.ResponseException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import webSocketMessages.*;
+import webSocketMessages.serverMessages.*;
+import webSocketMessages.userCommands.*;
 
 import java.io.IOException;
 
@@ -18,18 +19,21 @@ public class WebSocketHandler {
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
-//        Action action = new Gson().fromJson(message, Action.class);
-//        switch (action.type()) {
-//            case ENTER -> enter(action.visitorName(), session);
-//            case EXIT -> exit(action.visitorName());
-//        }
+        UserGameCommand msg = new Gson().fromJson(message, UserGameCommand.class);
+        switch (msg.getCommandType()) {
+            case JOIN_PLAYER -> enter(msg.getAuthString(), session);
+            case JOIN_OBSERVER -> enter(msg.getAuthString(), session);
+            case MAKE_MOVE -> exit(msg.getAuthString());
+            case LEAVE -> exit(msg.getAuthString());
+            case RESIGN -> exit(msg.getAuthString());
+        }
     }
 
     private void enter(String visitorName, Session session) throws IOException {
-//        connections.add(visitorName, session);
-//        var message = String.format("%s is in the shop", visitorName);
-//        var notification = new Notification(Notification.Type.ARRIVAL, message);
-//        connections.broadcast(visitorName, notification);
+        connections.add(visitorName, session);
+        var message = String.format("%s is in the shop", visitorName);
+        //var notification = new UserGameCommand.CommandType(Notification.Type.ARRIVAL, message);
+        //connections.broadcast(visitorName, notification);
     }
 
     private void exit(String visitorName) throws IOException {
