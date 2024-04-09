@@ -1,5 +1,6 @@
 package server.websocket;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import dataAccess.*;
 import exception.ResponseException;
@@ -10,6 +11,7 @@ import webSocketMessages.serverMessages.*;
 import webSocketMessages.userCommands.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 
 @WebSocket
@@ -32,13 +34,19 @@ public class WebSocketHandler {
     private void joinplayer(String authToken, Session session, String message) throws IOException {
         connections.add(authToken, session);
         var notification = new Gson().fromJson(message, JoinPlayer.class);
+        System.out.println(notification.getCommandType());
+        //var notification = new Notification(message);
         String username = "";
         try {
             username = SqlAuthDAO.getUserfromAuth(authToken);
         } catch (ResponseException r) {
             System.out.println(r.getMessage());
         }
-        connections.broadcast(username, notification);
+        //var notif = new Gson().toJson(Map.of("message", notification.toString()));
+        var load = new LoadGame(new ChessGame());
+        //var notif = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
+        var notif = new Notification(load.toString());
+        connections.broadcast(null, load);
     }
 
     private void enter(String visitorName, Session session) throws IOException {
@@ -63,5 +71,13 @@ public class WebSocketHandler {
 //        } catch (Exception ex) {
 //            throw new ResponseException(500, ex.getMessage());
 //        }
+    }
+
+    public void sendmessage(int gameID, String message, String authToken) {
+        //var msg = new ServerMessage();
+    }
+
+    public void broadcastmessage(int gameID, String message, String authToken) {
+
     }
 }

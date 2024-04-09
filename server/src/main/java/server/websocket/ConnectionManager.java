@@ -1,11 +1,13 @@
 package server.websocket;
 
+import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import webSocketMessages.serverMessages.*;
 import webSocketMessages.userCommands.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ConnectionManager {
@@ -20,12 +22,15 @@ public class ConnectionManager {
         connections.remove(visitorName);
     }
 
-    public void broadcast(String excludeVisitorName, UserGameCommand notification) throws IOException {
+    public void broadcast(String excludeVisitorName, ServerMessage notification) throws IOException {
         var removeList = new ArrayList<Connection>();
         for (var c : connections.values()) {
             if (c.session.isOpen()) {
                 if (!c.visitorName.equals(excludeVisitorName)) {
-                    c.send(notification.toString());
+                    //var notif = new Gson().toJson(Map.of("message", notification.toString()));
+                    //notif = new Gson().toJson(Map.of("message", "LOAD_GAME"));
+                    var notif = new Gson().toJson(notification);
+                    c.send(notif);
                 }
             } else {
                 removeList.add(c);
