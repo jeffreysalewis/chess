@@ -21,12 +21,24 @@ public class WebSocketHandler {
     public void onMessage(Session session, String message) throws IOException {
         UserGameCommand msg = new Gson().fromJson(message, UserGameCommand.class);
         switch (msg.getCommandType()) {
-            case JOIN_PLAYER -> enter(msg.getAuthString(), session);
+            case JOIN_PLAYER -> joinplayer(msg.getAuthString(), session, message);
             case JOIN_OBSERVER -> enter(msg.getAuthString(), session);
             case MAKE_MOVE -> exit(msg.getAuthString());
             case LEAVE -> exit(msg.getAuthString());
             case RESIGN -> exit(msg.getAuthString());
         }
+    }
+
+    private void joinplayer(String authToken, Session session, String message) throws IOException {
+        connections.add(authToken, session);
+        var notification = new Gson().fromJson(message, JoinPlayer.class);
+        String username = "";
+        try {
+            username = SqlAuthDAO.getUserfromAuth(authToken);
+        } catch (ResponseException r) {
+            System.out.println(r.getMessage());
+        }
+        connections.broadcast(username, notification);
     }
 
     private void enter(String visitorName, Session session) throws IOException {
