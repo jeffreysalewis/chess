@@ -8,6 +8,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import webSocketMessages.serverMessages.*;
+import webSocketMessages.serverMessages.Error;
 import webSocketMessages.userCommands.*;
 
 import java.io.IOException;
@@ -38,13 +39,16 @@ public class WebSocketHandler {
 //        }
         connections.add(authToken, session);
         var notification = new Gson().fromJson(message, JoinPlayer.class);
-        System.out.println(notification.getCommandType());
+        //System.out.println(notification.getCommandType());
         //var notification = new Notification(message);
         String username = "";
         try {
             username = SqlAuthDAO.getUserfromAuth(authToken);
         } catch (ResponseException r) {
+            ServerMessage er = new Error("error: error");
+            connections.broadcast1(authToken, er);
             System.out.println(r.getMessage());
+            return;
         }
         //var notif = new Gson().toJson(Map.of("message", notification.toString()));
         var load = new LoadGame(new ChessGame());
