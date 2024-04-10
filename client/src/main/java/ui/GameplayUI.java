@@ -32,14 +32,9 @@ public class GameplayUI {
     }
 
     private static void drawChessBoardWhite(PrintStream out) {
-        out.print(SET_BG_COLOR_BLUE);
-        out.print(SET_TEXT_COLOR_BLACK);
-        out.print(BLACK_ROOK);
-        out.print(SET_BG_COLOR_RED);
-        out.print(SET_TEXT_COLOR_BLACK);
-        out.print(BLACK_KNIGHT);
-        out.print(SET_BG_COLOR_BLUE);
-        out.print(SET_TEXT_COLOR_BLACK);
+        out.print(SET_BG_COLOR_BLUE);out.print(SET_TEXT_COLOR_BLACK);
+        out.print(BLACK_ROOK);out.print(SET_BG_COLOR_RED);out.print(SET_TEXT_COLOR_BLACK);
+        out.print(BLACK_KNIGHT);out.print(SET_BG_COLOR_BLUE);out.print(SET_TEXT_COLOR_BLACK);
         out.print(BLACK_BISHOP);
         out.print(SET_BG_COLOR_RED);
         out.print(SET_TEXT_COLOR_BLACK);
@@ -135,12 +130,8 @@ public class GameplayUI {
     }
 
     private static void drawChessBoardBlack(PrintStream out) {
-        out.print(SET_BG_COLOR_BLUE);
-        out.print(SET_TEXT_COLOR_WHITE);
-        out.print(WHITE_ROOK);
-        out.print(SET_BG_COLOR_RED);
-        out.print(SET_TEXT_COLOR_WHITE);
-        out.print(WHITE_KNIGHT);
+        out.print(SET_BG_COLOR_BLUE);out.print(SET_TEXT_COLOR_WHITE);out.print(WHITE_ROOK);
+        out.print(SET_BG_COLOR_RED);out.print(SET_TEXT_COLOR_WHITE);out.print(WHITE_KNIGHT);
         out.print(SET_BG_COLOR_BLUE);
         out.print(SET_TEXT_COLOR_WHITE);
         out.print(WHITE_BISHOP);

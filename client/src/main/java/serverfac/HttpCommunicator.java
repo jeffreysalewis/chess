@@ -17,12 +17,6 @@ public class HttpCommunicator {
         http.setRequestMethod(reqmeth);
 
         // Make the request
-//        try {
-//            http.connect();
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            System.out.println(":(((((");
-//        }
 
         if(header != null) {
             http.addRequestProperty("authorization", header);
