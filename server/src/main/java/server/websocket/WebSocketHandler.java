@@ -25,7 +25,7 @@ public class WebSocketHandler {
         UserGameCommand msg = new Gson().fromJson(message, UserGameCommand.class);
         switch (msg.getCommandType()) {
             case JOIN_PLAYER -> joinplayer(msg.getAuthString(), session, message);
-            case JOIN_OBSERVER -> enter(msg.getAuthString(), session);
+            case JOIN_OBSERVER -> joinobserver(msg.getAuthString(), session, message);
             case MAKE_MOVE -> exit(msg.getAuthString());
             case LEAVE -> exit(msg.getAuthString());
             case RESIGN -> exit(msg.getAuthString());
@@ -89,26 +89,13 @@ public class WebSocketHandler {
             if(iden != notification.getGameID()) {
                 throw new ResponseException(500, "Error: error");
             }
-            if(notification.getPlayerColor().equals("WHITE")) {
-                if(!username.equals(juego.get("whiteUsername"))) {
-                    throw new ResponseException(500, "Error: error");
-                }
-            } else if (notification.getPlayerColor().equals("BLACK")) {
-                if(!username.equals(juego.get("blackUsername"))) {
-                    throw new ResponseException(500, "Error: error");
-                }
-            } else {
-                throw new ResponseException(500, "Error: error");
-            }
         } catch (ResponseException r) {
             ServerMessage er = new Error("error: error");
             connections.broadcast1(authToken, er);
             System.out.println(r.getMessage());
             return;
         }
-        //var notif = new Gson().toJson(Map.of("message", notification.toString()));
         var load = new LoadGame(new ChessGame());
-        //var notif = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
         var notif = new Notification(load.toString());
         connections.broadcast1(authToken, load);
         connections.broadcast(authToken, notif);
