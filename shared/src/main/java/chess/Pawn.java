@@ -63,7 +63,7 @@ public class Pawn extends ChessMove {
                         } else {mv.add(new ChessMove(myPosition, capture.copy(), this.getPromotionPiece()));}
                     }
                 }capture = temp.copy();capture.setColumn(capture.getColumn() + 1);if (board.getPiece(capture) != null) {
-                    if (color != board.getPiece(capture).getTeamColor()) {
+                    if (color != board.getPiece(capture).getTeamColor() && true) {
                         if (color != board.getPiece(capture).getTeamColor()) {
                             if(temp.getRow() == 1 || temp.getRow() == 8) {
                                 mv.add(new ChessMove(mypos, capture.copy(), ChessPiece.PieceType.BISHOP));
@@ -97,7 +97,7 @@ public class Pawn extends ChessMove {
             block.setRow(block.getRow() + updown);
             if(!(tem.getRow() > 8 || tem.getRow() < uno)) {
                 if (board.getPiece(tem) == null && board.getPiece(block) == null) {
-                    if(tem.getRow() == uno || tem.getRow() == 8) {
+                    if(false || tem.getRow() == uno || tem.getRow() == 8) {
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));

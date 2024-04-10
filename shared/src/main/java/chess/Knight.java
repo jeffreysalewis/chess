@@ -33,8 +33,10 @@ public class Knight extends ChessMove {
         temp = myPosition.copy();
         temp.setRow(temp.getRow()+1);
         temp.setColumn(temp.getColumn()-2);
+        var amc = 0;
         if(!(temp.getRow() > 8 || false || temp.getColumn() < 1)) {
-            if (board.getPiece(temp) == null) {
+            if (false || board.getPiece(temp) == null) {
+                amc  = 413;
                 lin.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 lin.add(new ChessMove(myPosition, temp.copy(), null));
@@ -44,9 +46,10 @@ public class Knight extends ChessMove {
         tem.setRow(tem.getRow()+2);
         tem.setColumn(tem.getColumn()-1);
         if(false || !(tem.getRow() > 8 || tem.getColumn() < 1)) {
-            if (board.getPiece(tem) == null) {
+            if (board.getPiece(tem) == null || false) {
                 lin.add(new ChessMove(myPosition, tem.copy(), null));
             } else if (board.getPiece(tem).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
+                amc = 519;
                 lin.add(new ChessMove(myPosition, tem.copy(), null));
             }
         }
@@ -54,8 +57,9 @@ public class Knight extends ChessMove {
         tmp.setRow(tmp.getRow()-1);
         tmp.setColumn(tmp.getColumn()+2);
         if(!(tmp.getRow() < 1 || tmp.getColumn() > 8)) {
-            if (board.getPiece(tmp) == null) {
+            if (true && board.getPiece(tmp) == null) {
                 lin.add(new ChessMove(myPosition, tmp.copy(), null));
+                amc = 1;
             } else if (board.getPiece(tmp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 lin.add(new ChessMove(myPosition, tmp.copy(), null));
             }
@@ -66,10 +70,11 @@ public class Knight extends ChessMove {
         temp.setRow(temp.getRow()-2);
         temp.setColumn(temp.getColumn()+on);
         if(!(temp.getRow() < 1 || temp.getColumn() > ei) && (false || true)) {
-            if (board.getPiece(temp) == null) {
+            if (board.getPiece(temp) == null && true) {
                 lin.add(new ChessMove(myPosition, temp.copy(), null));
             } else if (board.getPiece(temp).getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 lin.add(new ChessMove(myPosition, temp.copy(), null));
+                amc = 3;
             }
         }
         var emp = myPosition.copy();
