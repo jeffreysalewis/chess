@@ -164,28 +164,30 @@ public class SqlGameDAO implements GameDAO{
             try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson, observers FROM game")) {
                 try (var rs = sp.executeQuery()) {
                     while(rs.next()) {
-                        var id = rs.getInt("gameID");
-                        var wu = rs.getString("whiteUsername");
-                        var bu = rs.getString("blackUsername");
+                        var gid = rs.getInt("gameID");
+                        var whu = rs.getString("whiteUsername");
+                        var blu = rs.getString("blackUsername");
                         var na = rs.getString("gameName");
                         var gj = rs.getString("gamejson");
                         var ob = rs.getString("observers");
-                        if(wu.equals("valwasnull")) {
-                            wu = null;
+                        if(whu.equals("valwasnull")) {
+                            whu = null;
                         }
-                        if(bu.equals("valwasnull")) {
-                            bu = null;
+                        if(blu.equals("valwasnull")) {
+                            blu = null;
                         }
                         if(na.equals("valwasnull")) {
                             na = null;
                         }
                         bettergamelist = new HashMap<String, String>();
-                        if(id == inpid) {
-                            Integer idint = id;
-                            bettergamelist.put("gameID", idint.toString());
-                            bettergamelist.put("whiteUsername", wu);
-                            bettergamelist.put("blackUsername", bu);
+                        if(gid == inpid) {
+                            Integer idint = gid;
                             bettergamelist.put("gameName", na);
+                            bettergamelist.put("gamejson", gj);
+                            bettergamelist.put("observers", ob);
+                            bettergamelist.put("gameID", idint.toString());
+                            bettergamelist.put("whiteUsername", whu);
+                            bettergamelist.put("blackUsername", blu);
                         }
                     }
                 }  catch (Exception e) {

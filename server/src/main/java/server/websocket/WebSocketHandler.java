@@ -26,7 +26,7 @@ public class WebSocketHandler {
         switch (msg.getCommandType()) {
             case JOIN_PLAYER -> joinplayer(msg.getAuthString(), session, message);
             case JOIN_OBSERVER -> joinobserver(msg.getAuthString(), session, message);
-            case MAKE_MOVE -> exit(msg.getAuthString());
+            case MAKE_MOVE -> makemove(msg.getAuthString(), session, message);
             case LEAVE -> exit(msg.getAuthString());
             case RESIGN -> exit(msg.getAuthString());
         }
@@ -74,31 +74,52 @@ public class WebSocketHandler {
     }
 
     private void joinobserver(String authToken, Session session, String message) throws IOException {
-        connections.add(authToken, session);
-        var notification = new Gson().fromJson(message, JoinPlayer.class);
         String username = "";
+        var notification = new Gson().fromJson(message, JoinPlayer.class);
+        connections.add(authToken, session);
         try {
-            username = SqlAuthDAO.getUserfromAuth(authToken);
             var gdao = new SqlGameDAO();
             var juego = gdao.getGame(notification.getGameID());
             var jnum = juego.get("gameID");
+            username = SqlAuthDAO.getUserfromAuth(authToken);
             if(jnum == null) {
                 throw new ResponseException(500, "Error: error");
             }
             var iden = Integer.parseInt(juego.get("gameID"));
             if(iden != notification.getGameID()) {
-                throw new ResponseException(500, "Error: error");
+                throw new ResponseException(501, "Error: error yus");
             }
         } catch (ResponseException r) {
             ServerMessage er = new Error("error: error");
             connections.broadcast1(authToken, er);
-            System.out.println(r.getMessage());
+            //System.out.println(r.getMessage());
             return;
         }
         var load = new LoadGame(new ChessGame());
         var notif = new Notification(load.toString());
         connections.broadcast1(authToken, load);
         connections.broadcast(authToken, notif);
+    }
+
+    private void makemove(String authToken, Session session, String message) throws IOException{
+        var notification = new Gson().fromJson(message, MakeMove.class);
+        try{
+            var gdao = new SqlGameDAO();
+            //var c = new ChessGame();
+            var g = gdao.getGame(notification.getGameID());
+            var gjson = g.get("gamejson");
+            var jueg = new Gson().fromJson(gjson, ChessGame.class);
+            jueg.makeMove(notification.getMove());
+            var load = new LoadGame(jueg);
+            var notif = new Notification(load.toString());
+            connections.broadcast1(authToken, load);
+            connections.broadcast(authToken, load);
+            connections.broadcast(authToken, notif);
+        } catch (Exception e) {
+            ServerMessage er = new Error("error: cannot make move");
+            connections.broadcast1(authToken, er);
+            return;
+        }
     }
 
     private void enter(String visitorName, Session session) throws IOException {
