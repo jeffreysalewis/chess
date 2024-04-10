@@ -44,6 +44,17 @@ public class WebSocketHandler {
         String username = "";
         try {
             username = SqlAuthDAO.getUserfromAuth(authToken);
+            var gdao = new SqlGameDAO();
+            var juego = gdao.getGame(notification.getGameID());
+            var jnum = juego.get("gameID");
+            if(jnum == null) {
+                throw new ResponseException(500, "Error: error");
+            }
+            var iden = Integer.parseInt(juego.get("gameID"));
+            if(iden != notification.getGameID()) {
+                throw new ResponseException(500, "Error: error");
+            }
+            gdao.join("", notification.getGameID(), username);
         } catch (ResponseException r) {
             ServerMessage er = new Error("error: error");
             connections.broadcast1(authToken, er);

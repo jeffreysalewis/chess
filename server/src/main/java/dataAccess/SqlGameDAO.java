@@ -158,6 +158,48 @@ public class SqlGameDAO implements GameDAO{
         return bettergamelist;
     }
 
+    public Map<String, String> getGame(int inpid) throws ResponseException{
+        var bettergamelist = new HashMap<String, String>();
+        try (var aeccion = DatabaseManager.getConnection()) {
+            try (var sp = aeccion.prepareStatement("SELECT gameID, whiteUsername, blackUsername, gameName, gamejson, observers FROM game")) {
+                try (var rs = sp.executeQuery()) {
+                    while(rs.next()) {
+                        var id = rs.getInt("gameID");
+                        var wu = rs.getString("whiteUsername");
+                        var bu = rs.getString("blackUsername");
+                        var na = rs.getString("gameName");
+                        var gj = rs.getString("gamejson");
+                        var ob = rs.getString("observers");
+                        if(wu.equals("valwasnull")) {
+                            wu = null;
+                        }
+                        if(bu.equals("valwasnull")) {
+                            bu = null;
+                        }
+                        if(na.equals("valwasnull")) {
+                            na = null;
+                        }
+                        bettergamelist = new HashMap<String, String>();
+                        if(id == inpid) {
+                            Integer idint = id;
+                            bettergamelist.put("gameID", idint.toString());
+                            bettergamelist.put("whiteUsername", wu);
+                            bettergamelist.put("blackUsername", bu);
+                            bettergamelist.put("gameName", na);
+                        }
+                    }
+                }  catch (Exception e) {
+                    throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                }
+            } catch (Exception e) {
+                throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+            }
+        } catch (Exception e) {
+            throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+        }
+        return bettergamelist;
+    }
+
     public static void clear() throws ResponseException{
         try (var aeccion = DatabaseManager.getConnection()) {
             try (var sp = aeccion.prepareStatement("TRUNCATE game")) {
