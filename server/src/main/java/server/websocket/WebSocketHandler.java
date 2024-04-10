@@ -134,6 +134,7 @@ public class WebSocketHandler {
             var notif = new Notification(notification.toString());
             connections.broadcast1(authToken, notif);
             connections.broadcast(authToken, notif);
+            connections.remove(authToken);
         } catch (Exception e) {
             ServerMessage er = new Error("error: cannot make move");
             connections.broadcast1(authToken, er);
