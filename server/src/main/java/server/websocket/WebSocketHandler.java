@@ -27,8 +27,8 @@ public class WebSocketHandler {
             case JOIN_PLAYER -> joinplayer(msg.getAuthString(), session, message);
             case JOIN_OBSERVER -> joinobserver(msg.getAuthString(), session, message);
             case MAKE_MOVE -> makemove(msg.getAuthString(), session, message);
-            case LEAVE -> exit(msg.getAuthString());
-            case RESIGN -> exit(msg.getAuthString());
+            case LEAVE -> leave(msg.getAuthString(), session, message);
+            case RESIGN -> resign(msg.getAuthString(), session, message);
         }
     }
 
@@ -109,6 +109,9 @@ public class WebSocketHandler {
             var g = gdao.getGame(notification.getGameID());
             var gjson = g.get("gamejson");
             var jueg = new Gson().fromJson(gjson, ChessGame.class);
+            if(jueg == null) {
+                jueg = new ChessGame();
+            }
             jueg.makeMove(notification.getMove());
             var load = new LoadGame(jueg);
             var notif = new Notification(load.toString());
@@ -122,6 +125,43 @@ public class WebSocketHandler {
         }
     }
 
-    private void exit(String visitorName) throws IOException {
+    private void leave(String authToken, Session session, String message) throws IOException{
+        var notification = new Gson().fromJson(message, Leave.class);
+        try{
+            var notif = new Notification(notification.toString());
+            connections.broadcast1(authToken, notif);
+            connections.broadcast(authToken, notif);
+        } catch (Exception e) {
+            ServerMessage er = new Error("error: cannot make move");
+            connections.broadcast1(authToken, er);
+            return;
+        }
+    }
+
+    private void resign(String authToken, Session session, String message) throws IOException{
+        var notification = new Gson().fromJson(message, Resign.class);
+        try{
+            var username = SqlAuthDAO.getUserfromAuth(authToken);
+            var gdao = new SqlGameDAO();
+            var juego = gdao.getGame(notification.getGameID());
+            var jnum = juego.get("gameID");
+            if(jnum == null) {
+                throw new ResponseException(500, "Error: error");
+            }
+            var iden = Integer.parseInt(juego.get("gameID"));
+            if(iden != notification.getGameID()) {
+                throw new ResponseException(500, "Error: error");
+            }
+            if(!username.equals(juego.get("whiteUsername")) && !username.equals(juego.get("blackUsername"))) {
+                throw new ResponseException(500, "Error: observer cannot resign");
+            }
+            var notif = new Notification(notification.toString());
+            connections.broadcast1(authToken, notif);
+            connections.broadcast(authToken, notif);
+        } catch (Exception e) {
+            ServerMessage er = new Error("error: user cannot resign");
+            connections.broadcast1(authToken, er);
+            return;
+        }
     }
 }
