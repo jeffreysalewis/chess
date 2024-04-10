@@ -110,7 +110,10 @@ public class WebSocketHandler {
             var gjson = g.get("gamejson");
             var jueg = new Gson().fromJson(gjson, ChessGame.class);
             if(jueg == null) {
+                var jue = new Gson().fromJson(gjson, JuegaJson.class);
                 jueg = new ChessGame();
+                jueg.setBoard(jue.getGameboard());
+                jueg.setTeamTurn(jue.getTurncolor());
             }
             jueg.makeMove(notification.getMove());
             var load = new LoadGame(jueg);
@@ -154,6 +157,8 @@ public class WebSocketHandler {
             }
             if(!username.equals(juego.get("whiteUsername")) && !username.equals(juego.get("blackUsername"))) {
                 throw new ResponseException(500, "Error: observer cannot resign");
+            } else if(username.equals(juego.get("whiteUsername"))) {
+
             }
             var notif = new Notification(notification.toString());
             connections.broadcast1(authToken, notif);

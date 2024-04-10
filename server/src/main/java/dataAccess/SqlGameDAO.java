@@ -36,6 +36,7 @@ public class SqlGameDAO implements GameDAO{
                         //sp.setNull(4, Types.VARCHAR);
                     }
                     var gamejson = new Gson().toJson(new ChessGame());
+                    System.out.println(gamejson);
                     sp.setString(5, gamejson);
                     sp.setString(6, "observers: ");
                     sp.executeUpdate();
