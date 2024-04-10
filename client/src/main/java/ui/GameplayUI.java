@@ -243,17 +243,7 @@ public class GameplayUI {
         out.print(SET_TEXT_COLOR_BLUE);
     }
 
-    private static void setBlack(PrintStream out) {
-        out.print(SET_BG_COLOR_BLACK);
-        out.print(SET_TEXT_COLOR_BLACK);
-    }
+    //private static void setBlack(PrintStream out) {out.print(SET_BG_COLOR_BLACK);out.print(SET_TEXT_COLOR_BLACK);}
 
-    private static void printPlayer(PrintStream out, String player) {
-        out.print(SET_BG_COLOR_WHITE);
-        out.print(SET_TEXT_COLOR_BLACK);
-
-        out.print(player);
-
-        setWhite(out);
-    }
+    //private static void printPlayer(PrintStream out, String player) {out.print(SET_BG_COLOR_WHITE);out.print(SET_TEXT_COLOR_BLACK);out.print(player);setWhite(out);}
 }
