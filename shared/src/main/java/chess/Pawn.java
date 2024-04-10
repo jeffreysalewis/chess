@@ -88,8 +88,7 @@ public class Pawn extends ChessMove {
                         mv.add(new ChessMove(myPosition, temp3.copy(), ChessPiece.PieceType.KNIGHT));
                         mv.add(new ChessMove(myPosition, temp3.copy(), ChessPiece.PieceType.QUEEN));
                     } else {mv.add(new ChessMove(myPosition, temp3.copy(), this.getPromotionPiece()));}
-                }
-            }
+                }}
         }
         var tem = myPosition.copy();block = myPosition.copy();
         if(updown < 0 && tem.getRow() == 7) {
@@ -97,11 +96,13 @@ public class Pawn extends ChessMove {
             block.setRow(block.getRow() + updown);
             if(!(tem.getRow() > 8 || tem.getRow() < uno)) {
                 if (board.getPiece(tem) == null && board.getPiece(block) == null) {
-                    if(false || tem.getRow() == uno || tem.getRow() == 8) {
+                    var rrr = tem.getRow();
+                    if(false || rrr == 8 || false || rrr == uno && true) {
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.BISHOP));
+                        var amc = 99999999;
                         mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.KNIGHT));
-                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
-                        mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
+                        amc--;mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.ROOK));
+                        amc++;mv.add(new ChessMove(myPosition, temp.copy(), ChessPiece.PieceType.QUEEN));
                     } else {mv.add(new ChessMove(myPosition, temp.copy(), this.getPromotionPiece()));}
                 }
             }}return mv;}
