@@ -33,14 +33,8 @@ public class WebSocketHandler {
     }
 
     private void joinplayer(String authToken, Session session, String message) throws IOException {
-//        var tf = true;
-//        if(connections.connections.keys().hasMoreElements()) {
-//            tf = false;
-//        }
         connections.add(authToken, session);
         var notification = new Gson().fromJson(message, JoinPlayer.class);
-        //System.out.println(notification.getCommandType());
-        //var notification = new Notification(message);
         String username = "";
         try {
             username = SqlAuthDAO.getUserfromAuth(authToken);
@@ -54,7 +48,17 @@ public class WebSocketHandler {
             if(iden != notification.getGameID()) {
                 throw new ResponseException(500, "Error: error");
             }
-            gdao.join("", notification.getGameID(), username);
+            if(notification.getPlayerColor().equals("WHITE")) {
+                if(!username.equals(juego.get("whiteUsername"))) {
+                    throw new ResponseException(500, "Error: error");
+                }
+            } else if (notification.getPlayerColor().equals("BLACK")) {
+                if(!username.equals(juego.get("blackUsername"))) {
+                    throw new ResponseException(500, "Error: error");
+                }
+            } else {
+                throw new ResponseException(500, "Error: error");
+            }
         } catch (ResponseException r) {
             ServerMessage er = new Error("error: error");
             connections.broadcast1(authToken, er);
@@ -66,9 +70,7 @@ public class WebSocketHandler {
         //var notif = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
         var notif = new Notification(load.toString());
         connections.broadcast1(authToken, load);
-        //if(tf) {
         connections.broadcast(authToken, notif);
-        //}
     }
 
     private void enter(String visitorName, Session session) throws IOException {
