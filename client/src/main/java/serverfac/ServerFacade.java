@@ -3,8 +3,6 @@ import com.google.gson.Gson;
 import jsonObjClasses.*;
 
 import java.util.*;
-import java.io.*;
-import java.net.*;
 
 public class ServerFacade {
 
@@ -13,7 +11,7 @@ public class ServerFacade {
         var body = Map.of("username", username, "password", password, "email", email);
         var jsonBody = new Gson().toJson(body);
         var retjson = httpcon.run("user", "POST", null, jsonBody);
-        var auth = new Gson().fromJson(retjson, userAuth.class);
+        var auth = new Gson().fromJson(retjson, UserAuth.class);
         return auth.getAuthToken();
     }
 
@@ -23,7 +21,7 @@ public class ServerFacade {
         var body = Map.of("username", username, "password", password);
         var jsonBody = new Gson().toJson(body);
         var retjson = httpcon.run("session", "POST", null, jsonBody);
-        var auth = new Gson().fromJson(retjson, userAuth.class);
+        var auth = new Gson().fromJson(retjson, UserAuth.class);
         return auth.getAuthToken();
     }
 
@@ -35,7 +33,7 @@ public class ServerFacade {
     public Map<String, String>[] listgames(String authToken) throws Exception{
         HttpCommunicator httpcon = new HttpCommunicator();
         var retjson = httpcon.run("game", "GET", authToken, null);
-        var lista = new Gson().fromJson(retjson, listaDeJuegos.class);
+        var lista = new Gson().fromJson(retjson, ListaDeJuegos.class);
         return lista.getGames();
     }
 
@@ -44,7 +42,7 @@ public class ServerFacade {
         var body = Map.of("gameName", gameName);
         var jsonBody = new Gson().toJson(body);
         var retjson = httpcon.run("game", "POST", authToken, jsonBody);
-        var id = new Gson().fromJson(retjson, idDeJuegos.class);
+        var id = new Gson().fromJson(retjson, IdDeJuegos.class);
         return id.getGameID();
     }
 

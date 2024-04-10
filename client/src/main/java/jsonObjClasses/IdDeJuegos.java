@@ -1,9 +1,9 @@
 package jsonObjClasses;
 
-public class idDeJuegos {
+public class IdDeJuegos {
     private int gameID;
 
-    public idDeJuegos(int gameID) {
+    public IdDeJuegos(int gameID) {
         this.gameID = gameID;
     }
 

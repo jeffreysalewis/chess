@@ -1,10 +1,10 @@
 package jsonObjClasses;
 
-public class userAuth {
+public class UserAuth {
     private String username;
     private String authToken;
 
-    public userAuth(String username, String authToken) {
+    public UserAuth(String username, String authToken) {
         this.username = username;
         this.authToken = authToken;
     }

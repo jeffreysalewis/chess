@@ -2,10 +2,10 @@ package jsonObjClasses;
 
 import java.util.Map;
 
-public class listaDeJuegos {
+public class ListaDeJuegos {
     private Map<String, String>[] games;
 
-    public listaDeJuegos(Map<String, String>[] games) {
+    public ListaDeJuegos(Map<String, String>[] games) {
         this.games = games;
     }
 
