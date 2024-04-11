@@ -192,13 +192,13 @@ public class SqlGameDAO implements GameDAO{
                         }
                     }
                 }  catch (Exception e) {
-                    throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                    throw new ResponseException(500, String.format("Unable to update database: %s", e.getMessage()));
                 }
             } catch (Exception e) {
-                throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+                throw new ResponseException(500, String.format("Unable to update database: %s", e.getMessage()));
             }
         } catch (Exception e) {
-            throw new ResponseException(500, String.format("Unable to get user from database: %s", e.getMessage()));
+            throw new ResponseException(500, String.format("Unable to update from database: %s", e.getMessage()));
         }
         return bettergamelist;
     }
@@ -239,6 +239,31 @@ public class SqlGameDAO implements GameDAO{
             }
         } catch (Exception e) {
             throw new ResponseException(400, String.format("Error: forbidden %s", e.getMessage()));
+        }
+    }
+
+    public void update(int id, String wusername, String busername, String gname, String gjson, String observers) throws ResponseException {
+        try {
+            this.configureDatabase();
+            try (var aeccion = DatabaseManager.getConnection()) {
+                try (var sp = aeccion.prepareStatement("UPDATE game SET whiteUsername=?, blackUsername=?, gameName=?, gamejson=?, observers=? WHERE gameID=?")) {
+                    sp.setString(1, wusername);
+                    sp.setString(2, busername);
+                    sp.setString(3, gname);
+                    sp.setString(4, gjson);
+                    sp.setString(5, observers);
+                    sp.setInt(6, id);
+                    sp.executeUpdate();
+                } catch (Exception e) {
+                    throw new ResponseException(500, String.format("Unable to join: %s", e.getMessage()));
+                }
+            } catch (ResponseException r) {
+                throw new ResponseException(r.statusCode(), String.format("Unable to join: %s", r.getMessage()));
+            }
+        } catch(ResponseException re){
+            throw new ResponseException(re.statusCode(), String.format("Unable to join: %s", re.getMessage()));
+        } catch (Exception e) {
+            throw new ResponseException(400, String.format("Unable to create authtoken: %s", e.getMessage()));
         }
     }
 
