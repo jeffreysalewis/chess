@@ -12,13 +12,15 @@ import webSocketMessages.serverMessages.Error;
 import webSocketMessages.userCommands.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 
 @WebSocket
 public class WebSocketHandler {
 
-    private final ConnectionManager connections = new ConnectionManager();
+    //private final ConnectionManager connections = new ConnectionManager();
+    private final HashMap<Integer, ConnectionManager> connections = new HashMap<>();
 
     @OnWebSocketMessage
     public void onMessage(Session session, String message) throws IOException {
@@ -33,8 +35,11 @@ public class WebSocketHandler {
     }
 
     private void joinplayer(String authToken, Session session, String message) throws IOException {
-        connections.add(authToken, session);
         var notification = new Gson().fromJson(message, JoinPlayer.class);
+        if(connections.get(notification.getGameID()) == null) {
+            connections.put(notification.getGameID(), new ConnectionManager());
+        }
+        connections.get(notification.getGameID()).add(authToken, session);
         String username = "";
         try {
             username = SqlAuthDAO.getUserfromAuth(authToken);
@@ -61,7 +66,7 @@ public class WebSocketHandler {
             }
         } catch (ResponseException r) {
             ServerMessage er = new Error("error: error");
-            connections.broadcast1(authToken, er);
+            connections.get(notification.getGameID()).broadcast1(authToken, er);
             System.out.println(r.getMessage());
             return;
         }
@@ -69,14 +74,17 @@ public class WebSocketHandler {
         var load = new LoadGame(new ChessGame());
         //var notif = new ServerMessage(ServerMessage.ServerMessageType.LOAD_GAME);
         var notif = new Notification(load.toString());
-        connections.broadcast1(authToken, load);
-        connections.broadcast(authToken, notif);
+        connections.get(notification.getGameID()).broadcast1(authToken, load);
+        connections.get(notification.getGameID()).broadcast(authToken, notif);
     }
 
     private void joinobserver(String authToken, Session session, String message) throws IOException {
         String username = "";
         var notification = new Gson().fromJson(message, JoinPlayer.class);
-        connections.add(authToken, session);
+        if(connections.get(notification.getGameID()) == null) {
+            connections.put(notification.getGameID(), new ConnectionManager());
+        }
+        connections.get(notification.getGameID()).add(authToken, session);
         try {
             var gdao = new SqlGameDAO();
             var juego = gdao.getGame(notification.getGameID());
@@ -91,14 +99,14 @@ public class WebSocketHandler {
             }
         } catch (ResponseException r) {
             ServerMessage er = new Error("error: error");
-            connections.broadcast1(authToken, er);
+            connections.get(notification.getGameID()).broadcast1(authToken, er);
             //System.out.println(r.getMessage());
             return;
         }
         var load = new LoadGame(new ChessGame());
         var notif = new Notification(load.toString());
-        connections.broadcast1(authToken, load);
-        connections.broadcast(authToken, notif);
+        connections.get(notification.getGameID()).broadcast1(authToken, load);
+        connections.get(notification.getGameID()).broadcast(authToken, notif);
     }
 
     private void makemove(String authToken, Session session, String message) throws IOException{
@@ -118,12 +126,12 @@ public class WebSocketHandler {
             jueg.makeMove(notification.getMove());
             var load = new LoadGame(jueg);
             var notif = new Notification(load.toString());
-            connections.broadcast1(authToken, load);
-            connections.broadcast(authToken, load);
-            connections.broadcast(authToken, notif);
+            connections.get(notification.getGameID()).broadcast1(authToken, load);
+            connections.get(notification.getGameID()).broadcast(authToken, load);
+            connections.get(notification.getGameID()).broadcast(authToken, notif);
         } catch (Exception e) {
             ServerMessage er = new Error("error: cannot make move");
-            connections.broadcast1(authToken, er);
+            connections.get(notification.getGameID()).broadcast1(authToken, er);
             return;
         }
     }
@@ -132,12 +140,12 @@ public class WebSocketHandler {
         var notification = new Gson().fromJson(message, Leave.class);
         try{
             var notif = new Notification(notification.toString());
-            connections.broadcast1(authToken, notif);
-            connections.broadcast(authToken, notif);
-            connections.remove(authToken);
+            connections.get(notification.getGameID()).broadcast1(authToken, notif);
+            connections.get(notification.getGameID()).broadcast(authToken, notif);
+            connections.get(notification.getGameID()).remove(authToken);
         } catch (Exception e) {
             ServerMessage er = new Error("error: cannot make move");
-            connections.broadcast1(authToken, er);
+            connections.get(notification.getGameID()).broadcast1(authToken, er);
             return;
         }
     }
@@ -162,11 +170,11 @@ public class WebSocketHandler {
 
             }
             var notif = new Notification(notification.toString());
-            connections.broadcast1(authToken, notif);
-            connections.broadcast(authToken, notif);
+            connections.get(notification.getGameID()).broadcast1(authToken, notif);
+            connections.get(notification.getGameID()).broadcast(authToken, notif);
         } catch (Exception e) {
             ServerMessage er = new Error("error: user cannot resign");
-            connections.broadcast1(authToken, er);
+            connections.get(notification.getGameID()).broadcast1(authToken, er);
             return;
         }
     }
