@@ -167,7 +167,9 @@ public class WebSocketHandler {
             if(!username.equals(juego.get("whiteUsername")) && !username.equals(juego.get("blackUsername"))) {
                 throw new ResponseException(500, "Error: observer cannot resign");
             } else if(username.equals(juego.get("whiteUsername"))) {
-
+                gdao.update(Integer.parseInt(juego.get("gameID")), "valwasnull", juego.get("blackUsername"), juego.get("gameName"), juego.get("gamejson"), juego.get("observers"));
+            } else {
+                gdao.update(Integer.parseInt(juego.get("gameID")), juego.get("whiteUsername"),"valwasnull", juego.get("gameName"), juego.get("gamejson"), juego.get("observers"));
             }
             var notif = new Notification(notification.toString());
             connections.get(notification.getGameID()).broadcast1(authToken, notif);
